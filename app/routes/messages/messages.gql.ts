@@ -2,13 +2,13 @@ import gql from 'graphql-tag';
 import { CmsMessage } from '~/types/cms.types';
 import { ArrayResult } from '~/types/graphql.types';
 
-export type AllTalksQueryResponse = {
-	allTalks: ArrayResult<CmsMessage>;
+export type AllMessagesQueryResponse = {
+	allMessages: ArrayResult<CmsMessage>;
 };
 
 export const ALL_MESSAGES = gql`
 	query {
-		allTalks {
+		allMessages {
 			totalCount
 			edges {
 				node {
@@ -18,7 +18,6 @@ export const ALL_MESSAGES = gql`
 						id
 					}
 					thumbnail
-
 					series {
 						... on Series {
 							title
@@ -28,7 +27,7 @@ export const ALL_MESSAGES = gql`
 							}
 						}
 					}
-					embed_video
+					video
 					podcast
 					speakers {
 						speaker {
@@ -49,8 +48,12 @@ export const ALL_MESSAGES = gql`
 `;
 
 export const LATEST_MESSAGE = gql`
-	query latestMessage {
-		allTalks(sortBy: date_DESC, first: 1) {
+	query latestMessage($channelId: String) {
+		allMessages(
+			sortBy: date_DESC
+			first: 1
+			where: { channel: $channelId }
+		) {
 			edges {
 				node {
 					title
@@ -68,7 +71,7 @@ export const LATEST_MESSAGE = gql`
 							}
 						}
 					}
-					embed_video
+					video
 					podcast
 					speakers {
 						speaker {
@@ -90,7 +93,7 @@ export const LATEST_MESSAGE = gql`
 
 export const MESSAGE_BY_ID = gql`
 	query message($id: String) {
-		allTalks(id: $id) {
+		allMessages(id: $id) {
 			edges {
 				node {
 					title
@@ -108,7 +111,7 @@ export const MESSAGE_BY_ID = gql`
 							}
 						}
 					}
-					embed_video
+					video
 					podcast
 					speakers {
 						speaker {

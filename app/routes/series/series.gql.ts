@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { CmsMessage, CmsSeries } from '~/types/cms.types';
+import { CmsSeries } from '~/types/cms.types';
 import { ArrayResult } from '~/types/graphql.types';
 
 export type AllSeriesQueryResponse = {
@@ -13,29 +13,12 @@ export const ALL_SERIES = gql`
 				node {
 					_meta {
 						id
+						uid
 					}
 					title
 					description
 					thumbnail
 					hero
-					messages {
-						talk {
-							... on Talk {
-								_meta {
-									id
-								}
-								title
-								date
-								speakers {
-									speaker {
-										... on Speaker {
-											name
-										}
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}
@@ -44,34 +27,17 @@ export const ALL_SERIES = gql`
 
 export const SERIES_BY_ID = gql`
 	query series($id: String) {
-		allSeriess(id: $id) {
+		allSeriess(uid: $id) {
 			edges {
 				node {
 					_meta {
 						id
+						uid
 					}
 					title
 					description
 					hero
 					thumbnail
-					messages {
-						talk {
-							... on Talk {
-								_meta {
-									id
-								}
-								title
-								date
-								speakers {
-									speaker {
-										... on Speaker {
-											name
-										}
-									}
-								}
-							}
-						}
-					}
 				}
 			}
 		}

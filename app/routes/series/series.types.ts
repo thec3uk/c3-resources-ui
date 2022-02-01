@@ -3,6 +3,7 @@ import { Message } from '../messages/messages.types';
 
 export type Series = {
 	id: string;
+	uid: string;
 	title: string;
 	description: string;
 	hero?: CmsImage;

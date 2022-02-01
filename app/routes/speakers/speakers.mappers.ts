@@ -1,9 +1,9 @@
-import { CmsSpeaker, getId, getText } from '~/types/cms.types';
+import { CmsSpeaker, getUid, getText } from '~/types/cms.types';
 import { Speaker } from './speakers.types';
 
 export function mapSpeaker(speaker: CmsSpeaker): Speaker {
 	return {
-		id: getId(speaker),
+		id: getUid(speaker),
 		name: getText(speaker.name),
 		thumbnail: speaker.thumbnail,
 		role: getText(speaker.role),

@@ -12,8 +12,8 @@ export type Message = {
 	description?: string;
 	thumbnail: CmsImage;
 	date: string;
-	speakers: Array<Speaker>;
-	video: string;
+	speakers?: Array<Speaker>;
+	video?: string;
 	podcast?: string;
-	series: Series;
+	series?: Series;
 };

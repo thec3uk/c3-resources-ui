@@ -6,7 +6,9 @@ import ApolloClient from 'apollo-client';
 
 export const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 	link: PrismicLink({
-		uri: 'https://c3-resources.cdn.prismic.io/graphql',
+		uri: 'https://thec3.cdn.prismic.io/graphql',
+		accessToken:
+			'MC5ZZmZ6U2hBQUFDRUFEbHZU.77-977-977-977-9fu-_ve-_vUzvv73vv70d77-977-977-9Smbvv73vv73vv71DayLvv71bVO-_vVzvv70c77-977-9IQ',
 	}),
 	cache: new InMemoryCache(),
 });

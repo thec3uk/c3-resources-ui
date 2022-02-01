@@ -7,7 +7,7 @@ import {
 	ScrollRestoration,
 } from 'remix';
 import type { MetaFunction } from 'remix';
-import { ChakraProvider, VStack } from '@chakra-ui/react';
+import { ChakraProvider, VStack, Container } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import Header from './components/header';
 

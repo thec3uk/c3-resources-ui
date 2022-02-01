@@ -11,11 +11,18 @@ export interface CmsSeries extends GraphqlNode {
 	description: CmsText[];
 	hero?: CmsImage;
 	thumbnail?: CmsImage;
-	messages?: { messages: Array<CmsMessage> };
+}
+
+export interface CmsChannel extends GraphqlNode {
+	name: CmsText[];
+	description: CmsText[];
+	hero?: CmsImage;
+	thumbnail?: CmsImage;
 }
 
 export interface CmsMeta {
 	id: string;
+	uid: string;
 }
 
 export enum CmsEmbedType {
@@ -54,7 +61,7 @@ export interface CmsMessage extends GraphqlNode {
 	date: string;
 	thumbnail: CmsImage;
 	series: CmsSeries;
-	embed_video: CmsEmbedContent;
+	video: CmsEmbedContent;
 	podcast?: CmsEmbedContent;
 	speakers: Array<{ speaker: CmsSpeaker }>;
 }
@@ -72,6 +79,13 @@ export type CmsImage = {
 export function getText(cmsText?: CmsText[]): string {
 	if (cmsText) {
 		return cmsText[0].text;
+	}
+	return '';
+}
+
+export function getUid(node?: GraphqlNode): string {
+	if (node) {
+		return node._meta.uid;
 	}
 	return '';
 }

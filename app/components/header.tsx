@@ -1,23 +1,11 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
-import {
-	Box,
-	Flex,
-	IconButton,
-	Image,
-	Menu,
-	MenuButton,
-	Text,
-	Spacer,
-} from '@chakra-ui/react';
+import { Flex, Image, Text, Spacer } from '@chakra-ui/react';
 import { Link } from '@remix-run/react';
 
 function Logo() {
 	return (
-		<Box boxSize="sm">
-			<Link to="/">
-				<Image src="/LogoGrey.png" alt="The C3 Church - Home" />
-			</Link>
-		</Box>
+		<Link to="/">
+			<Image src="/LogoGrey.png" alt="The C3 Church - Home" />
+		</Link>
 	);
 }
 

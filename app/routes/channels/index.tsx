@@ -1,35 +1,34 @@
 import { Box, Text, Flex, Heading, Image } from '@chakra-ui/react';
 import { Link, LoaderFunction, useLoaderData } from 'remix';
 import { GraphqlResponse } from '~/types/graphql.types';
-import { getAllSeries } from './series.loader';
-import { Series } from './series.types';
+import { getChannels } from './channels.loader';
+import { Channel } from './channels.types';
 
 export const loader: LoaderFunction = async () => {
-	return getAllSeries();
+	return getChannels();
 };
 
-export default function AllSeries() {
+export default function AllChannels() {
 	const {
-		data: allSeries,
+		data: allChannels,
 		loading,
 		errors,
-	} = useLoaderData<GraphqlResponse<Array<Series>>>();
+	} = useLoaderData<GraphqlResponse<Array<Channel>>>();
 	return (
 		<div>
 			{!loading && !errors && (
 				<div>
-					{allSeries.map(series => {
+					{allChannels.map(channel => {
 						return (
-							<Box padding="3" key={series.id}>
-								<Link to={`/series/${series.id}`}>
+							<Box padding="3" key={channel.id}>
+								<Link to={`/series/${channel.id}`}>
 									<Heading as="h4" size="md">
-										{series.title}
+										{channel.name}
 									</Heading>
 								</Link>
 								<Flex>
-									<Text>{series.description}</Text>
 									<Image
-										src={series.thumbnail?.url}
+										src={channel.thumbnail?.url}
 										boxSize="150px"
 									></Image>
 								</Flex>
