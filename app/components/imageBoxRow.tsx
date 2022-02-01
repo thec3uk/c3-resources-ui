@@ -2,7 +2,7 @@ import { Box, Heading, HStack, VStack, Image, LinkBox } from '@chakra-ui/react';
 import { Link } from 'remix';
 import { CmsImage } from '~/types/cms.types';
 
-export interface ImageBox {
+export interface IImageBox {
 	key: string;
 	link: string;
 	title: string;
@@ -15,13 +15,47 @@ export enum Theme {
 	dark,
 }
 
+export function ImageBox({ box, theme }: { box: IImageBox; theme?: Theme }) {
+	return (
+		<Box
+			maxW="sm"
+			borderWidth="1px"
+			borderRadius="lg"
+			borderColor={theme === Theme.light ? 'gray.300' : 'black'}
+			overflow="hidden"
+			width={60}
+			margin={2}
+		>
+			<Link to={box.link}>
+				<Image src={box.thumbnail?.url} alt={box.thumbnail?.alt} />
+				<Box
+					p="6"
+					borderTop="1px"
+					borderColor={theme === Theme.light ? 'gray.300' : 'black'}
+					bg={'white'}
+				>
+					<Box
+						mt="1"
+						fontWeight="semibold"
+						as="h4"
+						lineHeight="tight"
+						isTruncated
+					>
+						{box.title} {box.date && <span>- {box.date}</span>}
+					</Box>
+				</Box>
+			</Link>
+		</Box>
+	);
+}
+
 export function ImageBoxRow({
 	title,
 	boxes,
 	theme,
 }: {
 	title: string;
-	boxes: Array<ImageBox>;
+	boxes: Array<IImageBox>;
 	theme: Theme;
 }) {
 	return (
@@ -29,49 +63,14 @@ export function ImageBoxRow({
 			<Heading as="h4" size={'md'} mb={2}>
 				{title}
 			</Heading>
-			<HStack justify={'space-evenly'}>
+			<HStack justifyContent={'space-evenly'}>
 				{boxes.map(box => {
 					return (
-						<Box
+						<ImageBox
 							key={box.key}
-							maxW="sm"
-							borderWidth="1px"
-							borderRadius="lg"
-							borderColor={
-								theme === Theme.light ? 'gray.300' : 'black'
-							}
-							overflow="hidden"
-							width={60}
-							margin={2}
-						>
-							<Link to={box.link}>
-								<Image
-									src={box.thumbnail?.url}
-									alt={box.thumbnail?.alt}
-								/>
-								<Box
-									p="6"
-									borderTop="1px"
-									borderColor={
-										theme === Theme.light
-											? 'gray.300'
-											: 'black'
-									}
-									bg={'white'}
-								>
-									<Box
-										mt="1"
-										fontWeight="semibold"
-										as="h4"
-										lineHeight="tight"
-										isTruncated
-									>
-										{box.title}{' '}
-										{box.date && <span>- {box.date}</span>}
-									</Box>
-								</Box>
-							</Link>
-						</Box>
+							box={box}
+							theme={theme}
+						></ImageBox>
 					);
 				})}
 			</HStack>

@@ -1,6 +1,7 @@
 import { SearchIcon } from '@chakra-ui/icons';
 import {
 	Heading,
+	Flex,
 	Text,
 	VStack,
 	Box,
@@ -11,15 +12,16 @@ import {
 	InputLeftElement,
 } from '@chakra-ui/react';
 import YouTubePlayer from 'react-player/youtube';
-import { Link, LoaderFunction, useLoaderData, useNavigate } from 'remix';
+import { Link, LoaderFunction, useLoaderData } from 'remix';
 import { ImageBoxRow, Theme } from '~/components/imageBoxRow';
 import { getLatestMessage } from '~/routes/messages/messages.loaders';
 import { GraphqlResponse } from '~/types/graphql.types';
-import { getChannels } from './channels/channels.loader';
-import { Channel } from './channels/channels.types';
-import { Message } from './messages/messages.types';
-import { getAllSeries } from './series/series.loader';
-import { Series } from './series/series.types';
+import { useNavigate } from 'react-router-dom';
+import { getChannels } from '../routes/channels/channels.loader';
+import { Channel } from '../routes/channels/channels.types';
+import { getAllSeries } from '../routes/series/series.loader';
+import { Series } from '../routes/series/series.types';
+import { Message } from '../routes/messages/messages.types';
 
 export const loader: LoaderFunction = async () => {
 	const latestMessageResponse = await getLatestMessage();
@@ -28,7 +30,7 @@ export const loader: LoaderFunction = async () => {
 	return { latestMessageResponse, channelsResponse, seriesResponse };
 };
 
-export default function Index() {
+export default function Recent() {
 	const { latestMessageResponse, channelsResponse, seriesResponse } =
 		useLoaderData<{
 			latestMessageResponse: GraphqlResponse<Message>;
@@ -38,31 +40,9 @@ export default function Index() {
 	const { data: message } = latestMessageResponse;
 	const { data: channels } = channelsResponse;
 	const { data: series } = seriesResponse;
-	let navigate = useNavigate();
 	return (
-		<>
-			<Box p={10} w={'100%'} bg={'gray.300'}>
-				<HStack justifyContent={'space-evenly'} mb={5}>
-					<Heading as="h1" size={'lg'}>
-						Messages
-					</Heading>
-					<InputGroup mb={2}>
-						<InputLeftElement
-							pointerEvents="none"
-							children={<SearchIcon color="gray.300" />}
-						/>
-						<Input
-							type="text"
-							placeholder="Search messages"
-							bg="white"
-							color={'gray.500'}
-							maxW={400}
-							onChange={e =>
-								navigate(`messages/search?q=${e.target.value}`)
-							}
-						></Input>
-					</InputGroup>
-				</HStack>
+		<Flex direction="column">
+			<Flex direction="column" w={'100%'} bg={'gray.300'} p={5}>
 				<HStack>
 					<Box boxShadow="0px 0px 5px 1px grey">
 						<YouTubePlayer url={message.video} />
@@ -86,7 +66,7 @@ export default function Index() {
 						)}
 					</VStack>
 				</HStack>
-			</Box>
+			</Flex>
 			<ImageBoxRow
 				theme={Theme.light}
 				title="Browse Channels"
@@ -107,16 +87,6 @@ export default function Index() {
 					thumbnail: series.thumbnail,
 				}))}
 			/>
-		</>
-	);
-}
-
-export function ErrorBoundary({ error }: { error: any }) {
-	console.error(error);
-	return (
-		<div>
-			<p>An error occurred</p>
-			<p>{error}</p>
-		</div>
+		</Flex>
 	);
 }

@@ -8,6 +8,7 @@ export type Download = {
 };
 export type Message = {
 	id: string;
+	uid: string;
 	title: string;
 	description?: string;
 	thumbnail: CmsImage;

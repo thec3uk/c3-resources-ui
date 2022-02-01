@@ -4,6 +4,7 @@ import {
 	ALL_MESSAGES,
 	LATEST_MESSAGE,
 	MESSAGE_BY_ID,
+	SEARCH_MESSAGES,
 } from './messages.gql';
 import { mapAllMessages, mapToMessage } from './messages.mappers';
 import { Message } from './messages.types';
@@ -11,6 +12,19 @@ import { Message } from './messages.types';
 export async function getMessages(): Promise<GraphqlResponse<Array<Message>>> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: ALL_MESSAGES,
+	});
+	return {
+		...response,
+		data: mapAllMessages(response.data),
+	};
+}
+
+export async function searchMessages(
+	term: string
+): Promise<GraphqlResponse<Array<Message>>> {
+	const response = await client.query<AllMessagesQueryResponse>({
+		query: SEARCH_MESSAGES,
+		variables: { term },
 	});
 	return {
 		...response,

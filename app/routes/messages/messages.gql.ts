@@ -6,9 +6,9 @@ export type AllMessagesQueryResponse = {
 	allMessages: ArrayResult<CmsMessage>;
 };
 
-export const ALL_MESSAGES = gql`
-	query {
-		allMessages {
+export const SEARCH_MESSAGES = gql`
+	query searchMessages($term: String) {
+		allMessages(where: { title_fulltext: $term }) {
 			totalCount
 			edges {
 				node {
@@ -16,6 +16,7 @@ export const ALL_MESSAGES = gql`
 					date
 					_meta {
 						id
+						uid
 					}
 					thumbnail
 					series {
@@ -24,6 +25,7 @@ export const ALL_MESSAGES = gql`
 							description
 							_meta {
 								id
+								uid
 							}
 						}
 					}
@@ -35,6 +37,51 @@ export const ALL_MESSAGES = gql`
 								name
 								_meta {
 									id
+									uid
+								}
+								thumbnail
+								role
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
+export const ALL_MESSAGES = gql`
+	query {
+		allMessages {
+			totalCount
+			edges {
+				node {
+					title
+					date
+					_meta {
+						id
+						uid
+					}
+					thumbnail
+					series {
+						... on Series {
+							title
+							description
+							_meta {
+								id
+								uid
+							}
+						}
+					}
+					video
+					podcast
+					speakers {
+						speaker {
+							... on Speaker {
+								name
+								_meta {
+									id
+									uid
 								}
 								thumbnail
 								role
@@ -60,6 +107,7 @@ export const LATEST_MESSAGE = gql`
 					date
 					_meta {
 						id
+						uid
 					}
 					thumbnail
 					series {
@@ -68,6 +116,7 @@ export const LATEST_MESSAGE = gql`
 							description
 							_meta {
 								id
+								uid
 							}
 						}
 					}
@@ -79,6 +128,7 @@ export const LATEST_MESSAGE = gql`
 								name
 								_meta {
 									id
+									uid
 								}
 								thumbnail
 								role
@@ -100,6 +150,7 @@ export const MESSAGE_BY_ID = gql`
 					date
 					_meta {
 						id
+						uid
 					}
 					thumbnail
 					series {
@@ -108,6 +159,7 @@ export const MESSAGE_BY_ID = gql`
 							description
 							_meta {
 								id
+								uid
 							}
 						}
 					}
@@ -119,6 +171,7 @@ export const MESSAGE_BY_ID = gql`
 								name
 								_meta {
 									id
+									uid
 								}
 								thumbnail
 								role
