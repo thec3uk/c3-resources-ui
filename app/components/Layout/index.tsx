@@ -3,9 +3,11 @@ import Header from '../Header';
 
 export function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<VStack>
+		<VStack w={'100%'}>
 			<Header />
-			<Box as="main">{children}</Box>
+			<Box as="main" w={'100%'}>
+				{children}
+			</Box>
 		</VStack>
 	);
 }

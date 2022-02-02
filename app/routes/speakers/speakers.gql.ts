@@ -13,6 +13,7 @@ export const ALL_SPEAKERS = gql`
 				node {
 					_meta {
 						id
+						uid
 					}
 					name
 					role
@@ -32,6 +33,7 @@ export const SPEAKER_BY_ID = gql`
 				node {
 					_meta {
 						id
+						uid
 					}
 					name
 					role

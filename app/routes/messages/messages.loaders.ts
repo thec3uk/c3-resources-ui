@@ -46,6 +46,19 @@ export async function getSeriesMessages(
 	};
 }
 
+export async function getSpeakerMessages(
+	seriesId: string
+): Promise<GraphqlResponse<Array<Message>>> {
+	const response = await client.query<AllMessagesQueryResponse>({
+		query: SERIES_MESSAGES,
+		variables: { speaker: seriesId },
+	});
+	return {
+		...response,
+		data: mapAllMessages(response.data),
+	};
+}
+
 export async function getMessage(id: string): Promise<Message | unknown> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: MESSAGE_BY_ID,

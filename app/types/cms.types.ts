@@ -17,7 +17,7 @@ export interface CmsMessage extends GraphqlNode {
 	series: CmsSeries;
 	video: CmsEmbedContent;
 	podcast?: CmsEmbedContent;
-	speakers: Array<{ speaker: CmsSpeaker }>;
+	speakers?: Array<{ speaker: CmsSpeaker }>;
 }
 
 export interface CmsResource extends GraphqlNode {

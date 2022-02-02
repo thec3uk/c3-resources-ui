@@ -7,8 +7,7 @@ import {
 } from '~/types/cms.types';
 import { GraphqlEdge } from '~/types/graphql.types';
 import { mapSeries } from '../series/series.mappers';
-import { mapSpeaker } from '../speakers/speakers.mappers';
-import { Speaker } from '../speakers/speakers.types';
+import { mapSpeakers } from '../speakers/speakers.mappers';
 import { AllMessagesQueryResponse } from './messages.gql';
 import { Message } from './messages.types';
 
@@ -22,13 +21,8 @@ export function mapAllMessages(data: AllMessagesQueryResponse): Array<Message> {
 }
 
 export function mapToMessage(message: CmsMessage): Message {
-	let speakers: Array<Speaker> = [];
-	if (message.speakers && message.speakers.length > 1) {
-		speakers = message.speakers?.map((link: { speaker: CmsSpeaker }) =>
-			mapSpeaker(link.speaker)
-		);
-	}
-
+	const speakers = mapSpeakers(message.speakers);
+	console.log(speakers);
 	return {
 		id: getId(message),
 		uid: getUid(message),
