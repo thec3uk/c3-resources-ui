@@ -28,6 +28,5 @@ export type GraphqlResponse<T> = {
 };
 
 export type ArrayResult<T> = {
-	totalCount: number;
 	edges: GraphqlEdge<T>[];
 };

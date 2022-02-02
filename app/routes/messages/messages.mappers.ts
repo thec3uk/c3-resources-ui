@@ -1,4 +1,10 @@
-import { CmsMessage, CmsSpeaker, getUid, getText } from '~/types/cms.types';
+import {
+	CmsMessage,
+	CmsSpeaker,
+	getUid,
+	getText,
+	getId,
+} from '~/types/cms.types';
 import { GraphqlEdge } from '~/types/graphql.types';
 import { mapSeries } from '../series/series.mappers';
 import { mapSpeaker } from '../speakers/speakers.mappers';
@@ -24,7 +30,8 @@ export function mapToMessage(message: CmsMessage): Message {
 	}
 
 	return {
-		id: getUid(message),
+		id: getId(message),
+		uid: getUid(message),
 		title: getText(message.title),
 		description: getText(message.description),
 		thumbnail: message.thumbnail,

@@ -94,6 +94,49 @@ export const ALL_MESSAGES = gql`
 	}
 `;
 
+export const SERIES_MESSAGES = gql`
+	query latestMessage($seriesId: String) {
+		allMessages(where: { series: $seriesId }) {
+			edges {
+				node {
+					title
+					date
+					_meta {
+						id
+						uid
+					}
+					thumbnail
+					series {
+						... on Series {
+							title
+							description
+							_meta {
+								id
+								uid
+							}
+						}
+					}
+					video
+					podcast
+					speakers {
+						speaker {
+							... on Speaker {
+								name
+								_meta {
+									id
+									uid
+								}
+								thumbnail
+								role
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+`;
+
 export const LATEST_MESSAGE = gql`
 	query latestMessage($channelId: String) {
 		allMessages(

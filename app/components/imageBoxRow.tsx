@@ -2,7 +2,7 @@ import { Box, Heading, HStack, VStack, Image, LinkBox } from '@chakra-ui/react';
 import { Link } from 'remix';
 import { CmsImage } from '~/types/cms.types';
 
-export interface IImageBox {
+export interface IImageBoxProps {
 	key: string;
 	link: string;
 	title: string;
@@ -15,7 +15,13 @@ export enum Theme {
 	dark,
 }
 
-export function ImageBox({ box, theme }: { box: IImageBox; theme?: Theme }) {
+export function ImageBox({
+	box,
+	theme,
+}: {
+	box: IImageBoxProps;
+	theme?: Theme;
+}) {
 	return (
 		<Box
 			maxW="sm"
@@ -55,7 +61,7 @@ export function ImageBoxRow({
 	theme,
 }: {
 	title: string;
-	boxes: Array<IImageBox>;
+	boxes: Array<IImageBoxProps>;
 	theme: Theme;
 }) {
 	return (

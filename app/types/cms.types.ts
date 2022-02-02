@@ -1,17 +1,6 @@
 import { GraphqlNode } from './graphql.types';
 
-export interface CmsText {
-	type: string;
-	text: string;
-	spans: Array<string>;
-}
-
-export interface CmsSeries extends GraphqlNode {
-	title: CmsText[];
-	description: CmsText[];
-	hero?: CmsImage;
-	thumbnail?: CmsImage;
-}
+// C3 CMS content types
 
 export interface CmsChannel extends GraphqlNode {
 	name: CmsText[];
@@ -20,15 +9,42 @@ export interface CmsChannel extends GraphqlNode {
 	thumbnail?: CmsImage;
 }
 
-export interface CmsMeta {
-	id: string;
-	uid: string;
+export interface CmsMessage extends GraphqlNode {
+	title: CmsText[];
+	description: CmsText[];
+	date: string;
+	thumbnail: CmsImage;
+	series: CmsSeries;
+	video: CmsEmbedContent;
+	podcast?: CmsEmbedContent;
+	speakers: Array<{ speaker: CmsSpeaker }>;
 }
 
-export enum CmsEmbedType {
-	video,
-	rich,
+export interface CmsResource extends GraphqlNode {
+	title: string;
+	description: string;
+	date: string;
+	link: CmsExternalLink;
 }
+
+export interface CmsSeries extends GraphqlNode {
+	title: CmsText[];
+	description: CmsText[];
+	hero?: CmsImage;
+	thumbnail?: CmsImage;
+	linked_resources?: Array<{ resources: CmsResource }>;
+}
+
+export interface CmsSpeaker extends GraphqlNode {
+	name: CmsText[];
+	role: CmsText[];
+	bio?: CmsText[];
+	thumbnail?: CmsImage;
+	hero?: CmsImage;
+}
+
+// Prismic Types
+
 export interface CmsEmbedContent {
 	height: number;
 	width: number;
@@ -47,24 +63,15 @@ export interface CmsEmbedContent {
 	html: string;
 }
 
-export interface CmsSpeaker extends GraphqlNode {
-	name: CmsText[];
-	role: CmsText[];
-	bio?: CmsText[];
-	thumbnail?: CmsImage;
-	hero?: CmsImage;
+export enum CmsEmbedType {
+	video,
+	rich,
 }
 
-export interface CmsMessage extends GraphqlNode {
-	title: CmsText[];
-	description: CmsText[];
-	date: string;
-	thumbnail: CmsImage;
-	series: CmsSeries;
-	video: CmsEmbedContent;
-	podcast?: CmsEmbedContent;
-	speakers: Array<{ speaker: CmsSpeaker }>;
-}
+export type CmsExternalLink = {
+	url: string;
+	target: string;
+};
 
 export type CmsImage = {
 	dimensions: {
@@ -75,6 +82,19 @@ export type CmsImage = {
 	copyright: string;
 	url: string;
 };
+
+export interface CmsMeta {
+	id: string;
+	uid: string;
+}
+
+export interface CmsText {
+	type: string;
+	text: string;
+	spans: Array<string>;
+}
+
+// Helper Functions
 
 export function getText(cmsText?: CmsText[]): string {
 	if (cmsText) {

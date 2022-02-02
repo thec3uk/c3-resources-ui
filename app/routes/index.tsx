@@ -42,27 +42,6 @@ export default function Index() {
 	return (
 		<>
 			<Box p={10} w={'100%'} bg={'gray.300'}>
-				<HStack justifyContent={'space-evenly'} mb={5}>
-					<Heading as="h1" size={'lg'}>
-						Messages
-					</Heading>
-					<InputGroup mb={2}>
-						<InputLeftElement
-							pointerEvents="none"
-							children={<SearchIcon color="gray.300" />}
-						/>
-						<Input
-							type="text"
-							placeholder="Search messages"
-							bg="white"
-							color={'gray.500'}
-							maxW={400}
-							onChange={e =>
-								navigate(`messages/search?q=${e.target.value}`)
-							}
-						></Input>
-					</InputGroup>
-				</HStack>
 				<HStack>
 					<Box boxShadow="0px 0px 5px 1px grey">
 						<YouTubePlayer url={message.video} />

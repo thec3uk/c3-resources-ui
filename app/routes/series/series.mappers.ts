@@ -1,13 +1,15 @@
 import {
-	CmsMessage,
 	CmsSeries,
 	getUid,
 	getText,
 	getId,
+	CmsResource,
 } from '~/types/cms.types';
-import { Series } from './series.types';
+import { Resource, Series } from './series.types';
 
 export function mapSeries(series: CmsSeries): Series {
+	const resources = mapResources(series.linked_resources);
+	console.log(resources);
 	return {
 		id: getId(series),
 		uid: getUid(series),
@@ -15,5 +17,16 @@ export function mapSeries(series: CmsSeries): Series {
 		description: getText(series.description),
 		hero: series.hero,
 		thumbnail: series.thumbnail,
+		resources,
 	};
+}
+
+export function mapResources(
+	cmsResources?: Array<{ resources: CmsResource }>
+): Array<Resource> | undefined {
+	return cmsResources?.map((link: { resources: CmsResource }) => ({
+		title: link.resources.title,
+		description: link.resources.description,
+		url: link.resources.link.url,
+	}));
 }
