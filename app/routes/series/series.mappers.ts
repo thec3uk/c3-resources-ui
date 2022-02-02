@@ -9,7 +9,6 @@ import { Resource, Series } from './series.types';
 
 export function mapSeries(series: CmsSeries): Series {
 	const resources = mapResources(series.linked_resources);
-	console.log(resources);
 	return {
 		id: getId(series),
 		uid: getUid(series),

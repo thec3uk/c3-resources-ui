@@ -5,11 +5,27 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	useCatch,
 } from 'remix';
 import type { MetaFunction } from 'remix';
-import { ChakraProvider, VStack, Container } from '@chakra-ui/react';
+import {
+	Box,
+	ChakraProvider,
+	Divider,
+	Heading,
+	Text,
+	VStack,
+} from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
-import Header from './components/header';
+import { withEmotionCache } from '@emotion/react';
+import React from 'react';
+import { Layout } from './components/Layout';
+import ServerStyleContext from './context.server';
+import ClientStyleContext from './context.client';
+
+export const meta: MetaFunction = () => {
+	return { title: 'The C3 Church' };
+};
 
 const theme = extendTheme({
 	colors: {
@@ -26,33 +42,125 @@ const theme = extendTheme({
 	},
 });
 
-export const meta: MetaFunction = () => {
-	return { title: 'The C3 Church' };
-};
+export function ErrorBoundary({ error }: { error: Error }) {
+	console.error(error);
 
-export default function App() {
 	return (
-		<html lang="en">
-			<head>
-				<meta charSet="utf-8" />
-				<meta
-					name="viewport"
-					content="width=device-width,initial-scale=1"
-				/>
-				<Meta />
-				<Links />
-			</head>
-			<body>
-				<ChakraProvider theme={theme}>
-					<VStack width="100%">
-						<Header />
-						<Outlet />
-					</VStack>
+		<Document title="Error!">
+			<Layout>
+				<Box>
+					<Heading as="h1">There was an error</Heading>
+					<Text>{error.message}</Text>
+					<Divider />
+					<Text>
+						Hey, developer, you should replace this with what you
+						want your users to see.
+					</Text>
+				</Box>
+			</Layout>
+		</Document>
+	);
+}
+
+export function CatchBoundary() {
+	let caught = useCatch();
+
+	let message;
+	switch (caught.status) {
+		case 401:
+			message = (
+				<Text>
+					Oops! Looks like you tried to visit a page that you do not
+					have access to.
+				</Text>
+			);
+			break;
+		case 404:
+			message = (
+				<Text>
+					Oops! Looks like you tried to visit a page that does not
+					exist.
+				</Text>
+			);
+			break;
+
+		default:
+			throw new Error(caught.data || caught.statusText);
+	}
+
+	return (
+		<Document title={`${caught.status} - ${caught.statusText}`}>
+			<Layout>
+				<Heading as="h1">
+					{caught.status}: {caught.statusText}
+				</Heading>
+				{message}
+			</Layout>
+		</Document>
+	);
+}
+
+interface DocumentProps {
+	children: React.ReactNode;
+	title?: string;
+}
+
+const Document = withEmotionCache(
+	({ children, title }: DocumentProps, emotionCache) => {
+		const serverSyleData = React.useContext(ServerStyleContext);
+		const clientStyleData = React.useContext(ClientStyleContext);
+
+		// Only executed on client
+		React.useEffect(() => {
+			// re-link sheet container
+			emotionCache.sheet.container = document.head;
+			// re-inject tags
+			const tags = emotionCache.sheet.tags;
+			emotionCache.sheet.flush();
+			tags.forEach(tag => {
+				(emotionCache.sheet as any)._insertTag(tag);
+			});
+			// reset cache to reapply global styles
+			clientStyleData.reset();
+		}, []);
+
+		return (
+			<html lang="en">
+				<head>
+					<meta charSet="utf-8" />
+					<meta
+						name="viewport"
+						content="width=device-width,initial-scale=1"
+					/>
+					{title ? <title>{title}</title> : null}
+					<Meta />
+					<Links />
+					{serverSyleData?.map(({ key, ids, css }) => (
+						<style
+							key={key}
+							data-emotion={`${key} ${ids.join(' ')}`}
+							// eslint-disable-next-line react/no-danger
+							dangerouslySetInnerHTML={{ __html: css }}
+						/>
+					))}
+				</head>
+				<body>
+					<ChakraProvider theme={theme}>{children}</ChakraProvider>
 					<ScrollRestoration />
 					<Scripts />
 					{process.env.NODE_ENV === 'development' && <LiveReload />}
-				</ChakraProvider>
-			</body>
-		</html>
+				</body>
+			</html>
+		);
+	}
+);
+
+export default function App() {
+	return (
+		<Document>
+			<Layout>
+				<Outlet />
+			</Layout>
+		</Document>
 	);
 }

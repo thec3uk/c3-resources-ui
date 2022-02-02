@@ -1,14 +1,6 @@
-import {
-	Box,
-	Text,
-	Flex,
-	Heading,
-	Image,
-	List,
-	ListItem,
-} from '@chakra-ui/react';
+import { Box, Heading, List, ListItem } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { json, Link, LoaderFunction, useLoaderData } from 'remix';
+import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { IImageBoxProps, ImageBoxRow, Theme } from '~/components/imageBoxRow';
 import { VideoBanner } from '~/components/videoBanner';

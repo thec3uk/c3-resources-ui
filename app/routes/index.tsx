@@ -89,13 +89,3 @@ export default function Index() {
 		</>
 	);
 }
-
-export function ErrorBoundary({ error }: { error: any }) {
-	console.error(error);
-	return (
-		<div>
-			<p>An error occurred</p>
-			<p>{error}</p>
-		</div>
-	);
-}
