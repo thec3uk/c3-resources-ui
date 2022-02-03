@@ -3,7 +3,7 @@ import { client, GraphqlEdge, GraphqlResponse } from '~/types/graphql.types';
 import {
 	AllSpeakersQueryResponse,
 	ALL_SPEAKERS,
-	SPEAKER_BY_ID,
+	SPEAKER_BY_ID as SPEAKER_BY_UID,
 } from './speakers.gql';
 import { mapSpeaker } from './speakers.mappers';
 import { Speaker } from './speakers.types';
@@ -20,10 +20,10 @@ export async function getSpeakers(): Promise<GraphqlResponse<Array<Speaker>>> {
 	};
 }
 
-export async function getSpeaker(id: string): Promise<Speaker | unknown> {
+export async function getSpeaker(uid: string): Promise<Speaker | unknown> {
 	const response = await client.query<AllSpeakersQueryResponse>({
-		query: SPEAKER_BY_ID,
-		variables: { id },
+		query: SPEAKER_BY_UID,
+		variables: { uid },
 	});
 	return {
 		...response,

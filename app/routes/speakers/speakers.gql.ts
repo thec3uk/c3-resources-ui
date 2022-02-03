@@ -6,42 +6,42 @@ export type AllSpeakersQueryResponse = {
 	allSpeakers: ArrayResult<CmsSpeaker>;
 };
 
+const SPEAKER_FRAGMENT = gql`
+	fragment speaker on Speaker {
+		_meta {
+			id
+			uid
+		}
+		name
+		role
+		bio
+		hero
+		thumbnail
+	}
+`;
+
 export const ALL_SPEAKERS = gql`
 	query allSpeakers {
 		allSpeakers {
 			edges {
 				node {
-					_meta {
-						id
-						uid
-					}
-					name
-					role
-					bio
-					hero
-					thumbnail
+					...speaker
 				}
 			}
 		}
 	}
+	${SPEAKER_FRAGMENT}
 `;
 
 export const SPEAKER_BY_ID = gql`
-	query speakerById($id: String) {
-		allSpeakers(id: $id) {
+	query speakerById($uid: String) {
+		allSpeakers(uid: $uid) {
 			edges {
 				node {
-					_meta {
-						id
-						uid
-					}
-					name
-					role
-					bio
-					hero
-					thumbnail
+					...speaker
 				}
 			}
 		}
 	}
+	${SPEAKER_FRAGMENT}
 `;

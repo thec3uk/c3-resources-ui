@@ -5,7 +5,7 @@ export type Speaker = {
 	uid: string;
 	name: string;
 	bio: string;
-	hero?: string;
+	hero?: CmsImage;
 	thumbnail?: CmsImage;
 	role?: string;
 };

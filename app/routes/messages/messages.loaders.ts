@@ -12,13 +12,19 @@ import { Message } from './messages.types';
 export async function getAllMessages({
 	seriesId,
 	channelId,
+	speakerId,
 }: {
 	seriesId?: string;
 	channelId?: string;
+	speakerId?: string;
 }): Promise<GraphqlResponse<Array<Message>>> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: ALL_MESSAGES,
-		variables: { seriesId: seriesId, channelId: channelId },
+		variables: {
+			seriesId: seriesId,
+			channelId: channelId,
+			speaker: { speaker: speakerId },
+		},
 	});
 	return {
 		...response,

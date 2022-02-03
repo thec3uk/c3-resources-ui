@@ -7,7 +7,7 @@ import { Speaker } from '../../routes/speakers/speakers.types';
 import { Message } from '../../routes/messages/messages.types';
 
 function SpeakerLink({ speaker }: { speaker: Speaker }) {
-	return <Link to={`/speakers/${speaker.id}`}>{speaker.name}</Link>;
+	return <Link to={`/speakers/${speaker.uid}`}>{speaker.name}</Link>;
 }
 
 export function MessageLayout({ message }: { message: Message }) {

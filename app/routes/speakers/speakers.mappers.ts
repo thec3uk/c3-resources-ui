@@ -7,6 +7,7 @@ export function mapSpeaker(speaker: CmsSpeaker): Speaker {
 		uid: getUid(speaker),
 		name: getText(speaker.name),
 		thumbnail: speaker.thumbnail,
+		hero: speaker.hero,
 		role: getText(speaker.role),
 		bio: getText(speaker.bio),
 	};

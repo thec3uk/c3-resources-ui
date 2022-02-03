@@ -50,8 +50,18 @@ const MESSAGE_FRAGMENT = gql`
 `;
 
 export const ALL_MESSAGES = gql`
-	query allMessages($channelId: String, $seriesId: String) {
-		allMessages(where: { channel: $channelId, series: $seriesId }) {
+	query allMessages(
+		$channelId: String
+		$seriesId: String
+		$speaker: WhereMessageSpeakers
+	) {
+		allMessages(
+			where: {
+				channel: $channelId
+				series: $seriesId
+				speakers: $speaker
+			}
+		) {
 			totalCount
 			edges {
 				node {
