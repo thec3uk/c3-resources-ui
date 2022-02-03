@@ -13,7 +13,8 @@ import {
 } from '@chakra-ui/react';
 import YouTubePlayer from 'react-player/youtube';
 import { Link, LoaderFunction, useLoaderData, useNavigate } from 'remix';
-import { ImageBoxRow, Theme } from '~/components/imageBoxRow';
+import { ImageGrid } from '~/components/ImageGrid';
+import { Theme } from '~/components/ImageGrid/imageGrid.types';
 import { getLatestMessage } from '~/routes/messages/messages.loaders';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getChannels } from './channels/channels.loader';
@@ -87,20 +88,20 @@ export default function Index() {
 					</VStack>
 				</HStack>
 			</Box>
-			<ImageBoxRow
+			<ImageGrid
 				theme={Theme.light}
 				title="Browse Channels"
-				boxes={channels.map(channel => ({
+				items={channels.map(channel => ({
 					key: channel.uid,
 					link: `/channels/${channel.uid}`,
 					title: channel.name,
 					thumbnail: channel.thumbnail,
 				}))}
 			/>
-			<ImageBoxRow
+			<ImageGrid
 				theme={Theme.dark}
 				title="Browse Series"
-				boxes={series.map(series => ({
+				items={series.map(series => ({
 					key: series.uid,
 					link: `/series/${series.uid}`,
 					title: series.title,

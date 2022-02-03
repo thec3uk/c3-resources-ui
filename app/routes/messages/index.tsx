@@ -1,20 +1,9 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import {
-	Heading,
-	Input,
-	InputGroup,
-	InputLeftElement,
-	HStack,
-	VStack,
-	Grid,
-	Spacer,
-	GridItem,
-	Button,
-} from '@chakra-ui/react';
+import * as react from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { LinksFunction, LoaderFunction, useLoaderData } from 'remix';
-import { ImageBox } from '~/components/imageBoxRow';
+import { LoaderFunction, useLoaderData } from 'remix';
+import { ImageBox } from '~/components/ImageBox';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getSpeakers } from '../speakers/speakers.loader';
 import { Speaker } from '../speakers/speakers.types';
@@ -24,7 +13,7 @@ import { Message } from './messages.types';
 export const loader: LoaderFunction = async ({ request }) => {
 	let url = new URL(request.url);
 	return {
-		allMessages: await getAllMessages(),
+		allMessages: await getAllMessages({}),
 		searchTerm: url.searchParams.get('q'),
 	};
 };
@@ -40,7 +29,7 @@ export default function Messages() {
 	const [searchResults, setSearchResults] = useState<Array<Message>>(
 		allMessages.data
 	);
-	const [searchText, setSearchTerm] = useState<string>(searchTerm);
+	const [searchText, setSearchTerm] = useState<string>(searchTerm || '');
 
 	useEffect(() => {
 		async function loadSpeakers() {
@@ -55,37 +44,44 @@ export default function Messages() {
 
 	return (
 		<>
-			<HStack p={4}>
-				<Heading as="h1" size="lg">
+			<react.HStack p={4}>
+				<react.Heading as="h1" size="lg">
 					Messages
-				</Heading>
-				<Spacer />
-				<InputGroup maxW={'30%'}>
-					<InputLeftElement
+				</react.Heading>
+				<react.Spacer />
+				<react.InputGroup maxW={'30%'}>
+					<react.InputLeftElement
 						pointerEvents="none"
 						children={<SearchIcon color="gray.300" />}
 					/>
-					<Input
+					<react.Input
 						type="tel"
 						value={searchText}
 						placeholder="Search messages..."
 						onChange={e => setSearchTerm(e.target.value)}
 					/>
-				</InputGroup>
-			</HStack>
-			<HStack p={4}>
-				<VStack alignItems={'start'} spacing={4}>
-					<Heading as="h2" size={'sm'}>
+				</react.InputGroup>
+			</react.HStack>
+			<react.HStack p={4}>
+				<react.VStack
+					alignItems={'start'}
+					spacing={4}
+					display={['none', 'inherit', 'inherit']}
+				>
+					<react.Heading as="h2" size={'sm'}>
 						Speakers
-					</Heading>
-					<InputGroup>
-						<InputLeftElement
+					</react.Heading>
+					<react.InputGroup>
+						<react.InputLeftElement
 							children={<SearchIcon color="gray.300" />}
 						/>
-						<Input type="input" placeholder="Search speakers..." />
-					</InputGroup>
+						<react.Input
+							type="input"
+							placeholder="Search speakers..."
+						/>
+					</react.InputGroup>
 					{speakers?.map(s => (
-						<Button
+						<react.Button
 							key={s.id}
 							ml={2}
 							borderRadius={'20px'}
@@ -113,31 +109,34 @@ export default function Messages() {
 							}}
 						>
 							{s.name}
-						</Button>
+						</react.Button>
 					))}
-				</VStack>
-				<Grid templateColumns="repeat(3, 1fr)" gap={6}>
+				</react.VStack>
+				<react.SimpleGrid
+					minChildWidth={'150px'}
+					width={'full'}
+					spacing="40px"
+				>
 					{searchResults.map(message => {
 						return (
-							<GridItem key={message.id}>
-								<ImageBox
-									box={{
-										key: message.id,
-										link: `/messages/${message.uid}`,
-										title: message.title,
-										subTitle: message.speakers?.length
-											? message.speakers[0].name
-											: dayjs(message.date).format(
-													'MMMM D, YYYY'
-											  ),
-										thumbnail: message.thumbnail,
-									}}
-								/>
-							</GridItem>
+							<ImageBox
+								key={message.id}
+								box={{
+									key: message.id,
+									link: `/messages/${message.uid}`,
+									title: message.title,
+									subTitle: message.speakers?.length
+										? message.speakers[0].name
+										: dayjs(message.date).format(
+												'MMMM D, YYYY'
+										  ),
+									thumbnail: message.thumbnail,
+								}}
+							/>
 						);
 					})}
-				</Grid>
-			</HStack>
+				</react.SimpleGrid>
+			</react.HStack>
 		</>
 	);
 }

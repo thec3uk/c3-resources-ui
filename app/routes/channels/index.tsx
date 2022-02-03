@@ -1,6 +1,13 @@
-import { Box, Text, Flex, Heading, Image } from '@chakra-ui/react';
-import { Link, LoaderFunction, useLoaderData } from 'remix';
+import { Box, HStack, Image, Text, VStack } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import YouTubePlayer from 'react-player/youtube';
+import { LoaderFunction, useLoaderData } from 'remix';
+import { Channels } from '~/components/Channels';
+import { FeaturedChannel } from '~/components/FeaturedChannel';
+import { ImageGrid } from '~/components/ImageGrid';
+import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
 import { GraphqlResponse } from '~/types/graphql.types';
+import { getAllMessages } from '../messages/messages.loaders';
 import { getChannels } from './channels.loader';
 import { Channel } from './channels.types';
 
@@ -8,35 +15,47 @@ export const loader: LoaderFunction = async () => {
 	return getChannels();
 };
 
-export default function AllChannels() {
-	const {
-		data: allChannels,
-		loading,
-		errors,
-	} = useLoaderData<GraphqlResponse<Array<Channel>>>();
+export default function ChannelsPage() {
+	const { data } = useLoaderData<GraphqlResponse<Array<Channel>>>();
+	const [featured] = useState<Channel>(
+		data.find(f => f.uid === 'c3-kids') || data[0]
+	);
+
+	const [video, setVideo] = useState<string | undefined>();
+	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
+
+	useEffect(() => {
+		async function getMessage() {
+			const { data } = await getAllMessages({
+				channelId: featured.id,
+			});
+			setVideo(data[0].video);
+			setMessages(
+				data.map(m => ({
+					key: m.uid,
+					link: `/messages/${m.uid}`,
+					title: m.title,
+					thumbnail: m.thumbnail,
+				}))
+			);
+		}
+		getMessage();
+	}, [featured]);
+
 	return (
-		<div>
-			{!loading && !errors && (
-				<div>
-					{allChannels.map(channel => {
-						return (
-							<Box padding="3" key={channel.id}>
-								<Link to={`/series/${channel.id}`}>
-									<Heading as="h4" size="md">
-										{channel.name}
-									</Heading>
-								</Link>
-								<Flex>
-									<Image
-										src={channel.thumbnail?.url}
-										boxSize="150px"
-									></Image>
-								</Flex>
-							</Box>
-						);
-					})}
-				</div>
+		<>
+			<FeaturedChannel channel={featured} video={video} />
+			{messages && (
+				<ImageGrid
+					title="Latest Videos..."
+					items={messages
+						.concat(messages)
+						.concat(messages)
+						.concat(messages)}
+					theme={Theme.light}
+				/>
 			)}
-		</div>
+			<Channels channels={data} theme={Theme.dark} />
+		</>
 	);
 }

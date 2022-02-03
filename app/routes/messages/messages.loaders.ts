@@ -5,29 +5,20 @@ import {
 	LATEST_MESSAGE,
 	MessageQueryResponse,
 	MESSAGE_BY_ID,
-	SERIES_MESSAGES,
 } from './messages.gql';
 import { mapAllMessages, mapToMessage } from './messages.mappers';
 import { Message } from './messages.types';
 
-export async function getAllMessages(): Promise<
-	GraphqlResponse<Array<Message>>
-> {
+export async function getAllMessages({
+	seriesId,
+	channelId,
+}: {
+	seriesId?: string;
+	channelId?: string;
+}): Promise<GraphqlResponse<Array<Message>>> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: ALL_MESSAGES,
-	});
-	return {
-		...response,
-		data: mapAllMessages(response.data),
-	};
-}
-
-export async function getSeriesMessages(
-	seriesId: string
-): Promise<GraphqlResponse<Array<Message>>> {
-	const response = await client.query<AllMessagesQueryResponse>({
-		query: SERIES_MESSAGES,
-		variables: { seriesId: seriesId },
+		variables: { seriesId: seriesId, channelId: channelId },
 	});
 	return {
 		...response,
@@ -47,13 +38,15 @@ export async function getMessage(uid: string): Promise<Message | unknown> {
 }
 
 // this channel id shouldn't be hardcoded
-export async function getLatestMessage(): Promise<GraphqlResponse<Message>> {
+export async function getLatestMessage(
+	channelId: string = 'YfgW0xAAACAADva7'
+): Promise<GraphqlResponse<Message>> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: LATEST_MESSAGE,
-		variables: { channelId: 'YfgW0xAAACAADva7' },
+		variables: { channelId },
 	});
 	return {
 		...response,
-		data: mapToMessage(response.data.allMessages.edges[0].node),
+		data: mapToMessage(response.data.allMessages.edges[0]?.node),
 	};
 }

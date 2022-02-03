@@ -50,22 +50,9 @@ const MESSAGE_FRAGMENT = gql`
 `;
 
 export const ALL_MESSAGES = gql`
-	query {
-		allMessages {
+	query allMessages($channelId: String, $seriesId: String) {
+		allMessages(where: { channel: $channelId, series: $seriesId }) {
 			totalCount
-			edges {
-				node {
-					...message
-				}
-			}
-		}
-	}
-	${MESSAGE_FRAGMENT}
-`;
-
-export const SERIES_MESSAGES = gql`
-	query latestMessage($seriesId: String) {
-		allMessages(where: { series: $seriesId }) {
 			edges {
 				node {
 					...message

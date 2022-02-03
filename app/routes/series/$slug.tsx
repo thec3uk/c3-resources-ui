@@ -2,10 +2,11 @@ import { Box, Heading, List, ListItem } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
-import { IImageBoxProps, ImageBoxRow, Theme } from '~/components/imageBoxRow';
-import { VideoBanner } from '~/components/videoBanner';
+import { ImageGrid } from '~/components/ImageGrid';
+import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
+import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { GraphqlResponse } from '~/types/graphql.types';
-import { getSeriesMessages } from '../messages/messages.loaders';
+import { getAllMessages } from '../messages/messages.loaders';
 import { Message } from '../messages/messages.types';
 import { getAllSeries } from './series.loader';
 import { Series } from './series.types';
@@ -29,7 +30,9 @@ export default function SeriesPage() {
 	useEffect(() => {
 		async function getMessages() {
 			if (currentSeries) {
-				const { data } = await getSeriesMessages(currentSeries.id);
+				const { data } = await getAllMessages({
+					seriesId: currentSeries.id,
+				});
 				setMessages(
 					data.map(m => ({
 						key: m.uid,
@@ -38,7 +41,7 @@ export default function SeriesPage() {
 						thumbnail: m.thumbnail,
 					}))
 				);
-				setLatestMessage(data.slice(-1)[0]);
+				setLatestMessage(data[0]);
 			}
 		}
 		getMessages();
@@ -55,9 +58,9 @@ export default function SeriesPage() {
 				title={currentSeries?.title || ''}
 				subTitle={currentSeries?.description || ''}
 			/>
-			<ImageBoxRow
+			<ImageGrid
 				title="In this series..."
-				boxes={messages}
+				items={messages}
 				theme={Theme.light}
 			/>
 			<Box p={10} w={'100%'} bg={'gray.300'}>
@@ -79,9 +82,9 @@ export default function SeriesPage() {
 					</List>
 				</Box>
 			</Box>
-			<ImageBoxRow
+			<ImageGrid
 				title="Other Series..."
-				boxes={series?.data.map(s => ({
+				items={series?.data.map(s => ({
 					key: s.uid,
 					link: `/series/${s.uid}`,
 					title: s.title,

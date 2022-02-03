@@ -1,16 +1,16 @@
-import { Message } from '~/routes/messages/messages.types';
 import ReactPlayer from 'react-player';
 import Spotify from 'react-spotify-embed';
 import { Link } from 'remix';
-import { Box, Center, Heading, HStack, Text, VStack } from '@chakra-ui/react';
-import { Speaker } from '~/routes/speakers/speakers.types';
+import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
+import { Speaker } from '../../routes/speakers/speakers.types';
+import { Message } from '../../routes/messages/messages.types';
 
 function SpeakerLink({ speaker }: { speaker: Speaker }) {
 	return <Link to={`/speakers/${speaker.id}`}>{speaker.name}</Link>;
 }
 
-export default function MessageLayout({ message }: { message: Message }) {
+export function MessageLayout({ message }: { message: Message }) {
 	return (
 		<Box p={10} w={'100%'} bg={'gray.300'}>
 			<Box>

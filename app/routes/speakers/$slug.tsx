@@ -1,7 +1,7 @@
 import { useLoaderData } from 'remix';
 import type { LoaderFunction } from 'remix';
 import invariant from 'tiny-invariant';
-import SpeakerLayout from '~/components/speakerLayout';
+import SpeakerLayout from '~/components/SpeakerLayout/speakerLayout';
 import { Speaker } from './speakers.types';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getSpeaker } from './speakers.loader';
