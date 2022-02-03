@@ -34,6 +34,11 @@ export default function Header() {
 					Channels
 				</ChakraLink>
 			</GridItem>
+			<GridItem colStart={7}>
+				<ChakraLink as={NavLink} to="/speakers">
+					Speakers
+				</ChakraLink>
+			</GridItem>
 			<GridItem colStart={11}>
 				<HamburgerIcon w={8} h={8} />
 			</GridItem>

@@ -16,7 +16,6 @@ export default function SpeakerLayout({ speaker }: { speaker: Speaker }) {
 					<Text
 						dangerouslySetInnerHTML={{ __html: speaker.bio }}
 					></Text>
-					<p>{speaker.bio}</p>
 				</VStack>
 				<Image
 					src={speaker.thumbnail?.url}
