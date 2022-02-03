@@ -3,29 +3,18 @@ import {
 	AllMessagesQueryResponse,
 	ALL_MESSAGES,
 	LATEST_MESSAGE,
+	MessageQueryResponse,
 	MESSAGE_BY_ID,
-	SEARCH_MESSAGES,
 	SERIES_MESSAGES,
 } from './messages.gql';
 import { mapAllMessages, mapToMessage } from './messages.mappers';
 import { Message } from './messages.types';
 
-export async function getMessages(): Promise<GraphqlResponse<Array<Message>>> {
+export async function getAllMessages(): Promise<
+	GraphqlResponse<Array<Message>>
+> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: ALL_MESSAGES,
-	});
-	return {
-		...response,
-		data: mapAllMessages(response.data),
-	};
-}
-
-export async function searchMessages(
-	term: string
-): Promise<GraphqlResponse<Array<Message>>> {
-	const response = await client.query<AllMessagesQueryResponse>({
-		query: SEARCH_MESSAGES,
-		variables: { term },
 	});
 	return {
 		...response,
@@ -46,27 +35,14 @@ export async function getSeriesMessages(
 	};
 }
 
-export async function getSpeakerMessages(
-	seriesId: string
-): Promise<GraphqlResponse<Array<Message>>> {
-	const response = await client.query<AllMessagesQueryResponse>({
-		query: SERIES_MESSAGES,
-		variables: { speaker: seriesId },
-	});
-	return {
-		...response,
-		data: mapAllMessages(response.data),
-	};
-}
-
-export async function getMessage(id: string): Promise<Message | unknown> {
-	const response = await client.query<AllMessagesQueryResponse>({
+export async function getMessage(uid: string): Promise<Message | unknown> {
+	const response = await client.query<MessageQueryResponse>({
 		query: MESSAGE_BY_ID,
-		variables: { id },
+		variables: { uid },
 	});
 	return {
 		...response,
-		data: mapToMessage(response.data.allMessages.edges[0].node),
+		data: mapToMessage(response.data.message),
 	};
 }
 

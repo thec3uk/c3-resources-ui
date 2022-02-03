@@ -9,6 +9,7 @@ import {
 	HStack,
 	InputGroup,
 	InputLeftElement,
+	Spacer,
 } from '@chakra-ui/react';
 import YouTubePlayer from 'react-player/youtube';
 import { Link, LoaderFunction, useLoaderData, useNavigate } from 'remix';
@@ -39,9 +40,29 @@ export default function Index() {
 	const { data: channels } = channelsResponse;
 	const { data: series } = seriesResponse;
 	let navigate = useNavigate();
+
+	const navigateToSearch = (e: string) => navigate(`messages?q=${e}`);
 	return (
 		<>
 			<Box p={10} w={'100%'} bg={'gray.300'}>
+				<HStack p={4}>
+					<Heading as="h1" size="lg">
+						Messages
+					</Heading>
+					<Spacer />
+					<InputGroup maxW={'30%'}>
+						<InputLeftElement
+							pointerEvents="none"
+							children={<SearchIcon />}
+						/>
+						<Input
+							type="text"
+							placeholder="Search messages..."
+							bg={'white'}
+							onChange={e => navigateToSearch(e.target.value)}
+						/>
+					</InputGroup>
+				</HStack>
 				<HStack>
 					<Box boxShadow="0px 0px 5px 1px grey">
 						<YouTubePlayer url={message.video} />

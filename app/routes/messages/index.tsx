@@ -11,30 +11,37 @@ import {
 	GridItem,
 	Button,
 } from '@chakra-ui/react';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { LoaderFunction, useLoaderData } from 'remix';
+import { LinksFunction, LoaderFunction, useLoaderData } from 'remix';
 import { ImageBox } from '~/components/imageBoxRow';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getSpeakers } from '../speakers/speakers.loader';
 import { Speaker } from '../speakers/speakers.types';
-import { getMessages } from './messages.loaders';
+import { getAllMessages } from './messages.loaders';
 import { Message } from './messages.types';
 
-export const loader: LoaderFunction = async () => {
-	return getMessages();
+export const loader: LoaderFunction = async ({ request }) => {
+	let url = new URL(request.url);
+	return {
+		allMessages: await getAllMessages(),
+		searchTerm: url.searchParams.get('q'),
+	};
 };
 
 export default function Messages() {
-	const {
-		data: messages,
-		loading,
-		errors,
-	} = useLoaderData<GraphqlResponse<Array<Message>>>();
+	const { allMessages, searchTerm } = useLoaderData<{
+		allMessages: GraphqlResponse<Array<Message>>;
+		searchTerm: string;
+	}>();
 
 	const [selectedSpeakers, setSelectedSpeakers] = useState<Array<string>>([]);
 	const [speakers, setSpeakers] = useState<Array<Speaker>>();
-	const [searchResults, setSearchResults] =
-		useState<Array<Message>>(messages);
+	const [searchResults, setSearchResults] = useState<Array<Message>>(
+		allMessages.data
+	);
+	const [searchText, setSearchTerm] = useState<string>(searchTerm);
+
 	useEffect(() => {
 		async function loadSpeakers() {
 			const { data } = await getSpeakers();
@@ -58,11 +65,16 @@ export default function Messages() {
 						pointerEvents="none"
 						children={<SearchIcon color="gray.300" />}
 					/>
-					<Input type="tel" placeholder="search" />
+					<Input
+						type="tel"
+						value={searchText}
+						placeholder="Search messages..."
+						onChange={e => setSearchTerm(e.target.value)}
+					/>
 				</InputGroup>
 			</HStack>
 			<HStack p={4}>
-				<VStack alignItems={'start'}>
+				<VStack alignItems={'start'} spacing={4}>
 					<Heading as="h2" size={'sm'}>
 						Speakers
 					</Heading>
@@ -70,7 +82,7 @@ export default function Messages() {
 						<InputLeftElement
 							children={<SearchIcon color="gray.300" />}
 						/>
-						<Input type="tel" placeholder="search" />
+						<Input type="input" placeholder="Search speakers..." />
 					</InputGroup>
 					{speakers?.map(s => (
 						<Button
@@ -111,9 +123,13 @@ export default function Messages() {
 								<ImageBox
 									box={{
 										key: message.id,
-										link: `/message/${message.id}`,
+										link: `/messages/${message.uid}`,
 										title: message.title,
-										date: message.date,
+										subTitle: message.speakers?.length
+											? message.speakers[0].name
+											: dayjs(message.date).format(
+													'MMMM D, YYYY'
+											  ),
 										thumbnail: message.thumbnail,
 									}}
 								/>

@@ -7,7 +7,7 @@ export interface IImageBoxProps {
 	link: string;
 	title: string;
 	thumbnail?: CmsImage;
-	date?: string;
+	subTitle?: string;
 }
 
 export enum Theme {
@@ -27,7 +27,7 @@ export function ImageBox({
 			maxW="sm"
 			borderWidth="1px"
 			borderRadius="lg"
-			borderColor={theme === Theme.light ? 'gray.300' : 'black'}
+			borderColor={theme === Theme.light ? 'gray.300' : 'gray.900'}
 			overflow="hidden"
 			width={60}
 			margin={2}
@@ -35,19 +35,28 @@ export function ImageBox({
 			<Link to={box.link}>
 				<Image src={box.thumbnail?.url} alt={box.thumbnail?.alt} />
 				<Box
-					p="6"
-					borderTop="1px"
-					borderColor={theme === Theme.light ? 'gray.300' : 'black'}
+					p={4}
+					borderColor={
+						theme === Theme.light ? 'gray.300' : 'gray.900'
+					}
 					bg={'white'}
 				>
 					<Box
-						mt="1"
 						fontWeight="semibold"
 						as="h4"
 						lineHeight="tight"
 						isTruncated
+						color={'gray.800'}
 					>
-						{box.title} {box.date && <span>- {box.date}</span>}
+						{box.title}
+					</Box>
+					<Box
+						as="h6"
+						lineHeight="tight"
+						isTruncated
+						color={'gray.500'}
+					>
+						{box.subTitle}
 					</Box>
 				</Box>
 			</Link>
@@ -66,7 +75,7 @@ export function ImageBoxRow({
 }) {
 	return (
 		<Box p={10} w={'100%'} bg={theme === Theme.dark ? 'gray.300' : 'white'}>
-			<Heading as="h4" size={'md'} mb={2}>
+			<Heading as="h3" size={'lg'} mb={2}>
 				{title}
 			</Heading>
 			<HStack justifyContent={'space-evenly'}>
