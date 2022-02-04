@@ -6,6 +6,7 @@ export interface IImageBoxProps {
 	title: string;
 	thumbnail?: CmsImage;
 	subTitle?: string;
+	trailer?: string;
 }
 
 export enum Theme {

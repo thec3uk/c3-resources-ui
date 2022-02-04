@@ -1,10 +1,4 @@
-import {
-	CmsMessage,
-	CmsSpeaker,
-	getUid,
-	getText,
-	getId,
-} from '~/types/cms.types';
+import { CmsMessage, getUid, getText, getId } from '~/types/cms.types';
 import { GraphqlEdge } from '~/types/graphql.types';
 import { mapSeries } from '../series/series.mappers';
 import { mapSpeakers } from '../speakers/speakers.mappers';
@@ -30,6 +24,8 @@ export function mapToMessage(message: CmsMessage): Message {
 		thumbnail: message.thumbnail,
 		date: message.date,
 		video: message.video.embed_url,
+		trailer: message.trailer?.embed_url,
+		shortForm: message.short_form_video?.embed_url,
 		podcast: message.podcast?.embed_url,
 		speakers,
 		series: message.series ? mapSeries(message.series) : undefined,

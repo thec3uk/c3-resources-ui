@@ -15,6 +15,8 @@ export type Message = {
 	date: string;
 	speakers?: Array<Speaker>;
 	video?: string;
+	trailer?: string;
+	shortForm?: string;
 	podcast?: string;
 	series?: Series;
 };

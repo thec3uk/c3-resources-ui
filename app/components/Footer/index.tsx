@@ -14,9 +14,5 @@ function SitemapSection() {
 }
 
 export function Footer() {
-	return (
-		<Box>
-			<SitemapSection />
-		</Box>
-	);
+	return <Box></Box>;
 }

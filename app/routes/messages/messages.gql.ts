@@ -26,6 +26,8 @@ const MESSAGE_FRAGMENT = gql`
 			...series
 		}
 		video
+		trailer
+		short_form_video
 		podcast
 		speakers {
 			speaker {

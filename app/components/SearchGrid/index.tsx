@@ -1,13 +1,13 @@
 import { SimpleGrid } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { Message } from '~/routes/messages/messages.types';
-import { ImageBox } from '../ImageBox';
+import { SearchItem } from '../SearchItem';
 
 export function SearchGrid({ messages }: { messages: Array<Message> }) {
 	return (
-		<SimpleGrid minChildWidth={'150px'} width={'full'} spacing="40px">
+		<SimpleGrid columns={[1, 2, 2]} spacing={20} p={5}>
 			{messages.map(message => (
-				<ImageBox
+				<SearchItem
 					key={message.id}
 					box={{
 						key: message.id,
@@ -17,6 +17,7 @@ export function SearchGrid({ messages }: { messages: Array<Message> }) {
 							? message.speakers[0].name
 							: dayjs(message.date).format('MMMM D, YYYY'),
 						thumbnail: message.thumbnail,
+						trailer: message.trailer,
 					}}
 				/>
 			))}
