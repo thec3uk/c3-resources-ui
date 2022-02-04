@@ -6,7 +6,7 @@ export type AllSpeakersQueryResponse = {
 	allSpeakers: ArrayResult<CmsSpeaker>;
 };
 
-const SPEAKER_FRAGMENT = gql`
+export const SPEAKER_FRAGMENT = gql`
 	fragment speaker on Speaker {
 		_meta {
 			id

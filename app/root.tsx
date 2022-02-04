@@ -8,20 +8,14 @@ import {
 	useCatch,
 } from 'remix';
 import type { MetaFunction } from 'remix';
-import {
-	Box,
-	ChakraProvider,
-	Divider,
-	Heading,
-	Text,
-	VStack,
-} from '@chakra-ui/react';
+import { Box, ChakraProvider, Divider, Heading, Text } from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import { withEmotionCache } from '@emotion/react';
 import React from 'react';
 import { Layout } from './components/Layout';
 import ServerStyleContext from './context.server';
 import ClientStyleContext from './context.client';
+import styles from '~/styles/global.css';
 
 export const meta: MetaFunction = () => {
 	return { title: 'The C3 Church' };
@@ -41,6 +35,10 @@ const theme = extendTheme({
 		mono: 'Menlo, monospace',
 	},
 });
+
+export function links() {
+	return [{ rel: 'stylesheet', href: styles }];
+}
 
 export function ErrorBoundary({ error }: { error: Error }) {
 	console.error(error);

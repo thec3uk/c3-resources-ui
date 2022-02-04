@@ -1,4 +1,3 @@
-import { Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import { ImageGrid } from '~/components/ImageGrid';
 import { GraphqlResponse } from '~/types/graphql.types';

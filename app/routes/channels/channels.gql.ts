@@ -6,23 +6,30 @@ export type ChannelsQueryResponse = {
 	allChannels: ArrayResult<CmsChannel>;
 };
 
+const CHANNEL_FRAGMENT = gql`
+	fragment channel on Channel {
+		name
+		description
+		thumbnail
+		hero
+		_meta {
+			id
+			uid
+		}
+	}
+`;
+
 export const ALL_CHANNELS = gql`
 	query allChannels {
 		allChannels {
 			edges {
 				node {
-					name
-					description
-					thumbnail
-					hero
-					_meta {
-						id
-						uid
-					}
+					...channel
 				}
 			}
 		}
 	}
+	${CHANNEL_FRAGMENT}
 `;
 
 export const CHANNEL_BY_UID = gql`
@@ -30,16 +37,10 @@ export const CHANNEL_BY_UID = gql`
 		allChannels(uid: $uid) {
 			edges {
 				node {
-					name
-					description
-					thumbnail
-					hero
-					_meta {
-						id
-						uid
-					}
+					...channel
 				}
 			}
 		}
 	}
+	${CHANNEL_FRAGMENT}
 `;

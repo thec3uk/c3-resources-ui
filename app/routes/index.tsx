@@ -10,11 +10,16 @@ import {
 	InputGroup,
 	InputLeftElement,
 	Spacer,
+	Flex,
 } from '@chakra-ui/react';
 import YouTubePlayer from 'react-player/youtube';
 import { Link, LoaderFunction, useLoaderData, useNavigate } from 'remix';
 import { ImageGrid } from '~/components/ImageGrid';
 import { Theme } from '~/components/ImageGrid/imageGrid.types';
+import { ResponsiveVideo } from '~/components/ResponsiveVideo';
+import { SearchBar } from '~/components/SearchBar';
+import { Section } from '~/components/Section';
+import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { getLatestMessage } from '~/routes/messages/messages.loaders';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getChannels } from './channels/channels.loader';
@@ -45,49 +50,22 @@ export default function Index() {
 	const navigateToSearch = (e: string) => navigate(`messages?q=${e}`);
 	return (
 		<>
-			<Box p={10} w={'100%'} bg={'gray.300'}>
-				<HStack p={4}>
-					<Heading as="h1" size="lg">
-						Messages
-					</Heading>
-					<Spacer />
-					<InputGroup maxW={'30%'}>
-						<InputLeftElement
-							pointerEvents="none"
-							children={<SearchIcon />}
-						/>
-						<Input
-							type="text"
-							placeholder="Search messages..."
-							bg={'white'}
-							onChange={e => navigateToSearch(e.target.value)}
-						/>
-					</InputGroup>
-				</HStack>
-				<HStack>
-					<Box boxShadow="0px 0px 5px 1px grey">
-						<YouTubePlayer url={message.video} />
-					</Box>
-					<VStack spacing={5} p={10} align="start">
-						<Heading as="h1" size="lg" color="red.500">
-							Latest Series
-						</Heading>
-						{message.series && (
-							<>
-								<Heading as="h4" size="md" fontStyle="italic">
-									{message.series?.title}
-								</Heading>
-								<Text>{message.series.description}</Text>
-								<Link to={`/series/${message.series.uid}`}>
-									<Button bg={'white'}>
-										View Series Page
-									</Button>
-								</Link>
-							</>
-						)}
-					</VStack>
-				</HStack>
-			</Box>
+			<Section>
+				<SearchBar
+					searchTerm={''}
+					onChange={e => navigateToSearch(e)}
+				/>
+				<VideoBanner
+					title={'Latest Series'}
+					subTitle={message.series?.title}
+					description={message.series?.description}
+					callToAction={{
+						link: `/series/${message.series?.uid}`,
+						title: 'View Series Page',
+					}}
+					videoUrl={message.video}
+				></VideoBanner>
+			</Section>
 			<ImageGrid
 				theme={Theme.light}
 				title="Browse Channels"

@@ -13,33 +13,33 @@ import { Link, NavLink } from 'remix';
 export default function Header() {
 	return (
 		<Grid
-			templateColumns="repeat(10, 1fr)"
-			gap={4}
-			width={'100%'}
-			p={4}
+			templateColumns="repeat(7, 1fr)"
 			textTransform={'uppercase'}
+			bg={'grey.300'}
+			p={[2, 2, 4]}
+			w={'100%'}
 		>
-			<GridItem colSpan={2}>
+			<GridItem colSpan={1}>
 				<Link to="/">
 					<Image src="/LogoGrey.png" alt="The C3 Church - Home" />
 				</Link>
 			</GridItem>
-			<GridItem colStart={5}>
+			<GridItem colStart={3} display={['none', 'inherit', 'inherit']}>
 				<ChakraLink as={NavLink} to="/messages">
 					Messages
 				</ChakraLink>
 			</GridItem>
-			<GridItem colStart={6}>
+			<GridItem colStart={5} display={['none', 'inherit', 'inherit']}>
 				<ChakraLink as={NavLink} to="/channels">
 					Channels
 				</ChakraLink>
 			</GridItem>
-			<GridItem colStart={7}>
+			<GridItem colStart={7} display={['none', 'inherit', 'inherit']}>
 				<ChakraLink as={NavLink} to="/speakers">
 					Speakers
 				</ChakraLink>
 			</GridItem>
-			<GridItem colStart={11}>
+			<GridItem colStart={7} display={['inherit', 'none', 'none']}>
 				<HamburgerIcon w={8} h={8} />
 			</GridItem>
 		</Grid>

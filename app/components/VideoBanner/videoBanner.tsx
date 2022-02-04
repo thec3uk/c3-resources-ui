@@ -1,6 +1,6 @@
-import { Box, HStack, VStack, Heading, Button, Text } from '@chakra-ui/react';
-import YouTubePlayer from 'react-player/youtube';
-import { Link } from 'react-router-dom';
+import { Box, VStack, Heading, Button, Text, Flex } from '@chakra-ui/react';
+import { Link } from 'remix';
+import { ResponsiveVideo } from '../ResponsiveVideo';
 
 export interface IVideoBannerProps {
 	videoUrl?: string;
@@ -21,32 +21,31 @@ export function VideoBanner({
 	callToAction,
 }: IVideoBannerProps) {
 	return (
-		<Box p={10} w={'100%'} bg={'gray.300'}>
-			<HStack>
-				<Box boxShadow="0px 0px 5px 1px grey">
-					<YouTubePlayer url={videoUrl} />
+		<>
+			<Flex direction={['column', 'column', 'row']}>
+				<Box width={[400, 450, 800]}>
+					{/** TODO: what is the fall back **/}
+					{videoUrl && <ResponsiveVideo video={videoUrl} />}
 				</Box>
 				<VStack spacing={5} p={10} align="start">
 					<Heading as="h1" size="lg" color="red.500">
 						{title}
 					</Heading>
-					{subTitle && (
-						<>
-							<Heading as="h4" size="md" fontStyle="italic">
-								{subTitle}
-							</Heading>
-							<Text>{description}</Text>
-							{callToAction && (
-								<Link to={callToAction.link}>
-									<Button bg={'white'}>
-										{callToAction.title}
-									</Button>
-								</Link>
-							)}
-						</>
+					<Heading
+						as={description ? 'h4' : 'p'}
+						size="md"
+						fontStyle="italic"
+					>
+						{subTitle}
+					</Heading>
+					<Text>{description}</Text>
+					{callToAction && (
+						<Link to={callToAction?.link}>
+							<Button bg={'white'}>{callToAction?.title}</Button>
+						</Link>
 					)}
 				</VStack>
-			</HStack>
-		</Box>
+			</Flex>
+		</>
 	);
 }

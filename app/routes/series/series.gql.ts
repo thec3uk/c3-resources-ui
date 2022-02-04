@@ -11,7 +11,7 @@ export interface SeriesQueryResponse {
 	series: Series;
 }
 
-const SERIES_FRAGMENT = gql`
+export const SERIES_FRAGMENT = gql`
 	fragment series on Series {
 		_meta {
 			id
@@ -55,24 +55,6 @@ export const SERIES_BY_ID = gql`
 	query series($uid: String!) {
 		series(uid: $uid, lang: "en-gb") {
 			...series
-		}
-	}
-`;
-
-export const SERIES_MESSAGES = gql`
-	query seriesMesages($id: String) {
-		allMessages(where: { series: $id }) {
-			edges {
-				node {
-					title
-					thumbnail
-					date
-					_meta {
-						id
-						uid
-					}
-				}
-			}
 		}
 	}
 `;

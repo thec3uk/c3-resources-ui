@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 import { CmsMessage } from '~/types/cms.types';
 import { ArrayResult } from '~/types/graphql.types';
+import { SERIES_FRAGMENT } from '../series/series.gql';
+import { SPEAKER_FRAGMENT } from '../speakers/speakers.gql';
 
 export type AllMessagesQueryResponse = {
 	allMessages: ArrayResult<CmsMessage>;
@@ -21,32 +23,20 @@ const MESSAGE_FRAGMENT = gql`
 		}
 		thumbnail
 		series {
-			... on Series {
-				title
-				description
-				_meta {
-					id
-					uid
-				}
-			}
+			...series
 		}
 		video
 		podcast
 		speakers {
 			speaker {
 				... on Speaker {
-					name
-					_meta {
-						id
-						uid
-					}
-					thumbnail
-					role
-					bio
+					...speaker
 				}
 			}
 		}
 	}
+	${SERIES_FRAGMENT}
+	${SPEAKER_FRAGMENT}
 `;
 
 export const ALL_MESSAGES = gql`

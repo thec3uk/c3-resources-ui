@@ -1,9 +1,10 @@
-import { Box, Heading, List, ListItem } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
+import { AdditionalResources } from '~/components/AdditionalResources';
 import { ImageGrid } from '~/components/ImageGrid';
 import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
+import { Section } from '~/components/Section';
 import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { getAllMessages } from '../messages/messages.loaders';
@@ -24,7 +25,7 @@ export default function SeriesPage() {
 		current: string;
 		series: GraphqlResponse<Array<Series>>;
 	}>();
-	const [currentSeries, setCurrentSeries] = useState<Series>();
+	const [currentSeries, setCurrentSeries] = useState<Series>(series.data[0]);
 	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
 	const [latestMessage, setLatestMessage] = useState<Message>();
 	useEffect(() => {
@@ -48,40 +49,26 @@ export default function SeriesPage() {
 	}, [currentSeries]);
 
 	useEffect(() => {
-		setCurrentSeries(series.data.find(f => f.uid === current));
+		setCurrentSeries(
+			series.data.find(f => f.uid === current) || series.data[0]
+		);
 	}, [series]);
 
 	return (
 		<>
-			<VideoBanner
-				videoUrl={latestMessage?.video}
-				title={currentSeries?.title || ''}
-				subTitle={currentSeries?.description || ''}
-			/>
+			<Section>
+				<VideoBanner
+					videoUrl={latestMessage?.video}
+					title={currentSeries?.title}
+					description={currentSeries?.description}
+				/>
+			</Section>
 			<ImageGrid
 				title="In this series..."
 				items={messages}
 				theme={Theme.light}
 			/>
-			<Box p={10} w={'100%'} bg={'gray.300'}>
-				<Heading as="h2" size={'md'}>
-					Additional Resources
-				</Heading>
-				<Box paddingTop={2}>
-					<List>
-						{currentSeries?.resources?.map(resource => (
-							<ListItem key={resource.title}>
-								<a href={resource.url} target={'_blank'}>
-									{resource.title}{' '}
-									{resource.description && (
-										<span> - {resource.description}</span>
-									)}
-								</a>
-							</ListItem>
-						))}
-					</List>
-				</Box>
-			</Box>
+			<AdditionalResources resources={currentSeries.resources} />
 			<ImageGrid
 				title="Other Series..."
 				items={series?.data.map(s => ({

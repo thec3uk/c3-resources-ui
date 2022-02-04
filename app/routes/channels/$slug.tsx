@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
-import { Channels } from '~/components/Channels';
 import { FeaturedChannel } from '~/components/FeaturedChannel';
 import { ImageGrid } from '~/components/ImageGrid';
 import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
@@ -17,7 +16,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function ChannelPage() {
 	const { data: featured } = useLoaderData<GraphqlResponse<Channel>>();
-
 	const [video, setVideo] = useState<string | undefined>();
 	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
 
