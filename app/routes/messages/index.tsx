@@ -1,20 +1,7 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import {
-	HStack,
-	Heading,
-	Spacer,
-	InputGroup,
-	InputLeftElement,
-	Input,
-	VStack,
-	Button,
-	SimpleGrid,
-	Flex,
-} from '@chakra-ui/react';
-import dayjs from 'dayjs';
+import * as react from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { LoaderFunction, useLoaderData } from 'remix';
-import { ImageBox } from '~/components/ImageBox';
+import { LoaderFunction, MetaFunction, useLoaderData } from 'remix';
 import { SearchBar } from '~/components/SearchBar';
 import { SearchFacets } from '~/components/SearchFacets';
 import { SearchGrid } from '~/components/SearchGrid';
@@ -23,6 +10,33 @@ import { getSpeakers } from '../speakers/speakers.loader';
 import { Speaker } from '../speakers/speakers.types';
 import { getAllMessages } from './messages.loaders';
 import { Message } from './messages.types';
+import { Handle, SitemapEntry } from '~/utils/sitemap.server';
+
+export const handle: Handle = {
+	getSitemapEntries: async () => {
+		const messages = await getAllMessages({});
+		const entries: Array<SitemapEntry> = [
+			{
+				route: `/messages`,
+				priority: 0.5,
+			},
+		];
+		messages.data.map(m =>
+			entries.push({
+				route: `/messages/${m.uid}`,
+				priority: 0.4,
+			})
+		);
+		return entries;
+	},
+};
+
+export const meta: MetaFunction = () => {
+	return {
+		title: 'Latest messages - The C3 Church',
+		description: 'Catch up on the latest messages',
+	};
+};
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let url = new URL(request.url);
@@ -53,10 +67,10 @@ export default function Messages() {
 	return (
 		<>
 			<SearchBar searchTerm={searchText} onChange={setSearchText} />
-			<Flex p={5}>
+			<react.Flex p={5}>
 				<SearchFacets speakers={speakers} />
 				<SearchGrid messages={searchResults} />
-			</Flex>
+			</react.Flex>
 		</>
 	);
 }

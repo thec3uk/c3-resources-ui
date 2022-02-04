@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { LoaderFunction } from 'remix';
+import type { LoaderFunction, MetaFunction } from 'remix';
 import { useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { GraphqlResponse } from '~/types/graphql.types';
@@ -9,10 +9,23 @@ import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
 import { MessageLayout } from '~/components/MessageLayout';
 import { ImageGrid } from '~/components/ImageGrid';
 import { SpeakerBio } from '~/components/SpeakerBio';
+import { Handle } from '~/utils/sitemap.server';
+import { toTitleCase } from '~/utils/misc';
 
 export const loader: LoaderFunction = async ({ params }) => {
 	invariant(params.slug, 'expected params.slug');
 	return getMessage(params.slug);
+};
+
+export const handle: Handle = {
+	getSitemapEntries: () => null,
+};
+
+export const meta: MetaFunction = ({ params }) => {
+	return {
+		title: `${toTitleCase(params.slug || '')} - Messages - The C3 Church`,
+		description: 'Catch up on the latest messages',
+	};
 };
 
 export default function MessagePage() {

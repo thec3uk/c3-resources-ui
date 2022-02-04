@@ -1,15 +1,33 @@
-import { Box, HStack, Image, Text, VStack } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import YouTubePlayer from 'react-player/youtube';
 import { LoaderFunction, useLoaderData } from 'remix';
 import { Channels } from '~/components/Channels';
 import { FeaturedChannel } from '~/components/FeaturedChannel';
 import { ImageGrid } from '~/components/ImageGrid';
 import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
 import { GraphqlResponse } from '~/types/graphql.types';
+import { Handle, SitemapEntry } from '~/utils/sitemap.server';
 import { getAllMessages } from '../messages/messages.loaders';
 import { getChannels } from './channels.loader';
 import { Channel } from './channels.types';
+
+export const handle: Handle = {
+	getSitemapEntries: async () => {
+		const entries: Array<SitemapEntry> = [
+			{
+				route: `/channels`,
+				priority: 0.5,
+			},
+		];
+		const channels = await getChannels();
+		channels.data.map(m => {
+			entries.push({
+				route: `/channels/${m.uid}`,
+				priority: 0.4,
+			});
+		});
+		return entries;
+	},
+};
 
 export const loader: LoaderFunction = async () => {
 	return getChannels();

@@ -1,4 +1,5 @@
-import { Box, Container, VStack } from '@chakra-ui/react';
+import { Box, VStack } from '@chakra-ui/react';
+import { Footer } from '../Footer';
 import Header from '../Header';
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -8,6 +9,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<Box w={'100%'} as="main">
 				{children}
 			</Box>
+			<Footer />
 		</VStack>
 	);
 }

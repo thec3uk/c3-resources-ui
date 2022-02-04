@@ -1,4 +1,3 @@
-import { Button, Center } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import { ImageGrid } from '~/components/ImageGrid';
@@ -10,6 +9,26 @@ import { getAllMessages } from '../messages/messages.loaders';
 import { Message } from '../messages/messages.types';
 import { getAllSeries } from './series.loader';
 import { Series } from './series.types';
+import { Handle, SitemapEntry } from '~/utils/sitemap.server';
+
+export const handle: Handle = {
+	getSitemapEntries: async () => {
+		const series = await getAllSeries();
+		const entries: Array<SitemapEntry> = [
+			{
+				route: `/series`,
+				priority: 0.5,
+			},
+		];
+		series.data.map(m =>
+			entries.push({
+				route: `/series/${m.uid}`,
+				priority: 0.4,
+			})
+		);
+		return entries;
+	},
+};
 
 export const loader: LoaderFunction = async () => {
 	return getAllSeries();

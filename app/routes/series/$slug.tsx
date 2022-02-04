@@ -7,10 +7,15 @@ import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
 import { Section } from '~/components/Section';
 import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { GraphqlResponse } from '~/types/graphql.types';
+import { Handle } from '~/utils/sitemap.server';
 import { getAllMessages } from '../messages/messages.loaders';
 import { Message } from '../messages/messages.types';
 import { getAllSeries } from './series.loader';
 import { Series } from './series.types';
+
+export const handle: Handle = {
+	getSitemapEntries: () => null,
+};
 
 export const loader: LoaderFunction = async ({ params }) => {
 	invariant(params.slug, 'expected params.slug');

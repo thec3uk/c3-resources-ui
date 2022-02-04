@@ -6,13 +6,19 @@ import createEmotionServer from '@emotion/server/create-instance';
 import { CacheProvider } from '@emotion/react';
 import createEmotionCache from './createEmotionCache';
 import ServerStyleContext from './context.server';
+import { routes as otherRoutes } from './other-routes.server';
 
-export default function handleRequest(
+export default async function handleRequest(
 	request: Request,
 	responseStatusCode: number,
 	responseHeaders: Headers,
 	remixContext: EntryContext
 ) {
+	for (const handler of otherRoutes) {
+		const otherRouteResponse = await handler(request, remixContext);
+		if (otherRouteResponse) return otherRouteResponse;
+	}
+
 	const cache = createEmotionCache();
 	const { extractCriticalToChunks } = createEmotionServer(cache);
 

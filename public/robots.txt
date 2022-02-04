@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://c3-resources-ui.netlify.app/sitemap.xml
