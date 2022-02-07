@@ -1,27 +1,29 @@
 import { useEffect, useState } from 'react';
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix';
-import { SearchFacets } from '~/components/SearchFacets';
 import { getSpeakers } from '../speakers/speakers.loader';
 import { Speaker } from '../speakers/speakers.types';
 import { getAllMessages } from './messages.loaders';
 import { Handle, SitemapEntry } from '~/utils/sitemap.server';
 import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
+import {
+	InstantSearch,
+	SearchBox,
+	Hits,
+	RefinementList,
+	connectRefinementList,
+} from 'react-instantsearch-dom';
 import {
 	Box,
+	Button,
 	Flex,
 	Heading,
 	HStack,
-	Input,
-	InputGroup,
-	InputLeftElement,
-	SimpleGrid,
 	Spacer,
+	VStack,
 } from '@chakra-ui/react';
 import { SearchItem } from '~/components/SearchItem';
 import dayjs from 'dayjs';
 import { SearchIndexRecord } from '../search/search.types';
-import { SearchIcon } from '@chakra-ui/icons';
 
 const searchClient = algoliasearch(
 	'I2N55PC133',
@@ -77,6 +79,49 @@ function Hit({ hit: message }: { hit: SearchIndexRecord }) {
 	);
 }
 
+export interface IRefinementList {
+	attribute: string;
+	operator: string;
+	showMore: boolean;
+	limit: number;
+	showMoreLimit: number;
+	facetOrdering: boolean;
+}
+
+export interface FacetItem {
+	label: string;
+	value: Array<string>;
+	count: number;
+	isRefined: boolean;
+}
+
+const RefinementList = ({
+	items,
+	refine,
+}: {
+	items: Array<FacetItem>;
+	refine: (arg: Array<string>) => {};
+}) => {
+	return items.map(m => (
+		<Button
+			bgColor={m.isRefined ? 'black' : 'grey'}
+			color={m.isRefined ? 'white' : 'black'}
+			key={m.label}
+			ml={2}
+			borderRadius={'20px'}
+			id={m.label}
+			onClick={e => {
+				e.preventDefault();
+				refine(m.value);
+			}}
+		>
+			{m.label}
+		</Button>
+	));
+};
+
+const CustomRefinementList = connectRefinementList(RefinementList);
+
 export default function Messages() {
 	const searchTerm = useLoaderData<string>();
 	const [speakers, setSpeakers] = useState<Array<Speaker>>();
@@ -103,8 +148,14 @@ export default function Messages() {
 					<Spacer />
 					<SearchBox autoFocus defaultRefinement={searchTerm} />
 				</HStack>
-				<Flex>
-					{/* <SearchFacets speakers={speakers} /> */}
+				<Flex p={5}>
+					<VStack
+						alignItems={'start'}
+						spacing={4}
+						display={['none', 'inherit', 'inherit']}
+					>
+						<CustomRefinementList attribute={'speakers'} />
+					</VStack>
 					<Hits hitComponent={Hit} />
 				</Flex>
 			</InstantSearch>
