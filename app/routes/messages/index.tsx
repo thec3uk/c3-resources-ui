@@ -52,7 +52,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 	let url = new URL(request.url);
 	return {
 		query: url.searchParams.get('q'),
-		speakers: url.searchParams.get('series'),
+		speakers: url.searchParams.get('speaker'),
 		channel: url.searchParams.get('channel'),
 		series: url.searchParams.get('series'),
 	};
