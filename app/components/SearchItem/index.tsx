@@ -30,7 +30,7 @@ export function SearchItem({ box }: { box: IImageBoxProps }) {
 					margin={2}
 					minW={400}
 					minH={250}
-					bgImage={`url('${box.thumbnail?.url}')`}
+					bgImage={`url('${box.thumbnail}')`}
 					bgSize={'cover'}
 				/>
 			)}

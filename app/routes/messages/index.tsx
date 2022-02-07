@@ -1,16 +1,32 @@
-import { SearchIcon } from '@chakra-ui/icons';
-import * as react from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix';
-import { SearchBar } from '~/components/SearchBar';
 import { SearchFacets } from '~/components/SearchFacets';
-import { SearchGrid } from '~/components/SearchGrid';
-import { GraphqlResponse } from '~/types/graphql.types';
 import { getSpeakers } from '../speakers/speakers.loader';
 import { Speaker } from '../speakers/speakers.types';
 import { getAllMessages } from './messages.loaders';
-import { Message } from './messages.types';
 import { Handle, SitemapEntry } from '~/utils/sitemap.server';
+import algoliasearch from 'algoliasearch/lite';
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
+import {
+	Box,
+	Flex,
+	Heading,
+	HStack,
+	Input,
+	InputGroup,
+	InputLeftElement,
+	SimpleGrid,
+	Spacer,
+} from '@chakra-ui/react';
+import { SearchItem } from '~/components/SearchItem';
+import dayjs from 'dayjs';
+import { SearchIndexRecord } from '../search/search.types';
+import { SearchIcon } from '@chakra-ui/icons';
+
+const searchClient = algoliasearch(
+	'I2N55PC133',
+	'c7d06d28a18680f32bb377222c532d26'
+);
 
 export const handle: Handle = {
 	getSitemapEntries: async () => {
@@ -40,21 +56,30 @@ export const meta: MetaFunction = () => {
 
 export const loader: LoaderFunction = async ({ request }) => {
 	let url = new URL(request.url);
-	return {
-		allMessages: await getAllMessages({}),
-		searchTerm: url.searchParams.get('q'),
-	};
+	return url.searchParams.get('q');
 };
 
-export default function Messages() {
-	const { allMessages, searchTerm } = useLoaderData<{
-		allMessages: GraphqlResponse<Array<Message>>;
-		searchTerm: string;
-	}>();
+function Hit({ hit: message }: { hit: SearchIndexRecord }) {
+	return (
+		<SearchItem
+			key={message.id}
+			box={{
+				key: message.id,
+				link: `/messages/${message.objectID}`,
+				title: message.title,
+				subTitle: message.speakers?.length
+					? message.speakers.join(', ')
+					: dayjs(message.date).format('MMMM D, YYYY'),
+				thumbnail: message.thumbnailUrl,
+				trailer: message.trailerUrl,
+			}}
+		/>
+	);
+}
 
+export default function Messages() {
+	const searchTerm = useLoaderData<string>();
 	const [speakers, setSpeakers] = useState<Array<Speaker>>();
-	const [searchResults] = useState<Array<Message>>(allMessages.data);
-	const [searchText, setSearchText] = useState<string>(searchTerm || '');
 
 	useEffect(() => {
 		async function loadSpeakers() {
@@ -65,12 +90,24 @@ export default function Messages() {
 	}, []);
 
 	return (
-		<>
-			<SearchBar searchTerm={searchText} onChange={setSearchText} />
-			<react.Flex p={5}>
-				<SearchFacets speakers={speakers} />
-				<SearchGrid messages={searchResults} />
-			</react.Flex>
-		</>
+		<Box p={5}>
+			<InstantSearch indexName="c3_resources" searchClient={searchClient}>
+				<HStack p={4}>
+					<Heading
+						as="h1"
+						size="lg"
+						display={['none', 'inherit', 'inherit']}
+					>
+						Messages
+					</Heading>
+					<Spacer />
+					<SearchBox autoFocus defaultRefinement={searchTerm} />
+				</HStack>
+				<Flex>
+					{/* <SearchFacets speakers={speakers} /> */}
+					<Hits hitComponent={Hit} />
+				</Flex>
+			</InstantSearch>
+		</Box>
 	);
 }

@@ -1,10 +1,8 @@
-import { CmsImage } from '~/types/cms.types';
-
 export interface IImageBoxProps {
 	key: string;
 	link: string;
 	title: string;
-	thumbnail?: CmsImage;
+	thumbnail?: string;
 	subTitle?: string;
 	trailer?: string;
 }

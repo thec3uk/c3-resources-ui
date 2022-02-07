@@ -21,12 +21,19 @@ export interface GraphqlNode {
 	_meta: CmsMeta;
 }
 
-export type GraphqlResponse<T> = {
+export interface GraphqlResponse<T> {
 	data: T;
 	errors?: readonly GraphQLError[];
 	loading: boolean;
-};
+}
 
-export type ArrayResult<T> = {
+export interface ArrayResult<T> {
 	edges: GraphqlEdge<T>[];
-};
+}
+
+export interface PagedArrayResult<T> extends ArrayResult<T> {
+	pageInfo: {
+		hasNextPage: boolean;
+		endCursor: string;
+	};
+}

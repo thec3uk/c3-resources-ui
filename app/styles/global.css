@@ -3,3 +3,29 @@
 	top: 0;
 	left: 0;
 }
+
+ul {
+	list-style-type: none; /* Remove bullets */
+	padding: 0; /* Remove padding */
+	margin: 0; /* Remove margins */
+}
+
+.ais-Hits-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+	padding-left: 5;
+	padding-right: 5;
+}
+
+.ais-Hits-item {
+	list-style: none;
+	display: inline-block;
+	width: calc(100% / 2);
+	text-align: center;
+}
+
+.ais-Hits {
+	padding: 1rem;
+}
