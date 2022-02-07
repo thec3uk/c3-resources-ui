@@ -9,16 +9,18 @@ import {
 } from '@chakra-ui/react';
 
 export function SearchBar({
+	title = 'Messages',
 	searchTerm,
 	onChange,
 }: {
+	title?: string;
 	searchTerm: string;
 	onChange: (e: string) => void;
 }) {
 	return (
 		<HStack p={4}>
 			<Heading as="h1" size="lg" display={['none', 'inherit', 'inherit']}>
-				Messages
+				{title}
 			</Heading>
 			<Spacer />
 			<InputGroup
@@ -33,7 +35,7 @@ export function SearchBar({
 				<Input
 					type="text"
 					value={searchTerm}
-					placeholder="Search messages..."
+					placeholder="Search..."
 					onChange={e => onChange(e.target.value)}
 				/>
 			</InputGroup>

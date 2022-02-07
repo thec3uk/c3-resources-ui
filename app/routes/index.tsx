@@ -1,22 +1,7 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import {
-	Heading,
-	Text,
-	VStack,
-	Box,
-	Button,
-	Input,
-	HStack,
-	InputGroup,
-	InputLeftElement,
-	Spacer,
-	Flex,
-} from '@chakra-ui/react';
-import YouTubePlayer from 'react-player/youtube';
-import { Link, LoaderFunction, useLoaderData, useNavigate } from 'remix';
+import { LoaderFunction, useLoaderData, useNavigate } from 'remix';
 import { ImageGrid } from '~/components/ImageGrid';
 import { Theme } from '~/components/ImageGrid/imageGrid.types';
-import { ResponsiveVideo } from '~/components/ResponsiveVideo';
 import { SearchBar } from '~/components/SearchBar';
 import { Section } from '~/components/Section';
 import { VideoBanner } from '~/components/VideoBanner/videoBanner';
@@ -73,7 +58,7 @@ export default function Index() {
 					key: channel.uid,
 					link: `/channels/${channel.uid}`,
 					title: channel.name,
-					thumbnail: channel.thumbnail,
+					thumbnail: channel.thumbnail?.url,
 				}))}
 			/>
 			<ImageGrid
@@ -83,7 +68,7 @@ export default function Index() {
 					key: series.uid,
 					link: `/series/${series.uid}`,
 					title: series.title,
-					thumbnail: series.thumbnail,
+					thumbnail: series.thumbnail?.url,
 				}))}
 			/>
 		</>

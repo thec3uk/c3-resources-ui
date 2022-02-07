@@ -20,6 +20,7 @@ export interface CmsMessage extends GraphqlNode {
 	short_form_video: CmsEmbedContent;
 	podcast?: CmsEmbedContent;
 	speakers?: Array<{ speaker: CmsSpeaker }>;
+	channel?: CmsChannel;
 }
 
 export interface CmsResource extends GraphqlNode {

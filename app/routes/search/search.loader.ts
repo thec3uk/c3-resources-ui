@@ -13,6 +13,7 @@ const fetchMoreResults = async (
 		variables: { after },
 	});
 
+// better error handling needed
 export async function populateIndex() {
 	const algoliaClient = algoliasearch(
 		'I2N55PC133',
@@ -31,10 +32,10 @@ export async function populateIndex() {
 			);
 			hasNextPage = data.allMessages.pageInfo.hasNextPage;
 			endCursor = data.allMessages.pageInfo.endCursor;
-		} catch {
+		} catch (e) {
+			console.log('error', e);
 			hasNextPage = false;
 		}
 	}
-
 	return await index.saveObjects(algoliaData);
 }

@@ -19,7 +19,7 @@ export function ImageBox({
 			maxWidth={'256px'}
 		>
 			<Link to={box.link}>
-				<Image src={box.thumbnail?.url} alt={box.thumbnail?.alt} />
+				<Image src={box.thumbnail} />
 				<Box
 					p={4}
 					borderColor={

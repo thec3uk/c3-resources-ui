@@ -17,7 +17,7 @@ export function Channels({
 				key: channel.uid,
 				link: `/channels/${channel.uid}`,
 				title: channel.name,
-				thumbnail: channel.thumbnail,
+				thumbnail: channel.thumbnail?.url,
 			}))}
 		/>
 	);

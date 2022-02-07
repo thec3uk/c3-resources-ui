@@ -1,29 +1,14 @@
-import { useEffect, useState } from 'react';
 import { LoaderFunction, MetaFunction, useLoaderData } from 'remix';
-import { getSpeakers } from '../speakers/speakers.loader';
-import { Speaker } from '../speakers/speakers.types';
 import { getAllMessages } from './messages.loaders';
 import { Handle, SitemapEntry } from '~/utils/sitemap.server';
 import algoliasearch from 'algoliasearch/lite';
-import {
-	InstantSearch,
-	SearchBox,
-	Hits,
-	RefinementList,
-	connectRefinementList,
-} from 'react-instantsearch-dom';
-import {
-	Box,
-	Button,
-	Flex,
-	Heading,
-	HStack,
-	Spacer,
-	VStack,
-} from '@chakra-ui/react';
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
+import { Box, Flex, Heading, HStack, Spacer, VStack } from '@chakra-ui/react';
 import { SearchItem } from '~/components/SearchItem';
 import dayjs from 'dayjs';
 import { SearchIndexRecord } from '../search/search.types';
+import { CustomRefinementList } from '~/components/SearchFacetList';
+import _ from 'lodash';
 
 const searchClient = algoliasearch(
 	'I2N55PC133',
@@ -56,9 +41,21 @@ export const meta: MetaFunction = () => {
 	};
 };
 
+interface SearchQueryParams {
+	channel?: string;
+	series?: string;
+	speaker?: string;
+	query?: string;
+}
+
 export const loader: LoaderFunction = async ({ request }) => {
 	let url = new URL(request.url);
-	return url.searchParams.get('q');
+	return {
+		query: url.searchParams.get('q'),
+		speakers: url.searchParams.get('series'),
+		channel: url.searchParams.get('channel'),
+		series: url.searchParams.get('series'),
+	};
 };
 
 function Hit({ hit: message }: { hit: SearchIndexRecord }) {
@@ -79,60 +76,8 @@ function Hit({ hit: message }: { hit: SearchIndexRecord }) {
 	);
 }
 
-export interface IRefinementList {
-	attribute: string;
-	operator: string;
-	showMore: boolean;
-	limit: number;
-	showMoreLimit: number;
-	facetOrdering: boolean;
-}
-
-export interface FacetItem {
-	label: string;
-	value: Array<string>;
-	count: number;
-	isRefined: boolean;
-}
-
-const RefinementList = ({
-	items,
-	refine,
-}: {
-	items: Array<FacetItem>;
-	refine: (arg: Array<string>) => {};
-}) => {
-	return items.map(m => (
-		<Button
-			bgColor={m.isRefined ? 'black' : 'grey'}
-			color={m.isRefined ? 'white' : 'black'}
-			key={m.label}
-			ml={2}
-			borderRadius={'20px'}
-			id={m.label}
-			onClick={e => {
-				e.preventDefault();
-				refine(m.value);
-			}}
-		>
-			{m.label}
-		</Button>
-	));
-};
-
-const CustomRefinementList = connectRefinementList(RefinementList);
-
 export default function Messages() {
-	const searchTerm = useLoaderData<string>();
-	const [speakers, setSpeakers] = useState<Array<Speaker>>();
-
-	useEffect(() => {
-		async function loadSpeakers() {
-			const { data } = await getSpeakers();
-			setSpeakers(data);
-		}
-		loadSpeakers();
-	}, []);
+	const queryParams = useLoaderData<SearchQueryParams>();
 
 	return (
 		<Box p={5}>
@@ -146,7 +91,10 @@ export default function Messages() {
 						Messages
 					</Heading>
 					<Spacer />
-					<SearchBox autoFocus defaultRefinement={searchTerm} />
+					<SearchBox
+						autoFocus
+						defaultRefinement={queryParams?.query}
+					/>
 				</HStack>
 				<Flex p={5}>
 					<VStack
@@ -154,7 +102,32 @@ export default function Messages() {
 						spacing={4}
 						display={['none', 'inherit', 'inherit']}
 					>
-						<CustomRefinementList attribute={'speakers'} />
+						<CustomRefinementList
+							attribute={'speakers'}
+							title={'Speakers'}
+							defaultRefinement={
+								queryParams.speaker ? [queryParams.speaker] : []
+							}
+							searchable
+						/>
+						<CustomRefinementList
+							attribute={'channel'}
+							title={'Channels'}
+							defaultRefinement={
+								queryParams?.channel
+									? [queryParams.channel]
+									: []
+							}
+							searchable
+						/>
+						<CustomRefinementList
+							attribute={'series'}
+							title={'Series'}
+							defaultRefinement={
+								queryParams?.series ? [queryParams.series] : []
+							}
+							searchable
+						/>
 					</VStack>
 					<Hits hitComponent={Hit} />
 				</Flex>

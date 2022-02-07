@@ -1,16 +1,14 @@
 import gql from 'graphql-tag';
-import { CmsMessage, CmsSpeaker } from '~/types/cms.types';
+import { CmsMessage } from '~/types/cms.types';
 import { PagedArrayResult } from '~/types/graphql.types';
-import { SPEAKER_FRAGMENT } from '../speakers/speakers.gql';
 
 export interface AllSearchDataQueryResponse {
 	allMessages: PagedArrayResult<CmsMessage>;
-	allSpeakers: PagedArrayResult<CmsSpeaker>;
 }
 
 export const SEARCH_DATA = gql`
 	query searchData($after: String) {
-		allMessages(first: 1, after: $after) {
+		allMessages(first: 1, after: $after, sortBy: date_ASC) {
 			pageInfo {
 				hasNextPage
 				endCursor
@@ -29,26 +27,22 @@ export const SEARCH_DATA = gql`
 					speakers {
 						speaker {
 							... on Speaker {
-								...speaker
+								name
 							}
+						}
+					}
+					channel {
+						... on Channel {
+							name
+						}
+					}
+					series {
+						... on Series {
+							title
 						}
 					}
 				}
 			}
 		}
-		allSpeakers {
-			pageInfo {
-				hasNextPage
-				endCursor
-			}
-			edges {
-				node {
-					name
-					role
-					bio
-				}
-			}
-		}
 	}
-	${SPEAKER_FRAGMENT}
 `;

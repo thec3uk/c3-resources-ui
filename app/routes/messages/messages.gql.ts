@@ -46,6 +46,7 @@ export const ALL_MESSAGES = gql`
 		$channelId: String
 		$seriesId: String
 		$speaker: WhereMessageSpeakers
+		$limit: Int
 	) {
 		allMessages(
 			where: {
@@ -53,6 +54,8 @@ export const ALL_MESSAGES = gql`
 				series: $seriesId
 				speakers: $speaker
 			}
+			first: $limit
+			sortBy: date_DESC
 		) {
 			totalCount
 			edges {

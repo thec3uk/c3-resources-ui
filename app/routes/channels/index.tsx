@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { LoaderFunction, useLoaderData } from 'remix';
+import { LoaderFunction, useLoaderData, useNavigate } from 'remix';
 import { Channels } from '~/components/Channels';
 import { FeaturedChannel } from '~/components/FeaturedChannel';
 import { ImageGrid } from '~/components/ImageGrid';
 import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
+import { SearchBar } from '~/components/SearchBar';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { Handle, SitemapEntry } from '~/utils/sitemap.server';
 import { getAllMessages } from '../messages/messages.loaders';
@@ -53,23 +54,30 @@ export default function ChannelsPage() {
 					key: m.uid,
 					link: `/messages/${m.uid}`,
 					title: m.title,
-					thumbnail: m.thumbnail,
+					thumbnail: m.thumbnail.url,
+					subTitle: m.date,
 				}))
 			);
 		}
 		getMessage();
 	}, [featured]);
 
+	let navigate = useNavigate();
+	const navigateToSearch = (e: string) =>
+		navigate(`/messages?channel=${featured.name}&q=${e}`);
+
 	return (
 		<>
+			<SearchBar
+				title=""
+				searchTerm={''}
+				onChange={e => navigateToSearch(e)}
+			/>
 			<FeaturedChannel channel={featured} video={video} />
 			{messages && (
 				<ImageGrid
 					title="Latest Videos..."
-					items={messages
-						.concat(messages)
-						.concat(messages)
-						.concat(messages)}
+					items={messages}
 					theme={Theme.light}
 				/>
 			)}

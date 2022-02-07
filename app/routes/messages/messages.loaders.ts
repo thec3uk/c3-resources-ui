@@ -13,10 +13,12 @@ export async function getAllMessages({
 	seriesId,
 	channelId,
 	speakerId,
+	limit,
 }: {
 	seriesId?: string;
 	channelId?: string;
 	speakerId?: string;
+	limit?: number;
 }): Promise<GraphqlResponse<Array<Message>>> {
 	const response = await client.query<AllMessagesQueryResponse>({
 		query: ALL_MESSAGES,
@@ -24,6 +26,7 @@ export async function getAllMessages({
 			seriesId: seriesId,
 			channelId: channelId,
 			speaker: { speaker: speakerId },
+			limit,
 		},
 	});
 	return {

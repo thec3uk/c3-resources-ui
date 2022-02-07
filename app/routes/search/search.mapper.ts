@@ -9,8 +9,12 @@ export function mapToSearchIndexRecord(node: CmsMessage): SearchIndexRecord {
 		title: getText(node.title),
 		id: getId(node),
 		objectID: getUid(node),
-		speakers: mapSpeakers(node.speakers)?.map(m => m.name),
+		speakers: node.speakers?.map(
+			link => link?.speaker && getText(link.speaker.name)
+		),
 		thumbnailUrl: node.thumbnail?.url,
 		trailerUrl: node.trailer?.embed_url,
+		channel: getText(node.channel?.name),
+		series: getText(node.series?.title),
 	};
 }
