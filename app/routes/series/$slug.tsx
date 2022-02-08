@@ -46,9 +46,6 @@ export default function SeriesPage() {
 		setOtherSeries(series.data.filter(f => f.uid !== current));
 	}, [currentSeries]);
 
-	const getMoreSeries = () => {
-		console.log('load more');
-	};
 	return (
 		<>
 			{messages.data.length ? (

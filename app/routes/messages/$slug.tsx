@@ -3,9 +3,13 @@ import { LoaderFunction, MetaFunction, redirect } from 'remix';
 import { useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { GraphqlResponse } from '~/types/graphql.types';
-import { getAllMessages, getMessage } from '~/routes/messages/messages.loaders';
+import {
+	getAllMessages,
+	getMessage,
+	getSimilarMessages,
+} from '~/routes/messages/messages.loaders';
 import { Message } from '~/routes/messages/messages.types';
-import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
+import { Theme } from '~/components/ImageGrid/imageGrid.types';
 import { MessageLayout } from '~/components/MessageLayout';
 import { ImageGrid } from '~/components/ImageGrid';
 import { SpeakerBio } from '~/components/SpeakerBio';
@@ -20,9 +24,11 @@ export const loader: LoaderFunction = async ({ params, request }) => {
 	if (message.data === null) {
 		return redirect('/message-not-found');
 	}
+	const similarMessages = await getSimilarMessages(message.data.id);
 
 	return {
 		message,
+		similarMessages,
 		playing: url.searchParams.get('playing'),
 	};
 };
@@ -39,42 +45,29 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function MessagePage() {
-	const { message, playing } = useLoaderData<{
+	const { message, similarMessages, playing } = useLoaderData<{
 		message: GraphqlResponse<Message>;
+		similarMessages: GraphqlResponse<Array<Message>>;
 		playing: boolean;
 	}>();
-	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
 
-	useEffect(() => {
-		async function getMessages() {
-			const { data } = await getAllMessages({ limit: 4 });
-			setMessages(
-				data
-					// TODO: a better way to filter this. Ideally in the GraphQL query
-					?.filter(f => f.uid !== message.data.uid)
-					.map(m => ({
-						key: m.uid,
-						link: `/messages/${m.uid}`,
-						title: m.title,
-						thumbnail: m.thumbnail.url,
-					}))
-			);
-		}
-		getMessages();
-	}, [message]);
 	return (
 		<>
 			<MessageLayout message={message.data} playing={playing} />
 			<ImageGrid
-				title="Recent Videos"
-				items={messages}
+				title="Related Videos"
+				items={similarMessages.data?.map(m => ({
+					key: m.uid,
+					link: `/messages/${m.uid}`,
+					title: m.title,
+					thumbnail: m.thumbnail.url,
+				}))}
 				theme={Theme.light}
 				link={{
 					label: 'View more',
 					url: '/messages',
 				}}
 			/>
-
 			{message?.data.speakers?.length === 1 && (
 				<SpeakerBio speaker={message.data.speakers[0]} />
 			)}

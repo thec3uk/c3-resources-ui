@@ -10,6 +10,7 @@ export type AllMessagesQueryResponse = {
 
 export type MessageQueryResponse = {
 	message: CmsMessage;
+	allMessages: ArrayResult<CmsMessage>;
 };
 
 const MESSAGE_FRAGMENT = gql`
@@ -89,6 +90,19 @@ export const MESSAGE_BY_ID = gql`
 	query message($uid: String!) {
 		message(uid: $uid, lang: "en-gb") {
 			...message
+		}
+	}
+	${MESSAGE_FRAGMENT}
+`;
+
+export const SIMILAR_MESSAGES = gql`
+	query similar($similar: similar) {
+		allMessages(similar: $similar, first: 4) {
+			edges {
+				node {
+					...message
+				}
+			}
 		}
 	}
 	${MESSAGE_FRAGMENT}

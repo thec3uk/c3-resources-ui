@@ -15,7 +15,6 @@ export function mapAllMessages(data: AllMessagesQueryResponse): Array<Message> {
 }
 
 export function mapToMessage(message: CmsMessage): Message {
-	console.log('called mapper');
 	const speakers = mapSpeakers(message.speakers);
 	return {
 		id: getId(message),

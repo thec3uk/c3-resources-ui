@@ -5,6 +5,7 @@ import {
 	LATEST_MESSAGE,
 	MessageQueryResponse,
 	MESSAGE_BY_ID,
+	SIMILAR_MESSAGES,
 } from './messages.gql';
 import { mapAllMessages, mapToMessage } from './messages.mappers';
 import { Message } from './messages.types';
@@ -49,6 +50,24 @@ export async function getMessage(
 	return {
 		...response,
 		data,
+	};
+}
+
+export async function getSimilarMessages(
+	id: string
+): Promise<GraphqlResponse<Array<Message>>> {
+	const response = await client.query<AllMessagesQueryResponse>({
+		query: SIMILAR_MESSAGES,
+		variables: {
+			similar: {
+				documentId: id,
+				max: 50,
+			},
+		},
+	});
+	return {
+		...response,
+		data: mapAllMessages(response.data),
 	};
 }
 
