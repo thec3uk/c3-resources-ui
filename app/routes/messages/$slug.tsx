@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import type { LoaderFunction, MetaFunction } from 'remix';
+import { LoaderFunction, MetaFunction, redirect } from 'remix';
 import { useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { GraphqlResponse } from '~/types/graphql.types';
@@ -12,9 +12,19 @@ import { SpeakerBio } from '~/components/SpeakerBio';
 import { Handle } from '~/utils/sitemap.server';
 import { toTitleCase } from '~/utils/misc';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
 	invariant(params.slug, 'expected params.slug');
-	return getMessage(params.slug);
+	let url = new URL(request.url);
+
+	const message = await getMessage(params.slug);
+	if (message.data === null) {
+		return redirect('/message-not-found');
+	}
+
+	return {
+		message,
+		playing: url.searchParams.get('playing'),
+	};
 };
 
 export const handle: Handle = {
@@ -29,21 +39,24 @@ export const meta: MetaFunction = ({ params }) => {
 };
 
 export default function MessagePage() {
-	const { data: message } = useLoaderData<GraphqlResponse<Message>>();
+	const { message, playing } = useLoaderData<{
+		message: GraphqlResponse<Message>;
+		playing: boolean;
+	}>();
 	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
 
 	useEffect(() => {
 		async function getMessages() {
-			const { data } = await getAllMessages({});
+			const { data } = await getAllMessages({ limit: 4 });
 			setMessages(
 				data
 					// TODO: a better way to filter this. Ideally in the GraphQL query
-					?.filter(f => f.uid !== message.uid)
+					?.filter(f => f.uid !== message.data.uid)
 					.map(m => ({
 						key: m.uid,
 						link: `/messages/${m.uid}`,
 						title: m.title,
-						thumbnail: m.thumbnail,
+						thumbnail: m.thumbnail.url,
 					}))
 			);
 		}
@@ -51,15 +64,19 @@ export default function MessagePage() {
 	}, [message]);
 	return (
 		<>
-			<MessageLayout message={message} />
+			<MessageLayout message={message.data} playing={playing} />
 			<ImageGrid
 				title="Recent Videos"
 				items={messages}
 				theme={Theme.light}
+				link={{
+					label: 'View more',
+					url: '/messages',
+				}}
 			/>
 
-			{message?.speakers?.length === 1 && (
-				<SpeakerBio speaker={message.speakers[0]} />
+			{message?.data.speakers?.length === 1 && (
+				<SpeakerBio speaker={message.data.speakers[0]} />
 			)}
 		</>
 	);

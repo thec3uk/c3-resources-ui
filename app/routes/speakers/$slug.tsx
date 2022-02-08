@@ -29,7 +29,7 @@ export default function SpeakerPage() {
 					key: m.uid,
 					link: `/messages/${m.uid}`,
 					title: m.title,
-					thumbnail: m.thumbnail,
+					thumbnail: m.thumbnail.url,
 				}))
 			);
 		}

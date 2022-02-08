@@ -43,6 +43,7 @@ export default function AllSeries() {
 		async function getMessages() {
 			const { data } = await getAllMessages({
 				seriesId: latestSeries.id,
+				limit: 1,
 			});
 			setLatestMessage(data[0]);
 		}

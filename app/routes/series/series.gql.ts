@@ -1,10 +1,10 @@
 import gql from 'graphql-tag';
-import { CmsMessage, CmsSeries } from '~/types/cms.types';
-import { ArrayResult } from '~/types/graphql.types';
+import { CmsSeries } from '~/types/cms.types';
+import { ArrayResult, PagedArrayResult } from '~/types/graphql.types';
 import { Series } from './series.types';
 
 export interface AllSeriesQueryResponse {
-	allSeriess: ArrayResult<CmsSeries>;
+	allSeriess: PagedArrayResult<CmsSeries>;
 }
 
 export interface SeriesQueryResponse {
@@ -39,8 +39,12 @@ export const SERIES_FRAGMENT = gql`
 
 // the date here should probably be a start date added to the model.
 export const ALL_SERIES = gql`
-	query allSeries {
-		allSeriess(sortBy: meta_lastPublicationDate_DESC) {
+	query allSeries($after: String) {
+		allSeriess(sortBy: meta_lastPublicationDate_DESC, after: $after) {
+			pageInfo {
+				hasNextPage
+				endCursor
+			}
 			edges {
 				node {
 					...series

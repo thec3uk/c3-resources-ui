@@ -1,5 +1,3 @@
-import ReactPlayer from 'react-player';
-import Spotify from 'react-spotify-embed';
 import { Box, Heading, HStack, Text, VStack } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { Message } from '../../routes/messages/messages.types';
@@ -7,11 +5,19 @@ import { SpeakerLink } from '../SpeakerLink';
 import { Section } from '../Section';
 import { ResponsiveVideo } from '../ResponsiveVideo';
 
-export function MessageLayout({ message }: { message: Message }) {
+export function MessageLayout({
+	message,
+	playing,
+}: {
+	message: Message;
+	playing: boolean;
+}) {
 	return (
 		<Section>
 			<Box width={[400, 450, 800]} ml={'auto'} mr={'auto'}>
-				{message.video && <ResponsiveVideo video={message.video} />}
+				{message.video && (
+					<ResponsiveVideo video={message.video} playing />
+				)}
 				<HStack mt={2}>
 					<Heading as="h2" size="md">
 						{message.title}
@@ -24,7 +30,9 @@ export function MessageLayout({ message }: { message: Message }) {
 					))}
 				</VStack>
 				{message?.podcast && (
-					<Spotify height={'152px'} link={message.podcast} wide />
+					<div
+						dangerouslySetInnerHTML={{ __html: message.podcast }}
+					></div>
 				)}
 			</Box>
 		</Section>

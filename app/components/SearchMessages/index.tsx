@@ -1,6 +1,11 @@
 import { Box, HStack, Heading, Spacer, Flex, VStack } from '@chakra-ui/react';
 import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch, Hits } from 'react-instantsearch-dom';
+import {
+	InstantSearch,
+	Hits,
+	Configure,
+	InfiniteHits,
+} from 'react-instantsearch-dom';
 import { C3SearchBox } from '../SearchBox';
 import { CustomRefinementList } from '../SearchFacetList';
 import { SearchHit } from '../SearchHit';
@@ -25,6 +30,7 @@ export function SearchMessages({
 	return (
 		<Box p={5}>
 			<InstantSearch indexName="c3_resources" searchClient={searchClient}>
+				<Configure hitsPerPage={6} />
 				<HStack pb={5}>
 					<Heading
 						as="h1"
@@ -72,7 +78,7 @@ export function SearchMessages({
 							searchable
 						/>
 					</VStack>
-					<Hits hitComponent={SearchHit} />
+					<InfiniteHits hitComponent={SearchHit} />
 				</Flex>
 			</InstantSearch>
 		</Box>

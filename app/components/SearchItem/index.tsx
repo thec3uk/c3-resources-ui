@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react';
+import { Box, Button, HStack, LinkOverlay } from '@chakra-ui/react';
 import { useState } from 'react';
 import { Link } from 'remix';
 import { IImageBoxProps } from '../ImageGrid/imageGrid.types';
@@ -35,25 +35,32 @@ export function SearchItem({ box }: { box: IImageBoxProps }) {
 				/>
 			)}
 			<Box>
-				<Link to={box.link}>
-					<Box
-						fontWeight="semibold"
-						as="h4"
-						lineHeight="tight"
-						isTruncated
-						color={'gray.800'}
-					>
-						{box.title}
-					</Box>
-					<Box
-						as="h6"
-						lineHeight="tight"
-						isTruncated
-						color={'gray.500'}
-					>
-						{box.subTitle}
-					</Box>
-				</Link>
+				<HStack>
+					<Link to={box.link}>
+						<Box
+							fontWeight="semibold"
+							as="h4"
+							lineHeight="tight"
+							isTruncated
+							color={'gray.800'}
+						>
+							{box.title}
+						</Box>
+						<Box
+							as="h6"
+							lineHeight="tight"
+							isTruncated
+							color={'gray.500'}
+						>
+							{box.subTitle}
+						</Box>
+					</Link>
+					{playPreview && (
+						<Link to={`${box.link}?playing=true`}>
+							<Button>{'Watch >>>'}</Button>
+						</Link>
+					)}
+				</HStack>
 			</Box>
 		</Box>
 	);

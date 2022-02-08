@@ -1,10 +1,10 @@
-import { Heading, HStack, Image } from '@chakra-ui/react';
+import { Heading, HStack, Image, Button } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import { AdditionalResources } from '~/components/AdditionalResources';
 import { ImageGrid } from '~/components/ImageGrid';
-import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
+import { Theme } from '~/components/ImageGrid/imageGrid.types';
 import { Section } from '~/components/Section';
 import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { GraphqlResponse } from '~/types/graphql.types';
@@ -20,51 +20,40 @@ export const handle: Handle = {
 
 export const loader: LoaderFunction = async ({ params }) => {
 	invariant(params.slug, 'expected params.slug');
-	return {
-		current: params.slug,
-		series: await getAllSeries(),
-	};
+	const series = await getAllSeries();
+	const seriesId = series.data.find(f => f.uid == params.slug)?.id;
+	let messages;
+	if (seriesId) {
+		messages = await getAllMessages({
+			seriesId: seriesId,
+			limit: 4,
+		});
+	}
+
+	return { series, messages, current: params.slug };
 };
 
 export default function SeriesPage() {
-	const { current, series } = useLoaderData<{
-		current: string;
+	const { series, messages, current } = useLoaderData<{
 		series: GraphqlResponse<Array<Series>>;
+		messages: GraphqlResponse<Array<Message>>;
+		current: string;
 	}>();
-	const [currentSeries, setCurrentSeries] = useState<Series>(series.data[0]);
-	const [messages, setMessages] = useState<Array<IImageBoxProps>>([]);
-	const [latestMessage, setLatestMessage] = useState<Message>();
+	const currentSeries =
+		series.data.find(f => f.uid === current) || series.data[0];
+	const [otherSeries, setOtherSeries] = useState<Array<Series>>();
 	useEffect(() => {
-		async function getMessages() {
-			if (currentSeries) {
-				const { data } = await getAllMessages({
-					seriesId: currentSeries.id,
-				});
-				setMessages(
-					data.map(m => ({
-						key: m.uid,
-						link: `/messages/${m.uid}`,
-						title: m.title,
-						thumbnail: m.thumbnail.url,
-					}))
-				);
-				setLatestMessage(data[0]);
-			}
-		}
-		getMessages();
+		setOtherSeries(series.data.filter(f => f.uid !== current));
 	}, [currentSeries]);
 
-	useEffect(() => {
-		setCurrentSeries(
-			series.data.find(f => f.uid === current) || series.data[0]
-		);
-	}, [series]);
-
+	const getMoreSeries = () => {
+		console.log('load more');
+	};
 	return (
 		<>
-			{latestMessage ? (
+			{messages.data.length ? (
 				<VideoBanner
-					videoUrl={latestMessage?.video}
+					videoUrl={messages.data[0].video}
 					title={currentSeries?.title}
 					description={currentSeries?.description}
 				/>
@@ -81,10 +70,15 @@ export default function SeriesPage() {
 					</HStack>
 				</Section>
 			)}
-			{messages.length ? (
+			{messages.data.length ? (
 				<ImageGrid
 					title="In this series..."
-					items={messages}
+					items={messages.data.map(m => ({
+						key: m.uid,
+						link: `/messages/${m.uid}`,
+						title: m.title,
+						thumbnail: m.thumbnail.url,
+					}))}
 					theme={Theme.dark}
 					link={{
 						label: 'View all',
@@ -99,16 +93,24 @@ export default function SeriesPage() {
 			) : (
 				<></>
 			)}
-			<ImageGrid
-				title="Other Series..."
-				items={series?.data.map(s => ({
-					key: s.uid,
-					link: `/series/${s.uid}`,
-					title: s.title,
-					thumbnail: s.thumbnail?.url,
-				}))}
-				theme={Theme.dark}
-			/>
+			{otherSeries && (
+				<>
+					<ImageGrid
+						title="Other Series..."
+						items={otherSeries?.map(s => ({
+							key: s.uid,
+							link: `/series/${s.uid}`,
+							title: s.title,
+							thumbnail: s.thumbnail?.url,
+						}))}
+						theme={Theme.dark}
+						link={{
+							label: 'View All',
+							url: '/series',
+						}}
+					/>
+				</>
+			)}
 		</>
 	);
 }

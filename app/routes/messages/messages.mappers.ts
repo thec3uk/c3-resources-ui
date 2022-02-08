@@ -15,6 +15,7 @@ export function mapAllMessages(data: AllMessagesQueryResponse): Array<Message> {
 }
 
 export function mapToMessage(message: CmsMessage): Message {
+	console.log('called mapper');
 	const speakers = mapSpeakers(message.speakers);
 	return {
 		id: getId(message),
@@ -26,7 +27,7 @@ export function mapToMessage(message: CmsMessage): Message {
 		video: message.video.embed_url,
 		trailer: message.trailer?.embed_url,
 		shortForm: message.short_form_video?.embed_url,
-		podcast: message.podcast?.embed_url,
+		podcast: message.podcast,
 		speakers,
 		series: message.series ? mapSeries(message.series) : undefined,
 	};

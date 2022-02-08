@@ -1,4 +1,5 @@
 import {
+	Link,
 	Links,
 	LiveReload,
 	Meta,
@@ -8,7 +9,17 @@ import {
 	useCatch,
 } from 'remix';
 import type { MetaFunction } from 'remix';
-import { Box, ChakraProvider, Divider, Heading, Text } from '@chakra-ui/react';
+import {
+	Box,
+	ChakraProvider,
+	Divider,
+	Heading,
+	Text,
+	List,
+	ListItem,
+	ListIcon,
+	VStack,
+} from '@chakra-ui/react';
 import { extendTheme } from '@chakra-ui/react';
 import { withEmotionCache } from '@emotion/react';
 import React from 'react';
@@ -16,6 +27,7 @@ import { Layout } from './components/Layout';
 import ServerStyleContext from './context.server';
 import ClientStyleContext from './context.client';
 import styles from '~/styles/global.css';
+import { ExternalLinkIcon, LinkIcon } from '@chakra-ui/icons';
 
 export const meta: MetaFunction = () => {
 	return { title: 'The C3 Church' };
@@ -37,17 +49,31 @@ export function ErrorBoundary({ error }: { error: Error }) {
 	console.error(error);
 
 	return (
-		<Document title="Error!">
+		<Document title="The C3 Church - Error">
 			<Layout>
-				<Box>
-					<Heading as="h1">There was an error</Heading>
-					<Text>{error.message}</Text>
-					<Divider />
-					<Text>
-						Hey, developer, you should replace this with what you
-						want your users to see.
-					</Text>
+				<Box
+					bgImage={'url(/backgroundRed.jpg)'}
+					bgSize={'cover'}
+					p={20}
+					color={'white'}
+				>
+					<Heading as="h1">Something went wrong</Heading>
 				</Box>
+				<VStack
+					pt={10}
+					ml={'auto'}
+					mr={'auto'}
+					w={'80%'}
+					align={'start'}
+				>
+					<Text>
+						Looks like we weren't expecting that. We have
+						encountered an issue completing that request for you.
+						Please head to the <Link to="/">home page</Link> and try
+						again. Or try
+						<a href="mailto:hello@thec3.uk"> contacting us here.</a>
+					</Text>
+				</VStack>
 			</Layout>
 		</Document>
 	);
@@ -68,10 +94,29 @@ export function CatchBoundary() {
 			break;
 		case 404:
 			message = (
-				<Text>
-					Oops! Looks like you tried to visit a page that does not
-					exist.
-				</Text>
+				<>
+					<Text>
+						Thanks for visiting our website! We are sorry you've not
+						found what you are looking for yet. Here are some things
+						places you might find helpful to connect in with us:
+					</Text>
+					<List spacing={3}>
+						<ListItem>
+							<ListIcon as={LinkIcon}></ListIcon>
+							<Link to="/">Home Page</Link>
+						</ListItem>
+						<ListItem>
+							<ListIcon as={LinkIcon}></ListIcon>
+							<Link to="/messages">Recent Messages</Link>
+						</ListItem>
+						<ListItem>
+							<ListIcon as={ExternalLinkIcon}></ListIcon>
+							<a href="https://thec3.uk">
+								The C3 Church home page
+							</a>
+						</ListItem>
+					</List>
+				</>
 			);
 			break;
 
@@ -80,12 +125,29 @@ export function CatchBoundary() {
 	}
 
 	return (
-		<Document title={`${caught.status} - ${caught.statusText}`}>
+		<Document
+			title={`The C3 Church - ${caught.status} - ${caught.statusText}`}
+		>
 			<Layout>
-				<Heading as="h1">
-					{caught.status}: {caught.statusText}
-				</Heading>
-				{message}
+				<Box
+					bgImage={'url(/backgroundRed.jpg)'}
+					bgSize={'cover'}
+					p={20}
+					color={'white'}
+				>
+					<Heading as="h1">
+						{caught.status}: {caught.statusText}
+					</Heading>
+				</Box>
+				<VStack
+					pt={10}
+					ml={'auto'}
+					mr={'auto'}
+					w={'80%'}
+					align={'start'}
+				>
+					{message}
+				</VStack>
 			</Layout>
 		</Document>
 	);

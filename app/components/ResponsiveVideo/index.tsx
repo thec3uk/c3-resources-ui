@@ -1,5 +1,4 @@
 import { Box } from '@chakra-ui/react';
-import { useState } from 'react';
 import ReactPlayer from 'react-player';
 
 export function ResponsiveVideo({

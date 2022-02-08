@@ -31,14 +31,15 @@ export const loader: LoaderFunction = async () => {
 export default function Speakers() {
 	const { data: speakers } = useLoaderData<GraphqlResponse<Array<Speaker>>>();
 	return (
-		<ImageGrid
-			title="Speakers"
-			items={speakers.map(m => ({
-				key: m.id,
-				link: `/speakers/${m.uid}`,
-				title: m.name,
-				thumbnail: m.thumbnail,
-			}))}
-		/>
+		// <ImageGrid
+		// 	title="Speakers"
+		// 	items={speakers.map(m => ({
+		// 		key: m.id,
+		// 		link: `/speakers/${m.uid}`,
+		// 		title: m.name,
+		// 		thumbnail: m.thumbnail?.url,
+		// 	}))}
+		// />
+		<p>404</p>
 	);
 }

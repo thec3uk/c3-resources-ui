@@ -1,9 +1,10 @@
 import { Box, Heading, HStack, Text, Image } from '@chakra-ui/react';
 import { Speaker } from '~/routes/speakers/speakers.types';
+import { Section } from '../Section';
 
 export function SpeakerBio({ speaker }: { speaker: Speaker }) {
 	return (
-		<Box p={10} w={'100%'} bg={'gray.300'}>
+		<Section>
 			<Heading as="h2" size="lg" mb={5}>
 				More about {speaker.name}
 			</Heading>
@@ -16,6 +17,6 @@ export function SpeakerBio({ speaker }: { speaker: Speaker }) {
 					borderRadius={'full'}
 				></Image>
 			</HStack>
-		</Box>
+		</Section>
 	);
 }

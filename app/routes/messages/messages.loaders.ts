@@ -35,14 +35,20 @@ export async function getAllMessages({
 	};
 }
 
-export async function getMessage(uid: string): Promise<Message | unknown> {
+export async function getMessage(
+	uid: string
+): Promise<GraphqlResponse<Message>> {
 	const response = await client.query<MessageQueryResponse>({
 		query: MESSAGE_BY_ID,
 		variables: { uid },
 	});
+	const data =
+		response.data.message != null
+			? mapToMessage(response.data.message)
+			: response.data.message;
 	return {
 		...response,
-		data: mapToMessage(response.data.message),
+		data,
 	};
 }
 

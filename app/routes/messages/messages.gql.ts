@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import { CmsMessage } from '~/types/cms.types';
-import { ArrayResult } from '~/types/graphql.types';
+import { ArrayResult, PagedArrayResult } from '~/types/graphql.types';
 import { SERIES_FRAGMENT } from '../series/series.gql';
 import { SPEAKER_FRAGMENT } from '../speakers/speakers.gql';
 
 export type AllMessagesQueryResponse = {
-	allMessages: ArrayResult<CmsMessage>;
+	allMessages: PagedArrayResult<CmsMessage>;
 };
 
 export type MessageQueryResponse = {
@@ -55,7 +55,7 @@ export const ALL_MESSAGES = gql`
 				speakers: $speaker
 			}
 			first: $limit
-			sortBy: date_DESC
+			sortBy: date_ASC
 		) {
 			totalCount
 			edges {

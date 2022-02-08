@@ -8,7 +8,7 @@ export interface AllSearchDataQueryResponse {
 
 export const SEARCH_DATA = gql`
 	query searchData($after: String) {
-		allMessages(first: 1, after: $after, sortBy: date_ASC) {
+		allMessages(after: $after, sortBy: date_ASC) {
 			pageInfo {
 				hasNextPage
 				endCursor
