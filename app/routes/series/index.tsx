@@ -50,25 +50,23 @@ export default function AllSeries() {
 	}, [latestSeries]);
 	return (
 		<>
-			<Section>
-				<VideoBanner
-					videoUrl={latestMessage?.video}
-					title={latestSeries.title}
-					description={latestSeries.description}
-					callToAction={{
-						link: `/series/${latestSeries.uid}`,
-						title: 'View Series Page',
-					}}
-				/>
-			</Section>
+			<VideoBanner
+				videoUrl={latestMessage?.trailer || latestMessage?.video}
+				title={latestSeries.title}
+				description={latestSeries.description}
+				callToAction={{
+					link: `/series/${latestSeries.uid}`,
+					title: 'View Series Page',
+				}}
+			/>
 			<ImageGrid
-				theme={Theme.light}
+				theme={Theme.dark}
 				title="Browse Series"
 				items={allSeries.map(series => ({
 					key: series.uid,
 					link: `/series/${series.uid}`,
 					title: series.title,
-					thumbnail: series.thumbnail,
+					thumbnail: series.thumbnail?.url,
 				}))}
 			/>
 		</>

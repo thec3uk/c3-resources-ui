@@ -39,6 +39,7 @@ const SearchFacetList: React.FC<SearchFacetListProps> = ({
 					border={'1px solid'}
 					key={m.label}
 					ml={2}
+					size={'sm'}
 					borderRadius={'20px'}
 					id={m.label}
 					onClick={e => {

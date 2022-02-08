@@ -6,16 +6,18 @@ import {
 	InputGroup,
 	InputLeftElement,
 	Input,
+	Button,
 } from '@chakra-ui/react';
+import { Link } from 'remix';
 
 export function SearchBar({
-	title = 'Messages',
-	searchTerm,
-	onChange,
+	link,
+	title,
+	placeholder,
 }: {
+	link: string;
 	title?: string;
-	searchTerm: string;
-	onChange: (e: string) => void;
+	placeholder?: string;
 }) {
 	return (
 		<HStack p={4}>
@@ -23,22 +25,11 @@ export function SearchBar({
 				{title}
 			</Heading>
 			<Spacer />
-			<InputGroup
-				width={['100%', '60%', '40%']}
-				bg={'white'}
-				borderRadius={'full'}
-			>
-				<InputLeftElement
-					pointerEvents="none"
-					children={<SearchIcon color="gray.300" />}
-				/>
-				<Input
-					type="text"
-					value={searchTerm}
-					placeholder="Search..."
-					onChange={e => onChange(e.target.value)}
-				/>
-			</InputGroup>
+			<Link to={link}>
+				<Button borderRadius={'lg'} fontWeight={'400'}>
+					<SearchIcon mr={5} /> {placeholder || 'Search...'}
+				</Button>
+			</Link>
 		</HStack>
 	);
 }

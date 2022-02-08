@@ -7,7 +7,7 @@ export function AdditionalResources({
 	resources?: Array<Resource>;
 }) {
 	return resources ? (
-		<Box p={10} w={'100%'} bg={'gray.300'}>
+		<Box p={10} w={'100%'}>
 			<Heading as="h2" size={'md'}>
 				Additional Resources
 			</Heading>

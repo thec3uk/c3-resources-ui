@@ -1,6 +1,17 @@
-import { Box, VStack, Heading, Button, Text, Flex } from '@chakra-ui/react';
+import {
+	Box,
+	VStack,
+	Heading,
+	Button,
+	Text,
+	Flex,
+	Image,
+} from '@chakra-ui/react';
+import { useState } from 'react';
 import { Link } from 'remix';
+import { Theme } from '../ImageGrid/imageGrid.types';
 import { ResponsiveVideo } from '../ResponsiveVideo';
+import { Section } from '../Section';
 
 export interface IVideoBannerProps {
 	videoUrl?: string;
@@ -11,6 +22,8 @@ export interface IVideoBannerProps {
 		link: string;
 		title: string;
 	};
+	image?: string;
+	theme?: Theme;
 }
 
 export function VideoBanner({
@@ -19,15 +32,42 @@ export function VideoBanner({
 	subTitle,
 	description,
 	callToAction,
+	image,
 }: IVideoBannerProps) {
+	const [autoPlay, setAutoplay] = useState<boolean>(false);
+	const staticSizes = ['90%', '90%', 800];
+	const dynamicSizes = ['100%', '100%', 920];
 	return (
-		<>
-			<Flex direction={['column', 'column', 'row']}>
-				<Box width={[400, 450, 800]}>
+		<Section
+			theme={Theme.light}
+			onEnter={() => {
+				setAutoplay(true);
+			}}
+			onLeave={() => setAutoplay(false)}
+		>
+			<Flex
+				direction={['column', 'column', 'row']}
+				justifyContent={['center', 'center', 'space-between']}
+			>
+				<Box
+					width={autoPlay ? dynamicSizes : staticSizes}
+					ml={'auto'}
+					mr={'auto'}
+					pb={[2, 5, 5]}
+					pr={[0, 5, 5]}
+				>
 					{/** TODO: what is the fall back **/}
-					{videoUrl && <ResponsiveVideo video={videoUrl} />}
+					{videoUrl && (
+						<ResponsiveVideo video={videoUrl} playing={autoPlay} />
+					)}
 				</Box>
-				<VStack spacing={5} p={10} align="start">
+				<VStack
+					spacing={[2, 2, 5]}
+					align="start"
+					w={['90%', 'inherit', 'inherit']}
+					ml={'auto'}
+					mr={'auto'}
+				>
 					<Heading as="h1" size="lg" color="red.500">
 						{title}
 					</Heading>
@@ -41,11 +81,14 @@ export function VideoBanner({
 					<Text>{description}</Text>
 					{callToAction && (
 						<Link to={callToAction?.link}>
-							<Button bg={'white'}>{callToAction?.title}</Button>
+							<Button>{callToAction?.title}</Button>
 						</Link>
+					)}
+					{image && (
+						<Image src={image} w={'128px'} borderRadius={'full'} />
 					)}
 				</VStack>
 			</Flex>
-		</>
+		</Section>
 	);
 }

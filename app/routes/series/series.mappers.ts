@@ -23,9 +23,11 @@ export function mapSeries(series: CmsSeries): Series {
 export function mapResources(
 	cmsResources?: Array<{ resources: CmsResource }>
 ): Array<Resource> | undefined {
-	return cmsResources?.map((link: { resources: CmsResource }) => ({
-		title: link.resources.title,
-		description: link.resources.description,
-		url: link.resources.link.url,
-	}));
+	return cmsResources
+		?.filter(f => f.resources !== null)
+		.map((link: { resources: CmsResource }) => ({
+			title: link.resources.title,
+			description: link.resources.description,
+			url: link.resources.link.url,
+		}));
 }

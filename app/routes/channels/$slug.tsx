@@ -45,9 +45,9 @@ export default function ChannelPage() {
 	return (
 		<>
 			<SearchBar
-				title=""
-				searchTerm={''}
-				onChange={e => navigateToSearch(e)}
+				title={''}
+				link={`/messages?channel=${featured.name}`}
+				placeholder={`Search messages from ${featured.name}`}
 			/>
 			<FeaturedChannel channel={featured} video={video} />
 			{messages && (

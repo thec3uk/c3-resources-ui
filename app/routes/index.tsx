@@ -1,5 +1,6 @@
 import { SearchIcon } from '@chakra-ui/icons';
-import { LoaderFunction, useLoaderData, useNavigate } from 'remix';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import { Link, LoaderFunction, useLoaderData } from 'remix';
 import { ImageGrid } from '~/components/ImageGrid';
 import { Theme } from '~/components/ImageGrid/imageGrid.types';
 import { SearchBar } from '~/components/SearchBar';
@@ -30,29 +31,27 @@ export default function Index() {
 	const { data: message } = latestMessageResponse;
 	const { data: channels } = channelsResponse;
 	const { data: series } = seriesResponse;
-	let navigate = useNavigate();
 
-	const navigateToSearch = (e: string) => navigate(`messages?q=${e}`);
 	return (
 		<>
-			<Section>
-				<SearchBar
-					searchTerm={''}
-					onChange={e => navigateToSearch(e)}
-				/>
-				<VideoBanner
-					title={'Latest Series'}
-					subTitle={message.series?.title}
-					description={message.series?.description}
-					callToAction={{
-						link: `/series/${message.series?.uid}`,
-						title: 'View Series Page',
-					}}
-					videoUrl={message.video}
-				></VideoBanner>
-			</Section>
+			<SearchBar
+				title=""
+				link="/messages"
+				placeholder="Search messages..."
+			/>
+			<VideoBanner
+				title={'Latest Series'}
+				subTitle={message.series?.title}
+				description={message.series?.description}
+				callToAction={{
+					link: `/series/${message.series?.uid}`,
+					title: 'View Series Page',
+				}}
+				videoUrl={message.video}
+			></VideoBanner>
+
 			<ImageGrid
-				theme={Theme.light}
+				theme={Theme.dark}
 				title="Browse Channels"
 				items={channels.map(channel => ({
 					key: channel.uid,
@@ -62,7 +61,6 @@ export default function Index() {
 				}))}
 			/>
 			<ImageGrid
-				theme={Theme.dark}
 				title="Browse Series"
 				items={series.map(series => ({
 					key: series.uid,

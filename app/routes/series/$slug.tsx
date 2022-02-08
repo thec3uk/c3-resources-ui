@@ -1,3 +1,4 @@
+import { Heading, HStack, Image } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { LoaderFunction, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
@@ -44,7 +45,7 @@ export default function SeriesPage() {
 						key: m.uid,
 						link: `/messages/${m.uid}`,
 						title: m.title,
-						thumbnail: m.thumbnail,
+						thumbnail: m.thumbnail.url,
 					}))
 				);
 				setLatestMessage(data[0]);
@@ -61,28 +62,52 @@ export default function SeriesPage() {
 
 	return (
 		<>
-			<Section>
+			{latestMessage ? (
 				<VideoBanner
 					videoUrl={latestMessage?.video}
 					title={currentSeries?.title}
 					description={currentSeries?.description}
 				/>
-			</Section>
-			<ImageGrid
-				title="In this series..."
-				items={messages}
-				theme={Theme.light}
-			/>
-			<AdditionalResources resources={currentSeries.resources} />
+			) : (
+				<Section theme={Theme.light}>
+					<HStack justifyContent={'space-between'}>
+						<Heading size={'lg'} as="h2">
+							{currentSeries.title}
+						</Heading>
+						<Image
+							src={currentSeries.thumbnail?.url}
+							w={'256px'}
+						></Image>
+					</HStack>
+				</Section>
+			)}
+			{messages.length ? (
+				<ImageGrid
+					title="In this series..."
+					items={messages}
+					theme={Theme.dark}
+					link={{
+						label: 'View all',
+						url: `/messages?series=${currentSeries.title}`,
+					}}
+				/>
+			) : (
+				<></>
+			)}
+			{currentSeries.resources?.length ? (
+				<AdditionalResources resources={currentSeries.resources} />
+			) : (
+				<></>
+			)}
 			<ImageGrid
 				title="Other Series..."
 				items={series?.data.map(s => ({
 					key: s.uid,
 					link: `/series/${s.uid}`,
 					title: s.title,
-					thumbnail: s.thumbnail,
+					thumbnail: s.thumbnail?.url,
 				}))}
-				theme={Theme.light}
+				theme={Theme.dark}
 			/>
 		</>
 	);

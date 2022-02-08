@@ -1,6 +1,7 @@
 import { Box, HStack, Text, Image } from '@chakra-ui/react';
 import YouTubePlayer from 'react-player/youtube';
 import { Channel } from '~/routes/channels/channels.types';
+import { VideoBanner } from '../VideoBanner/videoBanner';
 
 export function FeaturedChannel({
 	channel,

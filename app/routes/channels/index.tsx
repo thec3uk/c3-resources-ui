@@ -5,6 +5,7 @@ import { FeaturedChannel } from '~/components/FeaturedChannel';
 import { ImageGrid } from '~/components/ImageGrid';
 import { IImageBoxProps, Theme } from '~/components/ImageGrid/imageGrid.types';
 import { SearchBar } from '~/components/SearchBar';
+import { VideoBanner } from '~/components/VideoBanner/videoBanner';
 import { GraphqlResponse } from '~/types/graphql.types';
 import { Handle, SitemapEntry } from '~/utils/sitemap.server';
 import { getAllMessages } from '../messages/messages.loaders';
@@ -62,18 +63,19 @@ export default function ChannelsPage() {
 		getMessage();
 	}, [featured]);
 
-	let navigate = useNavigate();
-	const navigateToSearch = (e: string) =>
-		navigate(`/messages?channel=${featured.name}&q=${e}`);
-
 	return (
 		<>
 			<SearchBar
-				title=""
-				searchTerm={''}
-				onChange={e => navigateToSearch(e)}
+				title={''}
+				link={`/messages?channel=${featured.name}`}
+				placeholder={`Search messages from ${featured.name}`}
 			/>
-			<FeaturedChannel channel={featured} video={video} />
+			<VideoBanner
+				title={featured.name}
+				description={featured.description}
+				image={featured.thumbnail?.url}
+				videoUrl={video}
+			/>
 			{messages && (
 				<ImageGrid
 					title="Latest Videos..."

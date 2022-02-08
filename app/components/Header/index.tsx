@@ -30,15 +30,15 @@ export default function Header() {
 				</ChakraLink>
 			</GridItem>
 			<GridItem colStart={5} display={['none', 'inherit', 'inherit']}>
-				<ChakraLink as={NavLink} to="/channels">
-					Channels
+				<ChakraLink as={NavLink} to="/series">
+					Series
 				</ChakraLink>
 			</GridItem>
-			<GridItem colStart={7} display={['none', 'inherit', 'inherit']}>
+			{/* <GridItem colStart={7} display={['none', 'inherit', 'inherit']}>
 				<ChakraLink as={NavLink} to="/speakers">
 					Speakers
 				</ChakraLink>
-			</GridItem>
+			</GridItem> */}
 			<GridItem colStart={7} display={['inherit', 'none', 'none']}>
 				<HamburgerIcon w={8} h={8} />
 			</GridItem>
