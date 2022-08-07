@@ -1,11 +1,12 @@
-import { CmsImage } from '~/types/cms.types';
+import { CmsImage, CmsText } from "~/types/cms.types";
+import { RichTextField } from "@prismicio/types";
 
 export type Speaker = {
-	id: string;
-	uid: string;
-	name: string;
-	bio: string;
-	hero?: CmsImage;
-	thumbnail?: CmsImage;
-	role?: string;
+  id: string;
+  uid: string;
+  name: string;
+  bio: RichTextField;
+  hero?: CmsImage;
+  thumbnail?: CmsImage;
+  role?: RichTextField;
 };

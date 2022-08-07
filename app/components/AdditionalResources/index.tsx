@@ -1,32 +1,25 @@
-import { Box, Heading, List, ListItem } from '@chakra-ui/react';
-import { Resource } from '~/routes/series/series.types';
+import { Resource } from "~/routes/series/series.types";
+import { layout } from "../components";
 
-export function AdditionalResources({
-	resources,
-}: {
-	resources?: Array<Resource>;
-}) {
-	return resources ? (
-		<Box p={10} w={'100%'}>
-			<Heading as="h2" size={'md'}>
-				Additional Resources
-			</Heading>
-			<Box paddingTop={2}>
-				<List>
-					{resources?.map(resource => (
-						<ListItem key={resource.title}>
-							<a href={resource.url} target={'_blank'}>
-								{resource.title}{' '}
-								{resource.description && (
-									<span> - {resource.description}</span>
-								)}
-							</a>
-						</ListItem>
-					))}
-				</List>
-			</Box>
-		</Box>
-	) : (
-		<></>
-	);
+export function AdditionalResources({ resources }: { resources?: Array<Resource> }) {
+  return resources ? (
+    <layout.Main hash="additional-resources">
+      <div className="prose">
+        <h2 className="text-lg">Additional Resources</h2>
+        <div className="pt-2">
+          <ul>
+            {resources?.map((resource) => (
+              <li key={resource.title}>
+                <a href={resource.url} target="_blank">
+                  {resource.title} {resource.description && <span> - {resource.description}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </layout.Main>
+  ) : (
+    <></>
+  );
 }

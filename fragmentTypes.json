@@ -1,0 +1,135 @@
+{
+  "possibleTypes": {
+    "Academy_pageBody": [
+      "Academy_pageBody2_column_text",
+      "Academy_pageBodyHex_image_with_text",
+      "Academy_pageBodyQuote",
+      "Academy_pageBodyTeam",
+      "Academy_pageBodyText",
+      "Academy_pageBodyText1",
+      "Academy_pageBodyText_with_ctas"
+    ],
+    "ChannelBody": [
+      "ChannelBodySocial_media_links"
+    ],
+    "Content_pageBody": [
+      "Content_pageBodyQuote",
+      "Content_pageBodyTable",
+      "Content_pageBodyText"
+    ],
+    "HomepageBody": [
+      "HomepageBodyList_of_articles",
+      "HomepageBodyRaw_html",
+      "HomepageBodyText",
+      "HomepageBodyText1",
+      "HomepageBodyText_and_article_list"
+    ],
+    "Landing_pageBody": [
+      "Landing_pageBodyHex_grid",
+      "Landing_pageBodyText"
+    ],
+    "PageBody": [
+      "PageBodyButton",
+      "PageBodyCard",
+      "PageBodyFaq_section",
+      "PageBodyFooter",
+      "PageBodyHeader",
+      "PageBodyHero_section",
+      "PageBodyLatest_instagram_photos",
+      "PageBodyList_of_articles",
+      "PageBodyMap",
+      "PageBodyMedia",
+      "PageBodyQuick_links_block",
+      "PageBodySocial_links_block",
+      "PageBodyTeam",
+      "PageBodyText",
+      "PageBodyText_with_cta"
+    ],
+    "PageBodyButtonVariation": [
+      "PageBodyButtonDefaultSlice",
+      "PageBodyButtonPurplebutton",
+      "PageBodyButtonRedbutton",
+      "PageBodyButtonTealbutton",
+      "PageBodyButtonYellowbutton"
+    ],
+    "PageBodyCardVariation": [
+      "PageBodyCardDefault",
+      "PageBodyCardFaqcard",
+      "PageBodyCardImagecard",
+      "PageBodyCardNewsletterslice",
+      "PageBodyCardTextcard",
+      "PageBodyCardTitlecard"
+    ],
+    "PageBodyHeaderVariation": [
+      "PageBodyHeaderDefaultSlice",
+      "PageBodyHeaderHerowithcustomcomponent",
+      "PageBodyHeaderHerowithimage",
+      "PageBodyHeaderTextonlyhero"
+    ],
+    "PageBodyMediaVariation": [
+      "PageBodyMediaDefault",
+      "PageBodyMediaVideo"
+    ],
+    "QuickLinksSlices": [
+      "QuickLinksSlicesLink"
+    ],
+    "QuickLinksSlicesLinkVariation": [
+      "QuickLinksSlicesLinkDefault"
+    ],
+    "Static_footerBody": [
+      "Static_footerBodyLink_list"
+    ],
+    "Text_pageBody": [
+      "Text_pageBodyText"
+    ],
+    "_Document": [
+      "Academy_page",
+      "Channel",
+      "Colour",
+      "Contact_form",
+      "Contact_information",
+      "Content_page",
+      "Homepage",
+      "Landing_page",
+      "Message",
+      "Notification_banner",
+      "Online_event",
+      "Page",
+      "QuickLinks",
+      "Redirect",
+      "Resource",
+      "Series",
+      "Site_config",
+      "SocialLinks",
+      "Speaker",
+      "Static_footer",
+      "Text_page"
+    ],
+    "_Linkable": [
+      "Academy_page",
+      "Channel",
+      "Colour",
+      "Contact_form",
+      "Contact_information",
+      "Content_page",
+      "Homepage",
+      "Landing_page",
+      "Message",
+      "Notification_banner",
+      "Online_event",
+      "Page",
+      "QuickLinks",
+      "Redirect",
+      "Resource",
+      "Series",
+      "Site_config",
+      "SocialLinks",
+      "Speaker",
+      "Static_footer",
+      "Text_page",
+      "_ExternalLink",
+      "_FileLink",
+      "_ImageLink"
+    ]
+  }
+}
