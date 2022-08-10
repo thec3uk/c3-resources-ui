@@ -1,0 +1,2333 @@
+type Academy_page implements _Document & _Linkable {
+  hero_image: Json
+  page_title: String
+  ctas: [Academy_pageCtas!]
+  body: [Academy_pageBody!]
+  contact_form: String
+  contact_form_to_email_address: String
+  footer_id: String
+  card_title: String
+  card_description: String
+  card_cta: String
+  card_image: Json
+  gallery_image: Json
+  gallery_list: [Academy_pageGallery_list!]
+  parent_page: _Linkable
+  child_pages: [Academy_pageChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union Academy_pageBody = Academy_pageBodyQuote | Academy_pageBody2_column_text | Academy_pageBodyText | Academy_pageBodyHex_image_with_text | Academy_pageBodyTeam | Academy_pageBodyText_with_ctas | Academy_pageBodyText1
+
+type Academy_pageBody2_column_text {
+  type: String
+  label: String
+  primary: Academy_pageBody2_column_textPrimary
+  fields: [Academy_pageBody2_column_textFields!]
+}
+
+type Academy_pageBody2_column_textFields {
+  title: String
+  sub_title: String
+  content: Json
+}
+
+type Academy_pageBody2_column_textPrimary {
+  title: String
+}
+
+type Academy_pageBodyHex_image_with_text {
+  type: String
+  label: String
+  primary: Academy_pageBodyHex_image_with_textPrimary
+}
+
+type Academy_pageBodyHex_image_with_textPrimary {
+  title: Json
+  text: Json
+  background_colour: String
+  image_reversed: Boolean
+  image: Json
+}
+
+type Academy_pageBodyQuote {
+  type: String
+  label: String
+  primary: Academy_pageBodyQuotePrimary
+}
+
+type Academy_pageBodyQuotePrimary {
+  hex_1: Json
+  hex_2: Json
+}
+
+type Academy_pageBodyTeam {
+  type: String
+  label: String
+  primary: Academy_pageBodyTeamPrimary
+  fields: [Academy_pageBodyTeamFields!]
+}
+
+type Academy_pageBodyTeamFields {
+  first_and_lastname: Json
+  position: Json
+  is_reversed: Boolean
+  portrait: Json
+}
+
+type Academy_pageBodyTeamPrimary {
+  team_section: Json
+}
+
+type Academy_pageBodyText {
+  type: String
+  label: String
+  primary: Academy_pageBodyTextPrimary
+}
+
+type Academy_pageBodyText1 {
+  type: String
+  label: String
+  primary: Academy_pageBodyText1Primary
+}
+
+type Academy_pageBodyText1Primary {
+  text: Json
+}
+
+type Academy_pageBodyTextPrimary {
+  text: Json
+  background_text_colour: String
+  image: Json
+}
+
+type Academy_pageBodyText_with_ctas {
+  type: String
+  label: String
+  primary: Academy_pageBodyText_with_ctasPrimary
+  fields: [Academy_pageBodyText_with_ctasFields!]
+}
+
+type Academy_pageBodyText_with_ctasFields {
+  cta_text: String
+  cta_link: _Linkable
+}
+
+type Academy_pageBodyText_with_ctasPrimary {
+  text: Json
+  background_image: Json
+}
+
+type Academy_pageChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type Academy_pageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Academy_pageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Academy_pageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Academy_page!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Academy_pageCtas {
+  text: String
+  link: _Linkable
+}
+
+type Academy_pageGallery_list {
+  gallery_node: _Linkable
+}
+
+type Channel implements _Document & _Linkable {
+  name: Json
+  description: Json
+  thumbnail: Json
+  hero: Json
+  body: [ChannelBody!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union ChannelBody = ChannelBodySocial_media_links
+
+type ChannelBodySocial_media_links {
+  type: String
+  label: String
+  primary: ChannelBodySocial_media_linksPrimary
+}
+
+type ChannelBodySocial_media_linksPrimary {
+  facebook: _Linkable
+  instagram: _Linkable
+  youtube: _Linkable
+}
+
+"""A connection to a list of items."""
+type ChannelConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ChannelConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type ChannelConnectionEdge {
+  """The item at the end of the edge."""
+  node: Channel!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Colour implements _Document & _Linkable {
+  name: String
+  colour: String
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type ColourConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ColourConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type ColourConnectionEdge {
+  """The item at the end of the edge."""
+  node: Colour!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Contact_form implements _Document & _Linkable {
+  form_name: String
+  name_label: String
+  email_label: String
+  category_label: String
+  subject_label: String
+  message_label: String
+  submit_button_label: String
+  category: [Contact_formCategory!]
+  thank_you_message: Json
+  _meta: Meta!
+  _linkType: String
+}
+
+type Contact_formCategory {
+  category_name: String
+  email_recipient: String
+}
+
+"""A connection to a list of items."""
+type Contact_formConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Contact_formConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Contact_formConnectionEdge {
+  """The item at the end of the edge."""
+  node: Contact_form!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Contact_information implements _Document & _Linkable {
+  email: String
+  telephone: String
+  instagram_profile: String
+  facebook_profile: String
+  newsletter_title: String
+  newsletter_brief: Json
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type Contact_informationConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Contact_informationConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Contact_informationConnectionEdge {
+  """The item at the end of the edge."""
+  node: Contact_information!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Content_page implements _Document & _Linkable {
+  page_title: String
+  heroimage: Json
+  body: [Content_pageBody!]
+  contact_form: String
+  contact_form_to_email_address: String
+  footer_id: String
+  card_title: String
+  card_description: String
+  card_cta: String
+  card_image: Json
+  gallery_image: Json
+  gallery_list: [Content_pageGallery_list!]
+  parent_page: _Linkable
+  child_pages: [Content_pageChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union Content_pageBody = Content_pageBodyQuote | Content_pageBodyText | Content_pageBodyTable
+
+type Content_pageBodyQuote {
+  type: String
+  label: String
+  primary: Content_pageBodyQuotePrimary
+}
+
+type Content_pageBodyQuotePrimary {
+  quote: Json
+  name_of_the_author: Json
+  portrait_author: Json
+}
+
+type Content_pageBodyTable {
+  type: String
+  label: String
+  primary: Content_pageBodyTablePrimary
+  fields: [Content_pageBodyTableFields!]
+}
+
+type Content_pageBodyTableFields {
+  column_1: Json
+  column_2: Json
+}
+
+type Content_pageBodyTablePrimary {
+  column_header_1: Json
+  column_header_2: Json
+}
+
+type Content_pageBodyText {
+  type: String
+  label: String
+  primary: Content_pageBodyTextPrimary
+}
+
+type Content_pageBodyTextPrimary {
+  text: Json
+}
+
+type Content_pageChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type Content_pageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Content_pageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Content_pageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Content_page!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Content_pageGallery_list {
+  gallery_node: _Linkable
+}
+
+"""Date"""
+scalar Date
+
+"""DateTime"""
+scalar DateTime
+
+type Homepage implements _Document & _Linkable {
+  page_title: String
+  body: [HomepageBody!]
+  parent_page: _Linkable
+  child_pages: [HomepageChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union HomepageBody = HomepageBodyList_of_articles | HomepageBodyText | HomepageBodyText_and_article_list | HomepageBodyRaw_html | HomepageBodyText1
+
+type HomepageBodyList_of_articles {
+  type: String
+  label: String
+  primary: HomepageBodyList_of_articlesPrimary
+  fields: [HomepageBodyList_of_articlesFields!]
+}
+
+type HomepageBodyList_of_articlesFields {
+  articles_to_link: _Linkable
+}
+
+type HomepageBodyList_of_articlesPrimary {
+  title_of_section: Json
+  css_classes: String
+}
+
+type HomepageBodyRaw_html {
+  type: String
+  label: String
+  primary: HomepageBodyRaw_htmlPrimary
+}
+
+type HomepageBodyRaw_htmlPrimary {
+  title_of_section: Json
+  section_title_icon: String
+  html: Json
+  css_classes: String
+}
+
+type HomepageBodyText {
+  type: String
+  label: String
+  primary: HomepageBodyTextPrimary
+}
+
+type HomepageBodyText1 {
+  type: String
+  label: String
+  primary: HomepageBodyText1Primary
+}
+
+type HomepageBodyText1Primary {
+  title_of_section: Json
+  css_classes: String
+  banner_image: Json
+  text: Json
+}
+
+type HomepageBodyTextPrimary {
+  title_of_section: Json
+  text: Json
+  css_classes: String
+}
+
+type HomepageBodyText_and_article_list {
+  type: String
+  label: String
+  primary: HomepageBodyText_and_article_listPrimary
+  fields: [HomepageBodyText_and_article_listFields!]
+}
+
+type HomepageBodyText_and_article_listFields {
+  articles_to_link: _Linkable
+}
+
+type HomepageBodyText_and_article_listPrimary {
+  title_of_section: Json
+  preamble: Json
+  css_classes: String
+}
+
+type HomepageChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type HomepageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [HomepageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type HomepageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Homepage!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Raw JSON value"""
+scalar Json
+
+type Landing_page implements _Document & _Linkable {
+  page_title: String
+  hero_image: Json
+  body: [Landing_pageBody!]
+  contact_form: String
+  contact_form_to_email_address: String
+  card_title: String
+  card_description: String
+  card_cta: String
+  card_image: Json
+  gallery_image: Json
+  gallery_list: [Landing_pageGallery_list!]
+  parent_page: _Linkable
+  child_pages: [Landing_pageChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union Landing_pageBody = Landing_pageBodyText | Landing_pageBodyHex_grid
+
+type Landing_pageBodyHex_grid {
+  type: String
+  label: String
+  fields: [Landing_pageBodyHex_gridFields!]
+}
+
+type Landing_pageBodyHex_gridFields {
+  team_title: String
+  team_description: Json
+}
+
+type Landing_pageBodyText {
+  type: String
+  label: String
+  primary: Landing_pageBodyTextPrimary
+}
+
+type Landing_pageBodyTextPrimary {
+  text: Json
+}
+
+type Landing_pageChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type Landing_pageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Landing_pageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Landing_pageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Landing_page!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Landing_pageGallery_list {
+  gallery_node: _Linkable
+}
+
+type Message implements _Document & _Linkable {
+  title: Json
+  tags: String
+  description: Json
+  thumbnail: Json
+  series: _Linkable
+  video: Json
+  trailer: Json
+  short_form_video: Json
+  date: Date
+  podcast: String
+  speakers: [MessageSpeakers!]
+  linked_resources: [MessageLinked_resources!]
+  channel: _Linkable
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type MessageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [MessageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type MessageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Message!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type MessageLinked_resources {
+  resources: _Linkable
+}
+
+type MessageSpeakers {
+  speaker: _Linkable
+}
+
+type Meta {
+  """The id of the document."""
+  id: String!
+
+  """The uid of the document."""
+  uid: String
+
+  """The type of the document."""
+  type: String!
+
+  """The tags of the document."""
+  tags: [String!]!
+
+  """The language of the document."""
+  lang: String!
+
+  """Alternate languages the document."""
+  alternateLanguages: [RelatedDocument!]!
+
+  """The first publication date of the document."""
+  firstPublicationDate: DateTime
+
+  """The last publication date of the document."""
+  lastPublicationDate: DateTime
+}
+
+type Notification_banner implements _Document & _Linkable {
+  content: String
+  url: _Linkable
+  active: String
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type Notification_bannerConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Notification_bannerConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Notification_bannerConnectionEdge {
+  """The item at the end of the edge."""
+  node: Notification_banner!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Online_event implements _Document & _Linkable {
+  event_title: String
+  video_id: String
+  video_password: String
+  brushfire_session_id: String
+  background_image: Json
+  bg_colour: _Linkable
+  lead_paragraph: Json
+  upsell_text: Json
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type Online_eventConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Online_eventConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Online_eventConnectionEdge {
+  """The item at the end of the edge."""
+  node: Online_event!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Page implements _Document & _Linkable {
+  page_title: String
+  header_title: String
+  header_sub_title: String
+  header_cta: String
+  header_cta_link: _Linkable
+  header_image: Json
+  body: [PageBody!]
+  bg_colour: _Linkable
+  font_colour: _Linkable
+  header_font_colour: _Linkable
+  has_contact_slice: Boolean
+  contact_slice_size: String
+  has_newsletter_slice: Boolean
+  parent_page: _Linkable
+  _meta: Meta!
+  _linkType: String
+}
+
+union PageBody = PageBodyTeam | PageBodyList_of_articles | PageBodyMap | PageBodyLatest_instagram_photos | PageBodyText | PageBodyText_with_cta | PageBodyHero_section | PageBodyButton | PageBodyHeader | PageBodyFooter | PageBodyFaq_section | PageBodyMedia | PageBodyCard | PageBodyQuick_links_block | PageBodySocial_links_block
+
+type PageBodyButton {
+  type: String
+  label: String
+  variation: PageBodyButtonVariation
+}
+
+type PageBodyButtonDefaultSlice {
+  primary: PageBodyButtonDefaultSlicePrimary
+}
+
+type PageBodyButtonDefaultSlicePrimary {
+  size: String
+  alignment: String
+}
+
+type PageBodyButtonPurplebutton {
+  primary: PageBodyButtonPurplebuttonPrimary
+}
+
+type PageBodyButtonPurplebuttonPrimary {
+  size: String
+  alignment: String
+}
+
+type PageBodyButtonRedbutton {
+  primary: PageBodyButtonRedbuttonPrimary
+}
+
+type PageBodyButtonRedbuttonPrimary {
+  size: String
+  alignment: String
+}
+
+type PageBodyButtonTealbutton {
+  primary: PageBodyButtonTealbuttonPrimary
+}
+
+type PageBodyButtonTealbuttonPrimary {
+  size: String
+  alignment: String
+}
+
+union PageBodyButtonVariation = PageBodyButtonDefaultSlice | PageBodyButtonRedbutton | PageBodyButtonYellowbutton | PageBodyButtonTealbutton | PageBodyButtonPurplebutton
+
+type PageBodyButtonYellowbutton {
+  primary: PageBodyButtonYellowbuttonPrimary
+}
+
+type PageBodyButtonYellowbuttonPrimary {
+  size: String
+  alignment: String
+}
+
+type PageBodyCard {
+  type: String
+  label: String
+  variation: PageBodyCardVariation
+}
+
+type PageBodyCardDefault {
+  primary: PageBodyCardDefaultPrimary
+}
+
+type PageBodyCardDefaultPrimary {
+  subtitle: String
+  title: String
+  content: Json
+  image: Json
+  colour: String
+}
+
+type PageBodyCardFaqcard {
+  primary: PageBodyCardFaqcardPrimary
+  items: [PageBodyCardFaqcardItems!]
+}
+
+type PageBodyCardFaqcardItems {
+  question: String
+  answer: Json
+}
+
+type PageBodyCardFaqcardPrimary {
+  subtitle: String
+  title: String
+  content: Json
+  colour: String
+}
+
+type PageBodyCardImagecard {
+  primary: PageBodyCardImagecardPrimary
+}
+
+type PageBodyCardImagecardPrimary {
+  subtitle: String
+  title: String
+  image: Json
+  colour: String
+}
+
+type PageBodyCardNewsletterslice {
+  primary: PageBodyCardNewsletterslicePrimary
+}
+
+type PageBodyCardNewsletterslicePrimary {
+  subtitle: String
+  title: String
+  content: Json
+  image: Json
+  colour: String
+}
+
+type PageBodyCardTextcard {
+  primary: PageBodyCardTextcardPrimary
+}
+
+type PageBodyCardTextcardPrimary {
+  subtitle: String
+  title: String
+  content: Json
+  image: Json
+  colour: String
+}
+
+type PageBodyCardTitlecard {
+  primary: PageBodyCardTitlecardPrimary
+}
+
+type PageBodyCardTitlecardPrimary {
+  subtitle: String
+  title: String
+  image: Json
+  colour: String
+}
+
+union PageBodyCardVariation = PageBodyCardDefault | PageBodyCardFaqcard | PageBodyCardTextcard | PageBodyCardTitlecard | PageBodyCardImagecard | PageBodyCardNewsletterslice
+
+type PageBodyFaq_section {
+  type: String
+  label: String
+  primary: PageBodyFaq_sectionPrimary
+  fields: [PageBodyFaq_sectionFields!]
+}
+
+type PageBodyFaq_sectionFields {
+  question: String
+  answer: Json
+}
+
+type PageBodyFaq_sectionPrimary {
+  eyebrow_headline: Json
+  title: Json
+  description: Json
+  optional_image: Json
+}
+
+type PageBodyFooter {
+  type: String
+  label: String
+}
+
+type PageBodyHeader {
+  type: String
+  label: String
+  variation: PageBodyHeaderVariation
+}
+
+type PageBodyHeaderDefaultSlice {
+  primary: PageBodyHeaderDefaultSlicePrimary
+}
+
+type PageBodyHeaderDefaultSlicePrimary {
+  title: String
+  logo: Json
+}
+
+type PageBodyHeaderHerowithcustomcomponent {
+  primary: PageBodyHeaderHerowithcustomcomponentPrimary
+}
+
+type PageBodyHeaderHerowithcustomcomponentPrimary {
+  title: String
+  callout: String
+}
+
+type PageBodyHeaderHerowithimage {
+  primary: PageBodyHeaderHerowithimagePrimary
+}
+
+type PageBodyHeaderHerowithimagePrimary {
+  title: String
+  callout: String
+}
+
+type PageBodyHeaderTextonlyhero {
+  primary: PageBodyHeaderTextonlyheroPrimary
+}
+
+type PageBodyHeaderTextonlyheroPrimary {
+  title: String
+  callout: String
+  alignment: String
+}
+
+union PageBodyHeaderVariation = PageBodyHeaderDefaultSlice | PageBodyHeaderHerowithimage | PageBodyHeaderTextonlyhero | PageBodyHeaderHerowithcustomcomponent
+
+type PageBodyHero_section {
+  type: String
+  label: String
+  primary: PageBodyHero_sectionPrimary
+  fields: [PageBodyHero_sectionFields!]
+}
+
+type PageBodyHero_sectionFields {
+  cta_text: String
+  cta_type: String
+  cta_location: _Linkable
+  cta_hash: String
+  cta_background_colour: _Linkable
+  cta_text_colour: String
+}
+
+type PageBodyHero_sectionPrimary {
+  title: String
+  subtitle: String
+  background_image: Json
+  slice_background_colour: _Linkable
+  translucent_overlay: Boolean
+}
+
+type PageBodyLatest_instagram_photos {
+  type: String
+  label: String
+}
+
+type PageBodyList_of_articles {
+  type: String
+  label: String
+  primary: PageBodyList_of_articlesPrimary
+  fields: [PageBodyList_of_articlesFields!]
+}
+
+type PageBodyList_of_articlesFields {
+  image: Json
+  title: String
+  articles_to_link: _Linkable
+}
+
+type PageBodyList_of_articlesPrimary {
+  title_of_section: Json
+  background_colour: _Linkable
+}
+
+type PageBodyMap {
+  type: String
+  label: String
+  fields: [PageBodyMapFields!]
+}
+
+type PageBodyMapFields {
+  location: Json
+  pin_content: Json
+}
+
+type PageBodyMedia {
+  type: String
+  label: String
+  variation: PageBodyMediaVariation
+}
+
+type PageBodyMediaDefault {
+  primary: PageBodyMediaDefaultPrimary
+}
+
+type PageBodyMediaDefaultPrimary {
+  image: Json
+}
+
+union PageBodyMediaVariation = PageBodyMediaDefault | PageBodyMediaVideo
+
+type PageBodyMediaVideo {
+  primary: PageBodyMediaVideoPrimary
+}
+
+type PageBodyMediaVideoPrimary {
+  video: Json
+}
+
+type PageBodyQuick_links_block {
+  type: String
+  label: String
+  primary: PageBodyQuick_links_blockPrimary
+}
+
+type PageBodyQuick_links_blockPrimary {
+  link: _Linkable
+}
+
+type PageBodySocial_links_block {
+  type: String
+  label: String
+  primary: PageBodySocial_links_blockPrimary
+}
+
+type PageBodySocial_links_blockPrimary {
+  link: _Linkable
+}
+
+type PageBodyTeam {
+  type: String
+  label: String
+  primary: PageBodyTeamPrimary
+  fields: [PageBodyTeamFields!]
+}
+
+type PageBodyTeamFields {
+  first_and_lastname: Json
+  position: Json
+  show_image: Boolean
+  reversed: Boolean
+  portrait: Json
+}
+
+type PageBodyTeamPrimary {
+  team_section: Json
+  slice_background_colour: _Linkable
+}
+
+type PageBodyText {
+  type: String
+  label: String
+  primary: PageBodyTextPrimary
+  fields: [PageBodyTextFields!]
+}
+
+type PageBodyTextFields {
+  content: Json
+  embed: Json
+  slice_body_text_colour: _Linkable
+  body_font: String
+}
+
+type PageBodyTextPrimary {
+  title: Json
+  title_alignment: String
+  title_font_colour: _Linkable
+  slice_background_colour: _Linkable
+  slice_background_image: Json
+  slice_block_colour: _Linkable
+  rotate_background: String
+  content: Json
+}
+
+type PageBodyText_with_cta {
+  type: String
+  label: String
+  primary: PageBodyText_with_ctaPrimary
+  fields: [PageBodyText_with_ctaFields!]
+}
+
+type PageBodyText_with_ctaFields {
+  content: Json
+  embed: Json
+  slice_body_text_colour: _Linkable
+  body_font: String
+}
+
+type PageBodyText_with_ctaPrimary {
+  title: Json
+  title_alignment: String
+  title_font_colour: _Linkable
+  slice_background_colour: _Linkable
+  slice_background_image: Json
+  slice_block_colour: _Linkable
+  cta_text: String
+  cta_location: _Linkable
+  cta_colour: String
+  rotate_background: String
+}
+
+"""A connection to a list of items."""
+type PageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [PageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type PageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Page!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""Information about pagination in a connection."""
+type PageInfo {
+  """When paginating forwards, are there more items?"""
+  hasNextPage: Boolean!
+
+  """When paginating backwards, are there more items?"""
+  hasPreviousPage: Boolean!
+
+  """When paginating backwards, the cursor to continue."""
+  startCursor: String
+
+  """When paginating forwards, the cursor to continue."""
+  endCursor: String
+}
+
+type Query {
+  _allDocuments(sortBy: SortDocumentsBy, type: String, type_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, before: String, after: String, first: Int, last: Int): _DocumentConnection!
+  speaker(uid: String!, lang: String!): Speaker
+  allSpeakers(sortBy: SortSpeakery, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereSpeaker, before: String, after: String, first: Int, last: Int): SpeakerConnectionConnection!
+  series(uid: String!, lang: String!): Series
+  allSeriess(sortBy: SortSeriesy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereSeries, before: String, after: String, first: Int, last: Int): SeriesConnectionConnection!
+  channel(uid: String!, lang: String!): Channel
+  allChannels(sortBy: SortChannely, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereChannel, before: String, after: String, first: Int, last: Int): ChannelConnectionConnection!
+  content_page(uid: String!, lang: String!): Content_page
+  allContent_pages(sortBy: SortContent_pagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereContent_page, before: String, after: String, first: Int, last: Int): Content_pageConnectionConnection!
+  page(uid: String!, lang: String!): Page
+  allPages(sortBy: SortPagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WherePage, before: String, after: String, first: Int, last: Int): PageConnectionConnection!
+  online_event(uid: String!, lang: String!): Online_event
+  allOnline_events(sortBy: SortOnline_eventy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereOnline_event, before: String, after: String, first: Int, last: Int): Online_eventConnectionConnection!
+  allSocialLinkss(sortBy: SortSocialLinksy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, before: String, after: String, first: Int, last: Int): SocialLinksConnectionConnection!
+  text_page(uid: String!, lang: String!): Text_page
+  allText_pages(sortBy: SortText_pagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereText_page, before: String, after: String, first: Int, last: Int): Text_pageConnectionConnection!
+  allResources(sortBy: SortResourcey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereResource, before: String, after: String, first: Int, last: Int): ResourceConnectionConnection!
+  homepage(uid: String!, lang: String!): Homepage
+  allHomepages(sortBy: SortHomepagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereHomepage, before: String, after: String, first: Int, last: Int): HomepageConnectionConnection!
+  message(uid: String!, lang: String!): Message
+  allMessages(sortBy: SortMessagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereMessage, before: String, after: String, first: Int, last: Int): MessageConnectionConnection!
+  allContact_forms(sortBy: SortContact_formy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereContact_form, before: String, after: String, first: Int, last: Int): Contact_formConnectionConnection!
+  landing_page(uid: String!, lang: String!): Landing_page
+  allLanding_pages(sortBy: SortLanding_pagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereLanding_page, before: String, after: String, first: Int, last: Int): Landing_pageConnectionConnection!
+  allContact_informations(sortBy: SortContact_informationy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereContact_information, before: String, after: String, first: Int, last: Int): Contact_informationConnectionConnection!
+  redirect(uid: String!, lang: String!): Redirect
+  allRedirects(sortBy: SortRedirecty, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereRedirect, before: String, after: String, first: Int, last: Int): RedirectConnectionConnection!
+  allStatic_footers(sortBy: SortStatic_footery, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, before: String, after: String, first: Int, last: Int): Static_footerConnectionConnection!
+  allQuickLinkss(sortBy: SortQuickLinksy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereQuickLinks, before: String, after: String, first: Int, last: Int): QuickLinksConnectionConnection!
+  allNotification_banners(sortBy: SortNotification_bannery, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereNotification_banner, before: String, after: String, first: Int, last: Int): Notification_bannerConnectionConnection!
+  academy_page(uid: String!, lang: String!): Academy_page
+  allAcademy_pages(sortBy: SortAcademy_pagey, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereAcademy_page, before: String, after: String, first: Int, last: Int): Academy_pageConnectionConnection!
+  allSite_configs(sortBy: SortSite_configy, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereSite_config, before: String, after: String, first: Int, last: Int): Site_configConnectionConnection!
+  allColours(sortBy: SortColoury, uid: String, uid_in: [String!], id: String, id_in: [String!], lang: String, tags: [String!], tags_in: [String!], firstPublicationDate: DateTime, firstPublicationDate_after: DateTime, firstPublicationDate_before: DateTime, lastPublicationDate: DateTime, lastPublicationDate_after: DateTime, lastPublicationDate_before: DateTime, fulltext: String, similar: similar, where: WhereColour, before: String, after: String, first: Int, last: Int): ColourConnectionConnection!
+}
+
+type QuickLinks implements _Document & _Linkable {
+  title: String
+  slices: [QuickLinksSlices!]
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type QuickLinksConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [QuickLinksConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type QuickLinksConnectionEdge {
+  """The item at the end of the edge."""
+  node: QuickLinks!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+union QuickLinksSlices = QuickLinksSlicesLink
+
+type QuickLinksSlicesLink {
+  type: String
+  label: String
+  variation: QuickLinksSlicesLinkVariation
+}
+
+type QuickLinksSlicesLinkDefault {
+  primary: QuickLinksSlicesLinkDefaultPrimary
+}
+
+type QuickLinksSlicesLinkDefaultPrimary {
+  title: Json
+  url: _Linkable
+}
+
+union QuickLinksSlicesLinkVariation = QuickLinksSlicesLinkDefault
+
+type Redirect implements _Document & _Linkable {
+  page_title: String
+  destination: _Linkable
+  permanent: Boolean
+  contact_form: String
+  contact_form_to_email_address: String
+  card_title: String
+  card_description: String
+  card_cta: String
+  card_image: Json
+  gallery_image: Json
+  gallery_list: [RedirectGallery_list!]
+  parent_page: _Linkable
+  child_pages: [RedirectChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+type RedirectChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type RedirectConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [RedirectConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type RedirectConnectionEdge {
+  """The item at the end of the edge."""
+  node: Redirect!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type RedirectGallery_list {
+  gallery_node: _Linkable
+}
+
+type RelatedDocument {
+  """The id of the document."""
+  id: String!
+
+  """The uid of the document."""
+  uid: String
+
+  """The type of the document."""
+  type: String!
+
+  """The language of the document."""
+  lang: String!
+}
+
+type Resource implements _Document & _Linkable {
+  title: String
+  description: String
+  link: _Linkable
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type ResourceConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ResourceConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type ResourceConnectionEdge {
+  """The item at the end of the edge."""
+  node: Resource!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Series implements _Document & _Linkable {
+  title: Json
+  description: Json
+  hero: Json
+  thumbnail: Json
+  linked_resources: [SeriesLinked_resources!]
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type SeriesConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SeriesConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type SeriesConnectionEdge {
+  """The item at the end of the edge."""
+  node: Series!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type SeriesLinked_resources {
+  resources: _Linkable
+}
+
+type Site_config implements _Document & _Linkable {
+  title: String
+  alt_title: String
+  short_title: String
+  author: String
+  description: String
+  logo: Json
+  banner: Json
+  favicon: Json
+  theme_colour: String
+  background_colour: String
+  facebook: _Linkable
+  twitter: _Linkable
+  instagram: _Linkable
+  phone_number: String
+  contact_email: String
+  twitter_username: String
+  top_navigation: [Site_configTop_navigation!]
+  footer_navigation: [Site_configFooter_navigation!]
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type Site_configConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Site_configConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Site_configConnectionEdge {
+  """The item at the end of the edge."""
+  node: Site_config!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Site_configFooter_navigation {
+  footer_link: _Linkable
+}
+
+type Site_configTop_navigation {
+  navigation_link: _Linkable
+}
+
+type SocialLinks implements _Document & _Linkable {
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type SocialLinksConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SocialLinksConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type SocialLinksConnectionEdge {
+  """The item at the end of the edge."""
+  node: SocialLinks!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SortAcademy_pagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  contact_form_ASC
+  contact_form_DESC
+  contact_form_to_email_address_ASC
+  contact_form_to_email_address_DESC
+  footer_id_ASC
+  footer_id_DESC
+  card_title_ASC
+  card_title_DESC
+  card_description_ASC
+  card_description_DESC
+  card_cta_ASC
+  card_cta_DESC
+}
+
+enum SortChannely {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
+}
+
+enum SortColoury {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  name_ASC
+  name_DESC
+}
+
+enum SortContact_formy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  form_name_ASC
+  form_name_DESC
+  name_label_ASC
+  name_label_DESC
+  email_label_ASC
+  email_label_DESC
+  category_label_ASC
+  category_label_DESC
+  subject_label_ASC
+  subject_label_DESC
+  message_label_ASC
+  message_label_DESC
+  submit_button_label_ASC
+  submit_button_label_DESC
+  thank_you_message_ASC
+  thank_you_message_DESC
+}
+
+enum SortContact_informationy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  email_ASC
+  email_DESC
+  telephone_ASC
+  telephone_DESC
+  instagram_profile_ASC
+  instagram_profile_DESC
+  facebook_profile_ASC
+  facebook_profile_DESC
+  newsletter_title_ASC
+  newsletter_title_DESC
+  newsletter_brief_ASC
+  newsletter_brief_DESC
+}
+
+enum SortContent_pagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  contact_form_ASC
+  contact_form_DESC
+  contact_form_to_email_address_ASC
+  contact_form_to_email_address_DESC
+  footer_id_ASC
+  footer_id_DESC
+  card_title_ASC
+  card_title_DESC
+  card_description_ASC
+  card_description_DESC
+  card_cta_ASC
+  card_cta_DESC
+}
+
+enum SortDocumentsBy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+}
+
+enum SortHomepagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+}
+
+enum SortLanding_pagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  contact_form_ASC
+  contact_form_DESC
+  contact_form_to_email_address_ASC
+  contact_form_to_email_address_DESC
+  card_title_ASC
+  card_title_DESC
+  card_description_ASC
+  card_description_DESC
+  card_cta_ASC
+  card_cta_DESC
+}
+
+enum SortMessagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+  tags_ASC
+  tags_DESC
+  description_ASC
+  description_DESC
+  date_ASC
+  date_DESC
+  podcast_ASC
+  podcast_DESC
+}
+
+enum SortNotification_bannery {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  content_ASC
+  content_DESC
+  active_ASC
+  active_DESC
+}
+
+enum SortOnline_eventy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  event_title_ASC
+  event_title_DESC
+  video_id_ASC
+  video_id_DESC
+  video_password_ASC
+  video_password_DESC
+  brushfire_session_id_ASC
+  brushfire_session_id_DESC
+  lead_paragraph_ASC
+  lead_paragraph_DESC
+  upsell_text_ASC
+  upsell_text_DESC
+}
+
+enum SortPagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  header_title_ASC
+  header_title_DESC
+  header_sub_title_ASC
+  header_sub_title_DESC
+  header_cta_ASC
+  header_cta_DESC
+  contact_slice_size_ASC
+  contact_slice_size_DESC
+}
+
+enum SortQuickLinksy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+}
+
+enum SortRedirecty {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  contact_form_ASC
+  contact_form_DESC
+  contact_form_to_email_address_ASC
+  contact_form_to_email_address_DESC
+  card_title_ASC
+  card_title_DESC
+  card_description_ASC
+  card_description_DESC
+  card_cta_ASC
+  card_cta_DESC
+}
+
+enum SortResourcey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+}
+
+enum SortSeriesy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+  description_ASC
+  description_DESC
+}
+
+enum SortSite_configy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  title_ASC
+  title_DESC
+  alt_title_ASC
+  alt_title_DESC
+  short_title_ASC
+  short_title_DESC
+  author_ASC
+  author_DESC
+  description_ASC
+  description_DESC
+  phone_number_ASC
+  phone_number_DESC
+  contact_email_ASC
+  contact_email_DESC
+  twitter_username_ASC
+  twitter_username_DESC
+}
+
+enum SortSocialLinksy {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+}
+
+enum SortSpeakery {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  name_ASC
+  name_DESC
+  role_ASC
+  role_DESC
+  bio_ASC
+  bio_DESC
+}
+
+enum SortStatic_footery {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+}
+
+enum SortText_pagey {
+  meta_firstPublicationDate_ASC
+  meta_firstPublicationDate_DESC
+  meta_lastPublicationDate_ASC
+  meta_lastPublicationDate_DESC
+  page_title_ASC
+  page_title_DESC
+  contact_form_ASC
+  contact_form_DESC
+  contact_form_to_email_address_ASC
+  contact_form_to_email_address_DESC
+  footer_id_ASC
+  footer_id_DESC
+  card_title_ASC
+  card_title_DESC
+  card_description_ASC
+  card_description_DESC
+  card_cta_ASC
+  card_cta_DESC
+}
+
+type Speaker implements _Document & _Linkable {
+  name: Json
+  role: Json
+  bio: Json
+  hero: Json
+  thumbnail: Json
+  _meta: Meta!
+  _linkType: String
+}
+
+"""A connection to a list of items."""
+type SpeakerConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SpeakerConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type SpeakerConnectionEdge {
+  """The item at the end of the edge."""
+  node: Speaker!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Static_footer implements _Document & _Linkable {
+  body: [Static_footerBody!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union Static_footerBody = Static_footerBodyLink_list
+
+type Static_footerBodyLink_list {
+  type: String
+  label: String
+  primary: Static_footerBodyLink_listPrimary
+  fields: [Static_footerBodyLink_listFields!]
+}
+
+type Static_footerBodyLink_listFields {
+  link_title: String
+  link_url: _Linkable
+}
+
+type Static_footerBodyLink_listPrimary {
+  title: String
+}
+
+"""A connection to a list of items."""
+type Static_footerConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Static_footerConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Static_footerConnectionEdge {
+  """The item at the end of the edge."""
+  node: Static_footer!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Text_page implements _Document & _Linkable {
+  page_title: String
+  body: [Text_pageBody!]
+  contact_form: String
+  contact_form_to_email_address: String
+  footer_id: String
+  card_title: String
+  card_description: String
+  card_cta: String
+  card_image: Json
+  gallery_image: Json
+  gallery_list: [Text_pageGallery_list!]
+  parent_page: _Linkable
+  child_pages: [Text_pageChild_pages!]
+  _meta: Meta!
+  _linkType: String
+}
+
+union Text_pageBody = Text_pageBodyText
+
+type Text_pageBodyText {
+  type: String
+  label: String
+  primary: Text_pageBodyTextPrimary
+}
+
+type Text_pageBodyTextPrimary {
+  text: Json
+}
+
+type Text_pageChild_pages {
+  child_page: _Linkable
+}
+
+"""A connection to a list of items."""
+type Text_pageConnectionConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [Text_pageConnectionEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type Text_pageConnectionEdge {
+  """The item at the end of the edge."""
+  node: Text_page!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+type Text_pageGallery_list {
+  gallery_node: _Linkable
+}
+
+input WhereAcademy_page {
+  page_title: String
+  page_title_fulltext: String
+  ctas: WhereAcademy_pageCtas
+  contact_form: String
+  contact_form_fulltext: String
+  contact_form_to_email_address: String
+  contact_form_to_email_address_fulltext: String
+  footer_id: String
+  footer_id_fulltext: String
+  card_title: String
+  card_title_fulltext: String
+  card_description: String
+  card_description_fulltext: String
+  card_cta: String
+  card_cta_fulltext: String
+  gallery_list: WhereAcademy_pageGallery_list
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereAcademy_pageChild_pages
+}
+
+input WhereAcademy_pageChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereAcademy_pageCtas {
+  text: String
+  text_fulltext: String
+
+  """link"""
+  link: String
+}
+
+input WhereAcademy_pageGallery_list {
+  """gallery_node"""
+  gallery_node: String
+}
+
+input WhereChannel {
+  """name"""
+  name_fulltext: String
+
+  """description"""
+  description_fulltext: String
+}
+
+input WhereColour {
+  name: String
+  name_fulltext: String
+}
+
+input WhereContact_form {
+  form_name: String
+  form_name_fulltext: String
+  name_label: String
+  name_label_fulltext: String
+  email_label: String
+  email_label_fulltext: String
+  category_label: String
+  category_label_fulltext: String
+  subject_label: String
+  subject_label_fulltext: String
+  message_label: String
+  message_label_fulltext: String
+  submit_button_label: String
+  submit_button_label_fulltext: String
+  category: WhereContact_formCategory
+
+  """thank_you_message"""
+  thank_you_message_fulltext: String
+}
+
+input WhereContact_formCategory {
+  category_name: String
+  category_name_fulltext: String
+  email_recipient: String
+  email_recipient_fulltext: String
+}
+
+input WhereContact_information {
+  email: String
+  email_fulltext: String
+  telephone: String
+  telephone_fulltext: String
+  instagram_profile: String
+  instagram_profile_fulltext: String
+  facebook_profile: String
+  facebook_profile_fulltext: String
+  newsletter_title: String
+  newsletter_title_fulltext: String
+
+  """newsletter_brief"""
+  newsletter_brief_fulltext: String
+}
+
+input WhereContent_page {
+  page_title: String
+  page_title_fulltext: String
+  contact_form: String
+  contact_form_fulltext: String
+  contact_form_to_email_address: String
+  contact_form_to_email_address_fulltext: String
+  footer_id: String
+  footer_id_fulltext: String
+  card_title: String
+  card_title_fulltext: String
+  card_description: String
+  card_description_fulltext: String
+  card_cta: String
+  card_cta_fulltext: String
+  gallery_list: WhereContent_pageGallery_list
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereContent_pageChild_pages
+}
+
+input WhereContent_pageChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereContent_pageGallery_list {
+  """gallery_node"""
+  gallery_node: String
+}
+
+input WhereHomepage {
+  page_title: String
+  page_title_fulltext: String
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereHomepageChild_pages
+}
+
+input WhereHomepageChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereLanding_page {
+  page_title: String
+  page_title_fulltext: String
+  contact_form: String
+  contact_form_fulltext: String
+  contact_form_to_email_address: String
+  contact_form_to_email_address_fulltext: String
+  card_title: String
+  card_title_fulltext: String
+  card_description: String
+  card_description_fulltext: String
+  card_cta: String
+  card_cta_fulltext: String
+  gallery_list: WhereLanding_pageGallery_list
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereLanding_pageChild_pages
+}
+
+input WhereLanding_pageChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereLanding_pageGallery_list {
+  """gallery_node"""
+  gallery_node: String
+}
+
+input WhereMessage {
+  """title"""
+  title_fulltext: String
+  tags: String
+  tags_fulltext: String
+
+  """description"""
+  description_fulltext: String
+
+  """series"""
+  series: String
+
+  """date"""
+  date: Date
+
+  """date"""
+  date_before: Date
+
+  """date"""
+  date_after: Date
+  podcast: String
+  podcast_fulltext: String
+  speakers: WhereMessageSpeakers
+  linked_resources: WhereMessageLinked_resources
+
+  """channel"""
+  channel: String
+}
+
+input WhereMessageLinked_resources {
+  """resources"""
+  resources: String
+}
+
+input WhereMessageSpeakers {
+  """speaker"""
+  speaker: String
+}
+
+input WhereNotification_banner {
+  content: String
+  content_fulltext: String
+
+  """url"""
+  url: String
+  active: String
+  active_fulltext: String
+}
+
+input WhereOnline_event {
+  event_title: String
+  event_title_fulltext: String
+  video_id: String
+  video_id_fulltext: String
+  video_password: String
+  video_password_fulltext: String
+  brushfire_session_id: String
+  brushfire_session_id_fulltext: String
+
+  """bg_colour"""
+  bg_colour: String
+
+  """lead_paragraph"""
+  lead_paragraph_fulltext: String
+
+  """upsell_text"""
+  upsell_text_fulltext: String
+}
+
+input WherePage {
+  page_title: String
+  page_title_fulltext: String
+  header_title: String
+  header_title_fulltext: String
+  header_sub_title: String
+  header_sub_title_fulltext: String
+  header_cta: String
+  header_cta_fulltext: String
+
+  """header_cta_link"""
+  header_cta_link: String
+
+  """bg_colour"""
+  bg_colour: String
+
+  """font_colour"""
+  font_colour: String
+
+  """header_font_colour"""
+  header_font_colour: String
+  has_contact_slice: Boolean
+  contact_slice_size: String
+  contact_slice_size_fulltext: String
+  has_newsletter_slice: Boolean
+
+  """parent_page"""
+  parent_page: String
+}
+
+input WhereQuickLinks {
+  title: String
+  title_fulltext: String
+}
+
+input WhereRedirect {
+  page_title: String
+  page_title_fulltext: String
+
+  """destination"""
+  destination: String
+  permanent: Boolean
+  contact_form: String
+  contact_form_fulltext: String
+  contact_form_to_email_address: String
+  contact_form_to_email_address_fulltext: String
+  card_title: String
+  card_title_fulltext: String
+  card_description: String
+  card_description_fulltext: String
+  card_cta: String
+  card_cta_fulltext: String
+  gallery_list: WhereRedirectGallery_list
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereRedirectChild_pages
+}
+
+input WhereRedirectChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereRedirectGallery_list {
+  """gallery_node"""
+  gallery_node: String
+}
+
+input WhereResource {
+  title: String
+  title_fulltext: String
+  description: String
+  description_fulltext: String
+
+  """link"""
+  link: String
+}
+
+input WhereSeries {
+  """title"""
+  title_fulltext: String
+
+  """description"""
+  description_fulltext: String
+  linked_resources: WhereSeriesLinked_resources
+}
+
+input WhereSeriesLinked_resources {
+  """resources"""
+  resources: String
+}
+
+input WhereSite_config {
+  title: String
+  title_fulltext: String
+  alt_title: String
+  alt_title_fulltext: String
+  short_title: String
+  short_title_fulltext: String
+  author: String
+  author_fulltext: String
+  description: String
+  description_fulltext: String
+
+  """facebook"""
+  facebook: String
+
+  """twitter"""
+  twitter: String
+
+  """instagram"""
+  instagram: String
+  phone_number: String
+  phone_number_fulltext: String
+  contact_email: String
+  contact_email_fulltext: String
+  twitter_username: String
+  twitter_username_fulltext: String
+  top_navigation: WhereSite_configTop_navigation
+  footer_navigation: WhereSite_configFooter_navigation
+}
+
+input WhereSite_configFooter_navigation {
+  """footer_link"""
+  footer_link: String
+}
+
+input WhereSite_configTop_navigation {
+  """navigation_link"""
+  navigation_link: String
+}
+
+input WhereSpeaker {
+  """name"""
+  name_fulltext: String
+
+  """role"""
+  role_fulltext: String
+
+  """bio"""
+  bio_fulltext: String
+}
+
+input WhereText_page {
+  page_title: String
+  page_title_fulltext: String
+  contact_form: String
+  contact_form_fulltext: String
+  contact_form_to_email_address: String
+  contact_form_to_email_address_fulltext: String
+  footer_id: String
+  footer_id_fulltext: String
+  card_title: String
+  card_title_fulltext: String
+  card_description: String
+  card_description_fulltext: String
+  card_cta: String
+  card_cta_fulltext: String
+  gallery_list: WhereText_pageGallery_list
+
+  """parent_page"""
+  parent_page: String
+  child_pages: WhereText_pageChild_pages
+}
+
+input WhereText_pageChild_pages {
+  """child_page"""
+  child_page: String
+}
+
+input WhereText_pageGallery_list {
+  """gallery_node"""
+  gallery_node: String
+}
+
+"""A prismic document"""
+interface _Document {
+  _meta: Meta!
+}
+
+"""A connection to a list of items."""
+type _DocumentConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [_DocumentEdge]
+  totalCount: Long!
+}
+
+"""An edge in a connection."""
+type _DocumentEdge {
+  """The item at the end of the edge."""
+  node: _Document!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+"""An external link"""
+type _ExternalLink implements _Linkable {
+  url: String!
+  target: String
+  _linkType: String
+}
+
+"""A linked file"""
+type _FileLink implements _Linkable {
+  name: String!
+  url: String!
+  size: Long!
+  _linkType: String
+}
+
+"""A linked image"""
+type _ImageLink implements _Linkable {
+  name: String!
+  url: String!
+  size: Long!
+  height: Int!
+  width: Int!
+  _linkType: String
+}
+
+"""A prismic link"""
+interface _Linkable {
+  _linkType: String
+}
+
+input similar {
+  documentId: String!
+  max: Int!
+}
+
+"""
+The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1.
+"""
+scalar Long

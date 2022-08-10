@@ -1,22 +1,19 @@
-import { Box, Heading, HStack, Text, Image } from '@chakra-ui/react';
-import { Speaker } from '~/routes/speakers/speakers.types';
-import { Section } from '../Section';
+import { PrismicRichText } from "@prismicio/react";
+import { Speaker } from "~/routes/speakers/speakers.types";
+import { layout, components } from "../components";
 
 export function SpeakerBio({ speaker }: { speaker: Speaker }) {
-	return (
-		<Section>
-			<Heading as="h2" size="lg" mb={5}>
-				More about {speaker.name}
-			</Heading>
-			<HStack>
-				<Text>{speaker.bio}</Text>
-				<Image
-					src={speaker.thumbnail?.url}
-					width={'256px'}
-					height={'256px'}
-					borderRadius={'full'}
-				></Image>
-			</HStack>
-		</Section>
-	);
+  return (
+    <layout.Main hash={""}>
+      <components.Card
+        colour="white"
+        title={"Speaker Bio"}
+        subtitle={speaker.name}
+        image={speaker.thumbnail?.url}
+        cta={`More from ${speaker.name}`}
+        to={`/speakers/${speaker.uid}`}>
+        <PrismicRichText field={speaker.bio} />
+      </components.Card>
+    </layout.Main>
+  );
 }
