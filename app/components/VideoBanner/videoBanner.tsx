@@ -40,7 +40,7 @@ export function VideoBanner({ videoUrl, title, subTitle, description, callToActi
       </div>
       {callToAction &&
         callToAction.map((cta) => (
-          <div className="flex flex-col mt-8 space-y-4 text-2xl" key={cta.link}>
+          <div className="flex flex-col mt-8 space-y-4 text-2xl truncate" key={cta.link}>
             <Link to={cta?.link as string} className={`${commonLinkClasses} from-red-500-full to-black-full`}>
               {/* switch out button for something else */}
               {cta?.title}

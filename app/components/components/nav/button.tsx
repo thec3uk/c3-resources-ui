@@ -14,7 +14,7 @@ const NavButton = ({ isOpen }: { isOpen: boolean }) => {
       <div className="flex justify-between w-full border-t border-t-black">
         <div className="flex items-center justify-start w-1/3">
           <PrismicLink href={"/"}>
-            <img src="/LogoGrey.png" className="w-12 h-12" />
+            <img src="/LogoGrey.png" className="h-12" />
           </PrismicLink>
         </div>
         <div className="flex justify-center w-1/3">

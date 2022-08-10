@@ -7,7 +7,7 @@ export interface SearchBoxProps extends SearchBoxProvided {}
 const SearchBox = ({ currentRefinement, refine }: SearchBoxProps) => {
   return (
     <div className="flex items-center space-x-2">
-      <form className={`mt-1 border-b border-gray-300 focus-within:border-red-500`}>
+      <form className={`mt-1 border-b border-gray-300 focus-within:border-red-500 w-full lg:w-auto`}>
         <input
           type="search"
           name="q"

@@ -23,6 +23,13 @@ const Menu = ({ isMobile = true }: { isMobile?: boolean }) => {
     { title: "thec3.uk", to: "https://thec3.uk" },
   ];
 
+  if (isMobile) {
+    menu_items.push({
+      title: "search",
+      to: "/messages",
+    });
+  }
+
   const hoverClassNames = [
     "from-red-500-full",
     // 'from-teal-500-full',

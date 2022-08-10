@@ -19,14 +19,19 @@ export function SearchMessages({ queryParams }: { queryParams: SearchQueryParams
     <InstantSearch indexName="c3_resources" searchClient={searchClient}>
       <layout.Main hash="">
         <Configure hitsPerPage={6} />
-        <div className="flex items-center justify-between ml-2">
-          <h1 className="hidden mb-4 text-4xl md:block font-title">messages</h1>
+        <div className="flex items-center justify-between lg:ml-2">
+          <h1 className="mb-2 text-4xl md:block font-title">messages</h1>
+        </div>
+        <div className="block w-full mb-4 lg:hidden ">
+          <C3SearchBox defaultRefinement={queryParams.query} />
         </div>
         <InfiniteHits />
       </layout.Main>
       <layout.Aside>
-        <C3SearchBox defaultRefinement={queryParams.query} />
-        <div className="flex flex-col items-start pl-4 space-y-2">
+        <div className="hidden lg:block">
+          <C3SearchBox defaultRefinement={queryParams.query} />
+        </div>
+        <div className="flex-col items-start hidden pl-4 space-y-2 lg:flex">
           <CustomRefinementList
             attribute={"speakers"}
             title={"Speakers"}

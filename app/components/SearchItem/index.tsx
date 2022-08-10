@@ -33,7 +33,7 @@ export function SearchItem({
       ) : (
         <Link to={box.link}>
           <div
-            className={`border rounded-lg border-gray-300 m-2 min-w-full min-h-[250px] bg-cover overflow-hidden`}
+            className={`border rounded-lg border-gray-300 lg:m-2 min-w-full min-h-[250px] bg-cover overflow-hidden`}
             //   bg-[url('${box.thumbnail}')]
             style={{
               backgroundImage: `url('${box.thumbnail}')`,
