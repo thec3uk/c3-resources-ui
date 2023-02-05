@@ -147,6 +147,11 @@ const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCa
             dangerouslySetInnerHTML={{ __html: css }}
           />
         ))}
+        <script
+          async
+          defer
+          data-website-id="e241b55a-6996-4e7a-b3f2-93c19fc8185f"
+          src="https://analytics.myc3.life/umami.js"></script>
       </head>
       <body>
         {children}
