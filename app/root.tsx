@@ -151,7 +151,7 @@ const Document = withEmotionCache(({ children, title }: DocumentProps, emotionCa
           async
           defer
           data-website-id="e241b55a-6996-4e7a-b3f2-93c19fc8185f"
-          src="https://analytics.thec3.uk/umami.js"></script>
+          src="https://analytics.thec3.uk/script.js"></script>
       </head>
       <body>
         {children}
